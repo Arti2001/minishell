@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 13:17:34 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/24 16:59:57 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/26 15:12:11 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	basic_echo(char **commands)
 		i++;
 	}
 }
+
 int	ft_echo(char **commands)
 {
 	int i;
@@ -58,7 +59,7 @@ int	ft_echo(char **commands)
 	{
 		return (ft_putstr_fd("\n", 1), 1);
 	}
-	else if(check_new_line(commands[1]) == 1)
+	else if(check_new_line(commands[1]))
 	{
 		i = 2;
 		while (commands[i])

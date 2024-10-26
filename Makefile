@@ -9,13 +9,13 @@ GREEN=\033[0;32m
 NC=\033[0m
 
 LIBFT_NAME      =	$(addprefix $(LIBFT)/, libft.a)
-SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/*/*.c)
+SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/**/*.c)
 OBJS 			=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 VPATH			=	$(dir $(SRCS))
 
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g 
+CFLAGS			=	-Wall -Wextra -Werror -g -fsanitize=address
 RFLAGS = 			-lreadline
 
 all:			$(NAME)

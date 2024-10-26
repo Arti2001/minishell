@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:38:10 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/24 16:31:02 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/26 15:22:20 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ void	double_array_free(char **to_free)
 	to_free = NULL;
 }
 
+void	free_node(t_env *node)
+{
+	if (node)
+	{
+		free(node->content);
+		free(node->name);
+		free(node->value);
+		free(node);
+	}
+}
 void	free_list(t_env *head)
 {
 	t_env	*temp;

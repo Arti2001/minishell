@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list_tools.c                                :+:      :+:    :+:   */
+/*   link_list_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/03 17:18:33 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/26 18:22:20 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,22 @@ void	ll_addback(t_env **env_head, t_env *new_node)
 	last->next = new_node;
 }
 
-t_env	*ft_env_lstnew(char *content)
+t_env	*ft_env_lstnew(char *key, char *value)
 {
 	t_env	*new_node;
 	
-	new_node = (t_env *)malloc(sizeof(t_env ));
+	new_node = ft_calloc(1, sizeof(t_env));
 	if (new_node == NULL)
 		return (NULL);
-	new_node->content = ft_strdup(content);
-	new_node->name = get_key(content);
-	new_node->value= get_value(content);
+	new_node->content = key_val_join(key, value);
+	if (new_node->content == NULL)
+		return (free_node(new_node), NULL);
+	new_node->name = ft_strdup(key);
+	if (new_node->name == NULL)
+		return (free_node(new_node), NULL);
+	new_node->value= ft_strdup(value);
+	if (new_node->value == NULL)
+		return (free_node(new_node), NULL);
 	new_node->next = NULL;
 	return (new_node);
 }

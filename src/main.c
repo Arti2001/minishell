@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/24 16:51:29 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/26 18:46:39 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 /*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
 int	is_builtin(t_env **env, char **arg)
 {
-	if (ft_strncmp("cd", arg[0], ft_strlen(arg[0])) == 0)
+	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
 		return (ft_cd(*env, arg));
-	if (ft_strncmp("pwd", arg[0], ft_strlen(arg[0])) == 0)
+	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
 		return (ft_pwd());
-	if (ft_strncmp("env", arg[0], ft_strlen(arg[0])) == 0)
+	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])))
 		return (ft_env(*env));
-	if (ft_strncmp("echo", arg[0], ft_strlen(arg[0])) == 0)
+	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
 		return (ft_echo(arg));
-	if (ft_strncmp("exit", arg[0], ft_strlen(arg[0])) == 0)
+	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
 		ft_exit(arg);
-	if (ft_strncmp("unset", arg[0], ft_strlen(arg[0])) == 0)
+	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
 		return (ft_unset(env, arg));
-	if (ft_strncmp("export", arg[0], ft_strlen(arg[0])) == 0)
+	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
 		return (ft_export(*env, arg));
 	return (NO_BUILTIN);
 }
@@ -77,6 +77,8 @@ int main(int argc, char *argv[], char *envp[])
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
+		if (env == NULL)
+			return (1);
 		while (1)
 		{
 			input = readline("Minishell>");

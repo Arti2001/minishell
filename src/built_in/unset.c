@@ -6,25 +6,12 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:58:32 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/03 17:18:03 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/26 15:47:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-void	free_node(t_env *node)
-{
-	if (node)
-	{
-		free(node->content);
-		free(node->name);
-		free(node->value);
-		free(node);
-	}
-}
-
-//
 int	find_unset(t_env **env, char *str)
 {
 	t_env	*tmp;

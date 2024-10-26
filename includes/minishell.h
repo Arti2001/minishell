@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/24 16:51:00 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/26 19:31:52 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ typedef struct s_exec
 /*Linked list*/
 t_env	*ll_last(t_env *last);
 int		ft_lst_size(t_env *lst);
-t_env	*ft_env_lstnew(char *content);
+t_env	*ft_env_lstnew(char *key , char *value);
 void	ll_addback(t_env **env_head, t_env *new_node);
-void	append_node(t_env **head_env, char *content);
+int		append_node(t_env **head_env, char *content);
 
 /*Built_ins*/
 int		ft_pwd(void);
@@ -95,8 +95,11 @@ char 	*get_key(char *content);
 char	*get_value(char *content);
 int		check_var_syntax(char *str);
 char	**back_to_array(t_env *env);
+int		add_var(t_env *env, char *arg);
 int		is_exist(t_env *env, char *name);
-void	ch_env_value(t_env *env, char *var_name, char *new);
+char	*key_val_join(char *key, char *value);
+void	init_pwd(t_env *env, char *name, char *value);
+int		update_env_value(t_env *env, char *var_name, char *new);
 
 /*PATH*/
 char	**env_split_path(t_env **env);
@@ -112,6 +115,7 @@ void	run_command(t_pars *pars, t_env *env);
 
 /*FREE*/
 void	free_list(t_env *head);
+void	free_node(t_env *node);
 void	double_array_free(char **to_free);
 
 /*REDIRECTS*/
