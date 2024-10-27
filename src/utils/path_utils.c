@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/01 16:49:25 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 14:25:38 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*get_path(char *name, t_env *env)
 {
 	while (env != NULL)
 	{
-		if (ft_strncmp(env->name, name, ft_strlen(name)) == 0)
+		if (ft_strncmp(env->name, name, ft_strlen(env->name)) == 0)
 			return (env->value);
 		env = env->next;
 	}
@@ -26,7 +26,7 @@ char	*get_path(char *name, t_env *env)
 char	**env_split_path(t_env **env)
 {
 	char *path;
-	
+
 	path = get_path("PATH", *env);
 	if (path == NULL)
 		return (NULL);
@@ -62,9 +62,9 @@ char	*matching_pathes(char **splited_pathes, char *check_path)
 void	path_hendler(t_env *env, t_pars **pars, char *cmd)
 {
 	char **splited_pathes;
-
 	splited_pathes = env_split_path(&env);
 	(*pars)->path = matching_pathes(splited_pathes, cmd);
 	double_array_free(splited_pathes);
 }
+
 

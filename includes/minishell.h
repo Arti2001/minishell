@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/01 17:39:59 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 14:43:13 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int		ft_echo(char**commands);
 int		ft_unset(t_env **env, char **arg);
 int		ft_cd(t_env *env, char **commands);
 int		ft_export(t_env *env, char **commands);
+int		is_builtin(char *arg);
 
 /*ENVIRONMENT*/
 t_env	*set_env(char **env);
@@ -149,13 +150,14 @@ char	*get_path(char *name, t_env *env);
 char	*matching_pathes(char **splited_pathes, char *check_path);
 void	path_hendler(t_env *env, t_pars **pars, char *cmd);
 
+
 /*STRING UTILITI*/
 int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
 void	run_single_cmd(t_pars *pars, t_env *env);
-int		run_multi_cmd(t_pars *pars);
+int		run_multi_cmd(t_pars *pars, t_env *env);
 
 /*FREE*/
 void	free_list(t_env *head);

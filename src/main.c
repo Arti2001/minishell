@@ -6,33 +6,33 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/01 17:52:08 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 14:45:06 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	is_builtin(t_env **env, char **arg)
+int	is_builtin(char *arg)
 {
-	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("cd", arg, ft_strlen(arg)))
 		return (CD);
-	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("pwd", arg, ft_strlen(arg)))
 		return (PWD);
-	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("env", arg, ft_strlen(arg)))
 		return (ENV);
-	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("echo", arg, ft_strlen(arg)))
 		return (ECHO);
-	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("exit", arg, ft_strlen(arg)))
 		return (EXIT);
-	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("unset", arg, ft_strlen(arg)))
 		return (UNSET);
-	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("export", arg, ft_strlen(arg)))
 		return (EXPORT);
 	return (NO_BUILTIN);
 }
 
 /*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
-int	run_buit_in(t_env **env, char **arg)
+int	run_built_in(t_env **env, char **arg)
 {
 	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
 		return (ft_cd(*env, arg));
@@ -43,7 +43,7 @@ int	run_buit_in(t_env **env, char **arg)
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
 		return (ft_echo(arg));
 	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
-		return (exit(arg));
+		ft_exit(arg);
 	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
 		return (ft_unset(env, arg));
 	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
@@ -190,7 +190,7 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			else
 			{
-				run_multi_cmd(pars);
+				run_multi_cmd(pars, env);
 			}
 		}
 		free_list(env);
