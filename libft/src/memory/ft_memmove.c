@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_memmove.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/10/07 14:21:14 by ydidenko      #+#    #+#                 */
-/*   Updated: 2023/11/10 22:13:50 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/07 14:21:14 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/10/27 08:53:17 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft.h"
 
-void static	copy_elements(char *d_str, char *s_str, int n, int reverse)
+static void	copy_elements(char *d_str, char *s_str, int n, int reverse)
 {
 	int	i;
 

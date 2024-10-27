@@ -44,7 +44,9 @@ void	run_command(t_pars *pars, t_env *env)
 	if (pars->cmd == NULL)
 		return ;
 	if(pars->redir != NULL)
+	{
 		redirect_check(pars);
+	}
 	if (access(pars->cmd[0], X_OK | F_OK) == 0)
 	{
 		holds.true_path = pars->cmd[0];

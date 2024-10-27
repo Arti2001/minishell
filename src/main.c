@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/31 18:30:25 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 12:30:26 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_builtin(t_env **env, char **arg)
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
 		return (ft_echo(arg));
 	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
-		ft_exit(arg);
+	ft_exit(arg);
 	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
 		return (ft_unset(env, arg));
 	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
@@ -39,9 +39,9 @@ and initialize the temporary struct init_temp_struct() which should contain the 
 
 t_redirect	*init_redirect(void)
 {
-	t_redirect			*redirects;
 	int					i;
 	int					count;
+	t_redirect			*redirects;
 	char				*names[] = { "a", "b", "c", NULL};
 	t_redirect_type		type[] = {HEREDOC_RE, HEREDOC_RE, HEREDOC_RE, 0};
 
@@ -60,60 +60,95 @@ t_redirect	*init_redirect(void)
 }
 
 
-
-
-
-//void	init_pars_struct(char *input, t_pars *pars)
-//{
-//	char	*cmds = ft_split(input, '|');
-//	int		i = 0;
-	
-//	pars = (t_pars *)malloc(sizeof(t_pars) * 1);
-//	while (cmds[i])
-//	{
-//		pars = create_element();
-//		pars->
-//	}
-	
-//	*pars =(t_pars *)malloc(sizeof(t_pars) * 1);
-
-//	pars->orig_in = dup(STDIN_FILENO);
-//	pars->orig_out = dup(STDOUT_FILENO);
-//	pars->cmd = ft_split(input, ' ');
-//	pars->redir = NULL;
-//	pars->next_process = &pars->
-	
-//	pars->orig_in = dup(STDIN_FILENO);
-//	pars->orig_out = dup(STDOUT_FILENO);
-//	pars->cmd = ft_split(input, ' ');
-//	pars->redir = NULL;
-//	pars->next_process = NULL;
-//}
-
-void	init_pars_struct(char *input, t_pars *pars)
+t_pars	*ll_last_pars(t_pars *last)
 {
-	//pars =(t_pars *)ft_calloc(1, sizeof(t_pars));
-
-	pars->orig_in = dup(STDIN_FILENO);
-	pars->orig_out = dup(STDOUT_FILENO);
-	pars->cmd = ft_split(input, ' ');
-	pars->redir = init_redirect();
-	pars->next_process = NULL;
+	if (last == NULL)
+		return (NULL);
+	while (last->next_process != NULL)
+		last = last->next_process;
+	return (last);
 }
+
+void	node_add_back(t_pars	**head, t_pars *new_node)
+{
+	t_pars*	last;
+
+	if (head == NULL)
+		return ;
+	last = ll_last_pars(*head);
+	last->next_process = new_node;
+}
+
+t_pars	*parsing_node(char **cmd)
+{
+	t_pars *pars;
+
+	pars = (t_pars *)malloc(sizeof(t_pars) * 1);
+	pars->orig_in = dup(STDIN_FILENO); 
+	pars->orig_out = dup(STDOUT_FILENO);
+	pars->cmd = cmd;
+	pars->redir = NULL;
+	pars->next_process = NULL;
+	return (pars);
+}
+
+void	append_pars_node(t_pars **head, char **cmd)
+{
+	t_pars	*new_pars_node;
+
+	new_pars_node = parsing_node(cmd);
+	if (cmd == NULL)
+	{
+		printf("cmd is NULL");
+		return ;
+	}
+	if (*head == NULL)
+		*head = new_pars_node;
+	else
+		node_add_back(head, new_pars_node);
+}
+
+t_pars *set_parsing_lst(char **cmds)
+{
+	int	i;
+	t_pars 	*head_pars;
+	char 	**cmd_arg;
+	i = 0;
+	head_pars  = NULL;
+	while (cmds[i])
+	{
+		cmd_arg = ft_split(cmds[i], ' ');
+		append_pars_node(&head_pars, cmd_arg);
+		i++;
+	}
+	return (head_pars);
+}
+
+// void	init_pars_struct(char *input, t_pars *pars)
+// {
+// 	//pars =(t_pars *)ft_calloc(1, sizeof(t_pars));
+
+// 	pars->orig_in = dup(STDIN_FILENO);
+// 	pars->orig_out = dup(STDOUT_FILENO);
+// 	pars->cmd = ft_split(input, ' ');
+// 	pars->redir = init_redirect();
+// 	pars->next_process = NULL;
+// }
 
 
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char		*input;
-	t_env		*env;
-	t_pars		pars;	
-	
+	char*	input;
+	t_env*	env;
+	t_pars	*pars;	
+
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
 		if (env == NULL)
 			return (1);
+		input = NULL;
 		while (1)
 		{
 			input = readline("Minishell>");
@@ -122,15 +157,16 @@ int main(int argc, char *argv[], char *envp[])
 			if (!input[0])
 				continue;
 			add_history(input);
-			init_pars_struct(input, &pars);
+			pars = set_parsing_lst(ft_split(input, '|'));
+			//init_pars_struct(input, &pars);
 			/* lexer testing */
 			//init_pars(input);
 			/* lexer testing*/
 			free(input);
-			if (pars.next_process == NULL)
+			if (pars->next_process == NULL)
 			{
-				if (is_builtin(&env, pars.cmd) == NO_BUILTIN)
-					run_command(&pars, env);
+				if (is_builtin(&env, pars->cmd) == NO_BUILTIN)
+					run_command(pars, env);
 			}
 		}
 		free_list(env);

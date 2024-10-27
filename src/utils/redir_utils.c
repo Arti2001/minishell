@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/31 18:12:41 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 09:21:29 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	restore_fd(t_pars *pars)
 int	redirect_in(t_redirect redirect)
 {
 	int	file_fd;
-	
+
 	if (redirect.type == HEREDOC_RE)
-		file_fd = open("herdoc.txt", O_RDONLY);
+		file_fd = open("/tmp/herdoc.txt", O_RDONLY);
 	else
 		file_fd = open(redirect.filename, O_RDONLY);
 	if (file_fd == -1)
@@ -104,9 +104,9 @@ void	redirect_out(t_redirect redirect)
 int		redirect_check(t_pars *pars)
 {
 	int		i;
-	
+
 	i = 0;
-	if (!run_herdoc(&pars->redir))
+	if (!run_herdoc(pars->redir))
 		return (0);
 	while (pars->redir[i].filename != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:58:32 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/26 15:47:16 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 10:11:46 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ int	ft_unset(t_env **env, char **arg)
 
 	i = 1;
 	if (arg[i] == NULL)
+	{
 		return (0);
+	}
 	while (arg[i])
 	{
 		find_unset(env, arg[i]);

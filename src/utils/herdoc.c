@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/31 18:25:12 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 09:20:59 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void    write_into_herdoc(int fd, t_redirect *redirect)
             free(line);
     		close(fd);
             break;
-        }   
+        }
 		ft_putendl_fd(line, fd);
         free(line);
     }
@@ -111,8 +111,8 @@ void    write_into_herdoc(int fd, t_redirect *redirect)
 int    open_herdoc(t_redirect *redirect)
 {
     int		fd;
-	
-    fd = open("herdoc.txt", O_TRUNC | O_CREAT | O_RDWR, 0644);
+
+    fd = open("/tmp/herdoc.txt", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd == -1)
     {
         perror("Faild to open the heredoc.txt");
@@ -123,19 +123,18 @@ int    open_herdoc(t_redirect *redirect)
 }
 
 
-int	run_herdoc(t_redirect **redirects)
+int	run_herdoc(t_redirect *redirects)
 {
 	int	i;
 
 	i = 0;
-	while (redirects[i])
+	while (redirects[i].filename)
 	{
-		printf("%d: %s: %d\n", i, redirects[i]->filename, redirects[i]->type);
-		//if (redirects[i]->type == HEREDOC_RE)
-			//if (!open_herdoc(redirects[i]))
-			//{
-			//	return (0);
-			//}
+		if (redirects[i].type == HEREDOC_RE)
+			if (!open_herdoc(&redirects[i]))
+			{
+				return (0);
+			}
 		i++;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:08 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/24 17:42:31 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 10:10:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	ft_exit(char **arg)
 	long	val;
 
 	if (arg[1] == NULL)
+	{
 		exit(0);
+	}
 	else if (int_chek(arg[1]) == 0)
 	{
 		printf("exit\nbash: exit: %s: numeric argument required\n", arg[1]);

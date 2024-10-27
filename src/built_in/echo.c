@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 13:17:34 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/26 15:12:11 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 10:09:45 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	basic_echo(char **commands)
 			write(1, " ", 1);
 		}
 		else
+		{
 			ft_putendl_fd(commands[i], 1);
+		}
 		i++;
 	}
 }

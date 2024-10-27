@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/28 14:32:19 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 10:10:50 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	key_exists(t_env *env, char *key)
 	{
 		size_t len_key;
 		size_t len_current_key;
-		
+
 		len_current_key = ft_strlen(env->name);
 		len_key = ft_strlen(key);
 		if (len_key == len_current_key && !ft_strncmp(key, env->name, len_key)) 
@@ -90,7 +90,7 @@ void	print_export_env(t_env *env)
 int	insert_or_assign(t_env* env, char *key, char *value)
 {
 	t_env	*new_node;
-	
+
 	if (key_exists(env, key))
 	{
 		if (!update_env_value(env, key, value))
@@ -107,32 +107,6 @@ int	insert_or_assign(t_env* env, char *key, char *value)
 	}
 	return (1);
 }
-
-//int	ft_export(t_env *env, char **commands)
-//{
-//	int		i;
-//	t_env	*new_node;
-
-//	i = 1;
-//	if (commands[i] == NULL)
-//	{
-//		print_export_env(env);
-//		return (0);
-//	}
-//	while (commands[i] != NULL)
-//	{
-//		if (varchecker(env, commands[i]) == 1)
-//		{
-//			new_node = ft_env_lstnew(commands[i]);
-//			ll_addback(&env, new_node);
-//		}
-//		i++;
-//	}
-//	return (0);
-//}
-
-
-
 
 int	ft_export(t_env *env, char **commands)
 {
