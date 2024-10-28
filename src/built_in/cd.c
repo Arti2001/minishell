@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/26 17:37:26 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/28 19:40:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ int		ft_cd(t_env *env, char **arg)
 		return (printf("bash: %s: %s: No such file or directory\n", arg[0], arg[1]), 1);
 	else if (dir == NULL)
 	{
+		
 		printf("bash: %s: %s: Not a directory\n", arg[0], arg[1]);
 		return (closedir(dir), 1);
 	}
 	closedir(dir);
 	return (0);
 }
-
-
