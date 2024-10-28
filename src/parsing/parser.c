@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstnew.c                                        :+:    :+:            */
+/*   parser.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
+/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/11/07 13:34:18 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/28 20:17:35 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/28 20:12:10 by eugenediden   #+#    #+#                 */
+/*   Updated: 2024/10/28 21:14:14 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft.h"
-#include <stdlib.h>
+#include "../../includes/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+t_pars	*init_pars(char *line)
 {
-	t_list	*new_list;
+	t_pars	*pars;
+	t_list	*tokens;
 
-	new_list = (t_list *)malloc(sizeof(t_list));
-	if (!new_list)
+	tokens = lexer(line);
+	if (!tokens)
 		return (NULL);
-	new_list->content = content;
-	new_list->next = NULL;
-	return (new_list);
+	print_tokens(tokens);
+	pars = (t_pars *)malloc(sizeof(t_pars));
+	if (!pars)
+		return (NULL);
+
+	return (pars);
 }

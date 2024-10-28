@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/26 19:31:52 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/10/28 21:02:22 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,36 @@
 
 typedef enum s_redirect_type
 {
-	HEREDOC,
+	HEREDOC_RE,
 	IN,
 	OUT,
 	OUT_A
 }	t_redirect_type;
 
+typedef enum e_type
+{
+	DEFAULT,
+	SINGLE_QUOTED,
+	DOUBLE_QUOTED,
+	REDIR_INPUT,
+	HEREDOC,
+	REDIR_OUTPUT,
+	REDIR_OUTPUT_APPEND,
+	PIPE,
+	SEPERATOR,
+	UNCLOSED
+}	t_type;
+
+typedef struct s_token
+{
+	char	*str;
+	t_type	type;
+}	t_token;
+
 typedef enum s_builtin
 {
 	NO_BUILTIN = 10
-	
+
 } t_builtin;
 
 typedef struct s_env
@@ -121,6 +141,19 @@ void	double_array_free(char **to_free);
 /*REDIRECTS*/
 void	restore_fd(t_pars *pars);
 void	redirect_check(t_pars *pars);
+
+/*ERROR*/
+void	*null_exit(void	*ptr);
+
+/*PARSING*/
+t_pars	*init_pars(char *line);
+t_list	*lexer(char *line);
+
+/*TOKEN*/
+t_token	*init_token(void);
+t_token	*destroy_token(t_token *token);
+t_token	*create_token(char *str, t_type type);
+void	print_tokens(t_list *tokens);
 
 #endif
 

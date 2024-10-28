@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirect_func.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/24 16:04:18 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   redir_utils.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/17 17:49:20 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/10/28 21:01:44 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	redirect_in(t_redirect redirect)
 void	redirect_out(t_redirect redirect)
 {
 	int	file_fd;
-	
+
 	if (redirect.type == OUT)
 		file_fd = open(redirect.filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	else
@@ -71,7 +71,7 @@ void	redirect_heredoc(t_redirect redir)
 	int		fd[2];
 	char	*eof;
 	char	*line;
-	
+
 	eof = redir.filename;
 	line = NULL;
 	if (pipe(fd) == -1)
@@ -109,11 +109,11 @@ void	redirect_heredoc(t_redirect redir)
 void	redirect_check(t_pars *pars)
 {
 	int		i;
-	
+
 	i = 0;
 	while (pars->redir[i].filename != NULL)
 	{
-		if (pars->redir[i].type == HEREDOC)
+		if (pars->redir[i].type == HEREDOC_RE)
 		{
 			redirect_heredoc(pars->redir[i]);
 		}
@@ -127,5 +127,5 @@ void	redirect_check(t_pars *pars)
 		}
 		i++;
 	}
-	
+
 }

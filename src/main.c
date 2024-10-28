@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/26 18:46:39 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/10/28 21:14:43 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include ".././includes/minishell.h"
+#include "../includes/minishell.h"
 
 /*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
 int	is_builtin(t_env **env, char **arg)
@@ -41,9 +41,9 @@ t_redirect	*init_redirect(void)
 	int					i;
 	int					count;
 	char				*names[] = { "a", "b", "c", "outfile", NULL};
-	t_redirect_type		type[] = {HEREDOC, HEREDOC, HEREDOC, OUT, 0};
-	
-	
+	t_redirect_type		type[] = {HEREDOC_RE, HEREDOC_RE, HEREDOC_RE, OUT, 0};
+
+
 	count = 4;
 	i = 0;
 	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
@@ -72,8 +72,8 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char		*input;
 	t_env		*env;
-	t_pars		pars;	
-	
+	t_pars		pars;
+
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
@@ -88,6 +88,9 @@ int main(int argc, char *argv[], char *envp[])
 				continue;
 			add_history(input);
 			init_pars_struct(input, &pars);
+			/* lexer testing */
+			init_pars(input);
+			/* lexer testing*/
 			free(input);
 			if (pars.next_process == NULL)
 			{
