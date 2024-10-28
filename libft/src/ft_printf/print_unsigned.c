@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/02 15:31:13 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/09/04 16:18:40 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/10/15 11:49:25 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static unsigned int	get_size(unsigned int number)
 	length = 0;
 	if (number == 0)
 		return (1);
-	if (number < 0)
-		length += 1;
 	while (number != 0)
 	{
 		number /= 10;
@@ -55,13 +53,13 @@ char	*ft_itoa_u(unsigned int number)
 	return (string);
 }
 
-int	print_unsigned(t_data *data, va_list args)
+int	print_unsigned(t_data *data, va_list *args)
 {
 	char			*str;
 	unsigned int	num;
 	int				print_length;
 
-	num = va_arg(args, unsigned int);
+	num = va_arg(*args, unsigned int);
 	if (num == 0)
 		return (ft_putchar_fd('0', 1), 1);
 	else

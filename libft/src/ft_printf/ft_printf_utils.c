@@ -6,13 +6,13 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/30 18:58:49 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/09/04 16:18:40 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/10/12 22:49:38 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	call_handler(t_data *data, va_list args)
+int	call_handler(t_data *data, va_list *args)
 {
 	static t_handler	handlers[127] = {
 	['s'] = print_s, ['%'] = print_percent, ['c'] = print_char,

@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/02 14:23:36 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/09/04 16:18:40 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/10/12 22:48:51 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	put_hex(t_hex num, const char format)
 	}
 }
 
-int	print_hex(t_data *data, va_list args)
+int	print_hex(t_data *data, va_list *args)
 {
 	unsigned int	num;
 
-	num = va_arg(args, unsigned int);
+	num = va_arg(*args, unsigned int);
 	if (num == 0)
 		return (ft_putchar_fd('0', 1), 1);
 	else
