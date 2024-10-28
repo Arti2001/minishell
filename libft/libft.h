@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/03 15:07:31 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/28 20:57:21 by eugenediden   ########   odam.nl         */
+/*   Updated: 2024/10/28 22:03:20 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
+void	ft_lstclear(t_list **lst, void (*del)(void*));
+void	ft_lstdelone(t_list *lst, void (*del)(void*));
 
 /* get next line */
 char	*get_next_line(int fd);

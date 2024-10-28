@@ -1,29 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
+/*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:12:10 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 22:01:13 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/28 21:35:28 by eugenediden   #+#    #+#                 */
+/*   Updated: 2024/10/28 21:35:40 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-
-t_pars	*init_pars(char *line)
+int is_whitespace(char c)
 {
-	t_pars	*pars;
-	t_list	*tokens;
-
-	tokens = tokenizer(line);
-	if (!tokens)
-		return (NULL);
-	print_tokens(tokens);
-	pars = (t_pars *)malloc(sizeof(t_pars));
-	if (!pars)
-		return (NULL);
-
-	return (pars);
+	return (c == ' ' || c == '\t' || c == '\n' ||
+			c == '\v' || c == '\f' || c == '\r');
 }

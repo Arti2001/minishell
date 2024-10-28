@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
+/*   ft_lstdelone.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:12:10 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 22:01:13 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/28 22:02:53 by eugenediden   #+#    #+#                 */
+/*   Updated: 2024/10/28 22:03:00 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-t_pars	*init_pars(char *line)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	t_pars	*pars;
-	t_list	*tokens;
-
-	tokens = tokenizer(line);
-	if (!tokens)
-		return (NULL);
-	print_tokens(tokens);
-	pars = (t_pars *)malloc(sizeof(t_pars));
-	if (!pars)
-		return (NULL);
-
-	return (pars);
+	(*del)(lst->content);
+	free(lst);
 }

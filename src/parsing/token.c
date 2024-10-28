@@ -6,7 +6,7 @@
 /*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 20:50:14 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 21:14:20 by eugenediden   ########   odam.nl         */
+/*   Updated: 2024/10/28 22:04:27 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,36 @@ t_token	*create_token(char *str, t_type type)
 	else
 		token->str = null_exit(ft_strdup(str));
 	return (token);
+}
+
+void	repalce_t_list(t_list **lst, t_list *(*list_f)(t_list *))
+{
+	t_list	*tmp;
+
+	tmp = list_f(*lst);
+	ft_lstclear(lst, ((void (*))(void *)destroy_token));
+	*lst = tmp;
+}
+
+void	update_t_list(t_list **lst, t_token *(*token_f)(t_token *))
+{
+	t_list	*lst_i;
+	t_list	*ret;
+	t_token	*token;
+
+	ret = NULL;
+	lst_i = *lst;
+	while (lst_i != NULL)
+	{
+		while (1)
+		{
+			token = (*token_f)(lst_i->content);
+			if (token == NULL)
+				break ;
+			ft_lstadd_back(&ret, null_exit(ft_lstnew(token)));
+		}
+		lst_i = lst_i->next;
+	}
+	ft_lstclear(lst, ((void (*))(void *)destroy_token));
+	*lst = ret;
 }

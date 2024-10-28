@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
+/*   tokenizer.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:12:10 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 22:01:13 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/28 20:26:59 by eugenediden   #+#    #+#                 */
+/*   Updated: 2024/10/28 21:52:10 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_pars	*init_pars(char *line)
+t_list	*tokenizer(char *line)
 {
-	t_pars	*pars;
-	t_list	*tokens;
+	t_list *tokens;
 
-	tokens = tokenizer(line);
-	if (!tokens)
-		return (NULL);
-	print_tokens(tokens);
-	pars = (t_pars *)malloc(sizeof(t_pars));
-	if (!pars)
-		return (NULL);
-
-	return (pars);
+	tokens = null_exit(ft_lstnew(create_token(line, DEFAULT)));
+	update_t_list(&tokens, lexer);
+	return (tokens);
 }
