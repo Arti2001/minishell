@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/10/29 15:03:46 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
+/*   Updated: 2024/10/29 15:39:49 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,21 @@ int	is_builtin(t_env **env, char **arg)
 /*This is a temporary parsing. Below in the main() I read the input from the console, then  I split it with the ft_split function
 and initialize the temporary struct init_temp_struct() which should contain the data for exexution (such as redirections, amount of pipes, heredoc) */
 
+int	get_last_heredoc(t_redirect **redirects)
+{
+	int			i;
+	t_redirect	*last_found;
+
+	i = 0;
+	last_found = NULL;
+	while (redirects[i])
+	{
+		if (redirects[i]->type == HEREDOC)
+			last_found = redirects[i++];
+	}
+	return last_found;
+}
+
 t_redirect	*init_redirect(void)
 {
 	t_redirect			*redirects;
@@ -58,22 +73,41 @@ t_redirect	*init_redirect(void)
 	return (redirects);
 }
 
-void	init_pars_struct(char *input, t_pars *pars)
+void	init_pars_struct(char *input, t_pars **pars)
 {
-	pars->orig_in = dup(STDIN_FILENO);
-	pars->orig_out = dup(STDOUT_FILENO);
-	pars->cmd = ft_split(input, ' ');
-	pars->next_process = NULL;
-	pars->redir = NULL;
+	*pars =(t_pars *)ft_calloc(2, sizeof(t_pars ));
+
+	(*pars)[0].orig_in = dup(STDIN_FILENO);
+	(*pars)[0].orig_out = dup(STDOUT_FILENO);
+	(*pars)[0].cmd = ft_split(input, ' ');
+	(*pars)[0].redir = init_redirect();
+	(*pars)[0].next_process = NULL;
 }
+
+//void	init_pars_struct(char *input, t_pars **pars)
+//{
+//	*pars =(t_pars *)ft_calloc(2, sizeof(t_pars ));
+
+//	(*pars)[0].orig_in = dup(STDIN_FILENO);
+//	(*pars)[0].orig_out = dup(STDOUT_FILENO);
+//	(*pars)[0].cmd = ft_split(input, ' ');
+//	(*pars)[0].redir = NULL;
+//	(*pars)[0].next_process = &(*pars)[0];
+	
+//	(*pars)[1].orig_in = dup(STDIN_FILENO);
+//	(*pars)[1].orig_out = dup(STDOUT_FILENO);
+//	(*pars)[1].cmd = ft_split(input, ' ');
+//	(*pars)[1].redir = NULL;
+//	(*pars)[1].next_process = NULL;
+//}
 
 
 int main(int argc, char *argv[], char *envp[])
 {
 	char		*input;
 	t_env		*env;
-	t_pars		pars;
-
+	t_pars		*pars;	
+	
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
@@ -92,10 +126,14 @@ int main(int argc, char *argv[], char *envp[])
 			init_pars(input);
 			/* lexer testing*/
 			free(input);
-			if (pars.next_process == NULL)
+			if (pars->next_process == NULL)
 			{
-				if (is_builtin(&env, pars.cmd) == NO_BUILTIN)
-					run_command(&pars, env);
+				if (is_builtin(&env, pars->cmd) == NO_BUILTIN)
+					run_command(pars, env);
+			}
+			else
+			{
+				
 			}
 		}
 		free_list(env);
