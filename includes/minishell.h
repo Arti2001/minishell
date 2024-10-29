@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/10/28 22:00:31 by eugenediden   ########   odam.nl         */
+/*   Updated: 2024/10/29 11:43:04 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	*null_exit(void	*ptr);
 /*PARSING*/
 t_pars	*init_pars(char *line);
 t_list	*tokenizer(char *line);
-t_token	*lexer(t_token *input);
+void	lexer(t_list **lst);
 size_t	tokenize_sym(char *line, int i, t_token *token);
 int	tokenize_quoted(char *line, int i, t_token *token);
 void	print_tokens(t_list *tokens);
@@ -158,7 +158,6 @@ int		is_whitespace(char c);
 t_token	*init_token(void);
 t_token	*destroy_token(t_token *token);
 t_token	*create_token(char *str, t_type type);
-void	update_t_list(t_list **lst, t_token *(*token_f)(t_token *));
 void	repalce_t_list(t_list **lst, t_list *(*list_f)(t_list *));
 
 #endif

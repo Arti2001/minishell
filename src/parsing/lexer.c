@@ -6,7 +6,7 @@
 /*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 21:38:29 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 21:52:48 by eugenediden   ########   odam.nl         */
+/*   Updated: 2024/10/29 11:43:43 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	tokenize_space(char *line, int i, t_token *token)
 	return (i);
 }
 
-t_token	*lexer(t_token *input)
+t_token	*process_tokens(t_token *input)
 {
 	t_token		*token;
 	static int	i = 0;
@@ -56,4 +56,30 @@ t_token	*lexer(t_token *input)
 		return (NULL);
 	}
 	return (token);
+}
+
+/**
+ * @brief This function takes a list of strings and converts it into a list of tokens.
+ */
+void	lexer(t_list **lst)
+{
+	t_list	*lst_i;
+	t_list	*ret;
+	t_token	*token;
+
+	ret = NULL;
+	lst_i = *lst;
+	while (lst_i != NULL)
+	{
+		while (1)
+		{
+			token = (*process_tokens)(lst_i->content);
+			if (token == NULL)
+				break ;
+			ft_lstadd_back(&ret, null_exit(ft_lstnew(token)));
+		}
+		lst_i = lst_i->next;
+	}
+	ft_lstclear(lst, ((void (*))(void *)destroy_token));
+	*lst = ret;
 }
