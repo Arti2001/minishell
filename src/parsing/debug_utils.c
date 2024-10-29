@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   debug_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 21:29:31 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 21:31:23 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/29 14:52:48 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/10/29 14:52:50 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

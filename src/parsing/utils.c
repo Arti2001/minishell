@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 21:35:28 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 21:35:40 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/29 14:53:15 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/10/29 14:53:17 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

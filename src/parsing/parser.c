@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:12:10 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/28 22:01:13 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/29 14:52:30 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/10/29 14:52:33 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

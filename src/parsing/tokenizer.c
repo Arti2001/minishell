@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   tokenizer.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:26:59 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/10/29 11:45:34 by eugenediden   ########   odam.nl         */
+/*   Created: 2024/10/28 20:26:59 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/10/29 14:51:44 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
