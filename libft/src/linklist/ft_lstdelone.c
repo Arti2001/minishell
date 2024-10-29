@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print_percent.c                                    :+:    :+:            */
+/*   ft_lstdelone.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
+/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/02/01 18:31:57 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/12 22:47:53 by ydidenko      ########   odam.nl         */
+/*   Created: 2024/10/28 22:02:53 by eugenediden   #+#    #+#                 */
+/*   Updated: 2024/10/28 22:03:00 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	print_percent(t_data *data, va_list *args)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	(void)args;
-	(void)data;
-	return (ft_putchar_fd('%', 1), 1);
+	(*del)(lst->content);
+	free(lst);
 }

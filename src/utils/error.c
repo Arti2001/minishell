@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print_percent.c                                    :+:    :+:            */
+/*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
+/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/02/01 18:31:57 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/12 22:47:53 by ydidenko      ########   odam.nl         */
+/*   Created: 2024/10/28 20:47:15 by eugenediden   #+#    #+#                 */
+/*   Updated: 2024/10/28 21:15:14 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	print_percent(t_data *data, va_list *args)
+void	*null_exit(void	*ptr)
 {
-	(void)args;
-	(void)data;
-	return (ft_putchar_fd('%', 1), 1);
+	if (ptr != NULL)
+		return (ptr);
+	perror("minishell");
+	exit(1);
 }
+

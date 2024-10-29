@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print_percent.c                                    :+:    :+:            */
+/*   tokenizer.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/02/01 18:31:57 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/12 22:47:53 by ydidenko      ########   odam.nl         */
+/*   Created: 2024/10/28 20:26:59 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/10/29 14:51:44 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	print_percent(t_data *data, va_list *args)
+t_list	*tokenizer(char *line)
 {
-	(void)args;
-	(void)data;
-	return (ft_putchar_fd('%', 1), 1);
+	t_list *tokens;
+
+	tokens = null_exit(ft_lstnew(create_token(line, DEFAULT)));
+	lexer(&tokens);
+	return (tokens);
 }

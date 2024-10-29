@@ -1,34 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print_ptr.c                                        :+:    :+:            */
+/*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/02/02 14:08:32 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/12 22:48:04 by ydidenko      ########   odam.nl         */
+/*   Created: 2024/10/29 14:53:15 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/10/29 14:53:17 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	print_ptr(t_data *data, va_list *args)
+int is_whitespace(char c)
 {
-	t_hex	ptr;
-	int		print_length;
-
-	ptr = va_arg(*args, t_hex);
-	if (ptr == 0)
-	{
-		ft_putstr_fd("(nil)", 1);
-		print_length = 5;
-	}
-	else
-	{
-		ft_putstr_fd("0x", 1);
-		print_length = 2;
-		put_hex(ptr, *data->fmt);
-		print_length += get_hex_len(ptr);
-	}
-	return (print_length);
+	return (c == ' ' || c == '\t' || c == '\n' ||
+			c == '\v' || c == '\f' || c == '\r');
 }

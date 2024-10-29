@@ -6,14 +6,14 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/07 13:34:18 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/03/08 16:36:12 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/10/28 20:17:35 by eugenediden   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft.h"
 #include <stdlib.h>
 
-t_list	*ft_lstnew(int content)
+t_list	*ft_lstnew(void *content)
 {
 	t_list	*new_list;
 
