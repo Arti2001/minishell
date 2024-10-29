@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 17:49:20 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/10/28 21:01:44 by eugenediden   ########   odam.nl         */
+/*   Updated: 2024/10/29 15:03:31 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	restore_fd(t_pars *pars)
 		return ;
 	}
 }
+
 void	redirect_in(t_redirect redirect)
 {
 	int	file_fd;

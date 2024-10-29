@@ -13,11 +13,14 @@
 #include "../../includes/minishell.h"
 
 
-//int	printf_fd(char *print, int fd)
-//{
+int	printf_fd(char *print, int fd)
+{
+	int	targ;
 
+	targ  = dup(fd);
+	printf()
 
-//}
+}
 
 /* This function runs small child proccess and executes given command-> */
 void	new_proccess(t_pars *pars, t_env *env, t_exec	*execute)
