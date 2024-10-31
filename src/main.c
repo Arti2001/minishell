@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/29 15:39:49 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/31 18:30:25 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,17 @@ int	is_builtin(t_env **env, char **arg)
 /*This is a temporary parsing. Below in the main() I read the input from the console, then  I split it with the ft_split function
 and initialize the temporary struct init_temp_struct() which should contain the data for exexution (such as redirections, amount of pipes, heredoc) */
 
-int	get_last_heredoc(t_redirect **redirects)
-{
-	int			i;
-	t_redirect	*last_found;
 
-	i = 0;
-	last_found = NULL;
-	while (redirects[i])
-	{
-		if (redirects[i]->type == HEREDOC)
-			last_found = redirects[i++];
-	}
-	return last_found;
-}
 
 t_redirect	*init_redirect(void)
 {
 	t_redirect			*redirects;
 	int					i;
 	int					count;
-	char				*names[] = { "a", "b", "c", "outfile", NULL};
-	t_redirect_type		type[] = {HEREDOC_RE, HEREDOC_RE, HEREDOC_RE, OUT, 0};
+	char				*names[] = { "a", "b", "c", NULL};
+	t_redirect_type		type[] = {HEREDOC_RE, HEREDOC_RE, HEREDOC_RE, 0};
 
-
-	count = 4;
+	count = 3;
 	i = 0;
 	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
 	if (redirects == NULL)
@@ -73,40 +59,55 @@ t_redirect	*init_redirect(void)
 	return (redirects);
 }
 
-void	init_pars_struct(char *input, t_pars **pars)
-{
-	*pars =(t_pars *)ft_calloc(2, sizeof(t_pars ));
 
-	(*pars)[0].orig_in = dup(STDIN_FILENO);
-	(*pars)[0].orig_out = dup(STDOUT_FILENO);
-	(*pars)[0].cmd = ft_split(input, ' ');
-	(*pars)[0].redir = init_redirect();
-	(*pars)[0].next_process = NULL;
+
+
+
+//void	init_pars_struct(char *input, t_pars *pars)
+//{
+//	char	*cmds = ft_split(input, '|');
+//	int		i = 0;
+	
+//	pars = (t_pars *)malloc(sizeof(t_pars) * 1);
+//	while (cmds[i])
+//	{
+//		pars = create_element();
+//		pars->
+//	}
+	
+//	*pars =(t_pars *)malloc(sizeof(t_pars) * 1);
+
+//	pars->orig_in = dup(STDIN_FILENO);
+//	pars->orig_out = dup(STDOUT_FILENO);
+//	pars->cmd = ft_split(input, ' ');
+//	pars->redir = NULL;
+//	pars->next_process = &pars->
+	
+//	pars->orig_in = dup(STDIN_FILENO);
+//	pars->orig_out = dup(STDOUT_FILENO);
+//	pars->cmd = ft_split(input, ' ');
+//	pars->redir = NULL;
+//	pars->next_process = NULL;
+//}
+
+void	init_pars_struct(char *input, t_pars *pars)
+{
+	//pars =(t_pars *)ft_calloc(1, sizeof(t_pars));
+
+	pars->orig_in = dup(STDIN_FILENO);
+	pars->orig_out = dup(STDOUT_FILENO);
+	pars->cmd = ft_split(input, ' ');
+	pars->redir = init_redirect();
+	pars->next_process = NULL;
 }
 
-//void	init_pars_struct(char *input, t_pars **pars)
-//{
-//	*pars =(t_pars *)ft_calloc(2, sizeof(t_pars ));
-
-//	(*pars)[0].orig_in = dup(STDIN_FILENO);
-//	(*pars)[0].orig_out = dup(STDOUT_FILENO);
-//	(*pars)[0].cmd = ft_split(input, ' ');
-//	(*pars)[0].redir = NULL;
-//	(*pars)[0].next_process = &(*pars)[0];
-	
-//	(*pars)[1].orig_in = dup(STDIN_FILENO);
-//	(*pars)[1].orig_out = dup(STDOUT_FILENO);
-//	(*pars)[1].cmd = ft_split(input, ' ');
-//	(*pars)[1].redir = NULL;
-//	(*pars)[1].next_process = NULL;
-//}
 
 
 int main(int argc, char *argv[], char *envp[])
 {
 	char		*input;
 	t_env		*env;
-	t_pars		*pars;	
+	t_pars		pars;	
 	
 	if (argc == 1  && argv[0])
 	{
@@ -123,17 +124,13 @@ int main(int argc, char *argv[], char *envp[])
 			add_history(input);
 			init_pars_struct(input, &pars);
 			/* lexer testing */
-			init_pars(input);
+			//init_pars(input);
 			/* lexer testing*/
 			free(input);
-			if (pars->next_process == NULL)
+			if (pars.next_process == NULL)
 			{
-				if (is_builtin(&env, pars->cmd) == NO_BUILTIN)
-					run_command(pars, env);
-			}
-			else
-			{
-				
+				if (is_builtin(&env, pars.cmd) == NO_BUILTIN)
+					run_command(&pars, env);
 			}
 		}
 		free_list(env);

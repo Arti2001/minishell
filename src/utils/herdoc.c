@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 08:40:00 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/31 18:25:12 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@
 // 	return (1);
 // }
 
-void    read_into_heredoc(int  fd,  t_redirect *redirect)
+void    write_into_herdoc(int fd, t_redirect *redirect)
 {
     char    *line;
     char    *delimiter;
@@ -90,40 +90,53 @@ void    read_into_heredoc(int  fd,  t_redirect *redirect)
     while (1)
     {
         line = readline(">");
-        if (line == NULL) {
-    if (feof(stdin)) {
-        printf("Warning: Here-document is not properly closed. Expected delimiter: `%s'\n", delimiter);
-    } else {
-        perror("Error reading line");
-    }
-    exit(0);
-}
-        if (ft_strncmp(delimiter, redirect->filename, ft_strlen(redirect->filename) + 1) == 0)
+        if (line == NULL) 
+		{
+        	printf("Warning: Here-document is not properly closed. Expected delimiter: `%s'\n", delimiter);
+			free(line);
+			close(fd);
+			exit(0);
+		}
+        if (ft_strncmp(line, redirect->filename, ft_strlen(redirect->filename)) == 0)
         {
             free(line);
+    		close(fd);
             break;
         }   
-        ft_putendl_fd(line , fd);
+		ft_putendl_fd(line, fd);
         free(line);
-    }
-    if  (redirect->filename[0] == 'c')
-    {
-        
-         dup2(fd, STDIN_FILENO);
-         close(fd);
     }
 }
 
-int    redirect_herdoc(t_redirect *redirect)
+int    open_herdoc(t_redirect *redirect)
 {
-    int     fd;
-
-    fd = open("file.txt", O_TRUNC| O_CREAT | O_WRONLY, 0777);
+    int		fd;
+	
+    fd = open("herdoc.txt", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd == -1)
     {
-        perror("Faild to open the heredoc");
+        perror("Faild to open the heredoc.txt");
         return (0);
     }
-   read_into_heredoc(fd, redirect);
+   write_into_herdoc(fd, redirect);
    return (1);
+}
+
+
+int	run_herdoc(t_redirect **redirects)
+{
+	int	i;
+
+	i = 0;
+	while (redirects[i])
+	{
+		printf("%d: %s: %d\n", i, redirects[i]->filename, redirects[i]->type);
+		//if (redirects[i]->type == HEREDOC_RE)
+			//if (!open_herdoc(redirects[i]))
+			//{
+			//	return (0);
+			//}
+		i++;
+	}
+	return (1);
 }

@@ -8,7 +8,7 @@ INC_DIR			=	includes
 GREEN=\033[0;32m
 NC=\033[0m
 
-LIBFT_NAME		=	$(addprefix $(LIBFT)/, libft.a)
+LIBFT_PATH		=	$(addprefix $(LIBFT)/, libft.a)
 HEADERS			=	-I$(INC_DIR)
 SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/**/*.c)
 OBJS 			=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
@@ -16,16 +16,16 @@ VPATH			=	$(dir $(SRCS))
 
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g
-RFLAGS = 			-lreadline
+CFLAGS			=	-Wall -Wextra -Werror -g -fPIE
+RFLAGS 			=	-lreadline
 
 all:			libft $(NAME)
 
 libft:
-				@make -C $(LIBFT)
+				@make -C libft
 
 $(NAME):		$(OBJS)
-				@$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) $(RFLAGS)
+				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_PATH) -o $(NAME) $(RFLAGS)
 				@echo "$(GREEN)Compiled$(NC)"
 $(OBJ_DIR)/%.o:	%.c
 				@mkdir -p $(OBJ_DIR)
@@ -34,15 +34,12 @@ $(OBJ_DIR)/%.o:	%.c
 clean:
 				@$(RM) $(OBJS)
 				@make clean -C $(LIBFT)
-				@$(RM) test
 				@echo "$(GREEN)Cleaned$(NC)"
 
 fclean:			clean
 				@$(RM) $(NAME)
+				@$(RM) $(LIBFT_PATH)
 
 re:				fclean $(NAME)
 
-test:			all
-				$(CC) -I$(INC_DIR) -o test test.c $(NAME)
-
-.PHONY:			clean fclean re all test
+.PHONY:			clean fclean re all test libft

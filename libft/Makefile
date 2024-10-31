@@ -6,7 +6,7 @@
 #    By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:08:38 by ydidenko          #+#    #+#              #
-#    Updated: 2024/10/26 17:05:07 by amysiv           ###   ########.fr        #
+#    Updated: 2024/10/29 15:55:57 by amysiv           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ VPATH			=	$(dir $(SRCS))
 
 CC				=	cc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -I.
+CFLAGS			=	-Wall -Wextra -Werror -I. -fPIC
 
 all:			$(NAME)
 

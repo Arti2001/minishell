@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/10/29 11:43:04 by eugenediden   ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/10/31 18:33:19 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 typedef enum s_redirect_type
 {
-	HEREDOC_RE,
+	HEREDOC_RE = 1,
 	IN,
 	OUT,
 	OUT_A
@@ -68,12 +68,16 @@ typedef struct s_env
 	struct	s_env	*next;
 }	t_env;
 
+/**
+ * @brief Data struct to hold redirection values
+ * @param filename 	name of the file
+ * @param type		redirection type
+ */
 typedef struct s_redirect
 {
 	char				*filename;
 	t_redirect_type		type;
 }	t_redirect;
-
 
 typedef struct s_pars
 {
@@ -140,7 +144,10 @@ void	double_array_free(char **to_free);
 
 /*REDIRECTS*/
 void	restore_fd(t_pars *pars);
-void	redirect_check(t_pars *pars);
+int		redirect_check(t_pars *pars);
+void	close_fd(int in, int out);
+int		run_herdoc(t_redirect **redirects);
+int		redirect_herdoc(t_redirect *redirect);
 
 /*ERROR*/
 void	*null_exit(void	*ptr);

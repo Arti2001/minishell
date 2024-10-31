@@ -17,6 +17,7 @@ void	new_proccess(t_pars *pars, t_env *env, t_exec	*execute)
 {
 	char	**env_array;
 	pid_t	pid;
+
 	env_array = back_to_array(env);
 	pid = fork();
 	if (pid == -1)
