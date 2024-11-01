@@ -13,7 +13,7 @@
 #include "../../includes/minishell.h"
 
 /* This function runs small child proccess and executes given command-> */
-void	new_proccess(t_pars *pars, t_env *env, t_exec	*execute)
+void	new_proccess(t_pars *pars, t_env *env)
 {
 	char	**env_array;
 	pid_t	pid;
@@ -27,37 +27,33 @@ void	new_proccess(t_pars *pars, t_env *env, t_exec	*execute)
 	}
 	if (pid == 0)
 	{
-		execve(execute->true_path, pars->cmd, env_array);
+		execve(pars->path, pars->cmd, env_array);
 		ft_putstr_fd(pars->cmd[0], 2);
 		ft_putendl_fd(": command not found", 2);
 		double_array_free(pars->cmd);
-		free(execute->true_path);
+		free(pars->path);
 		exit(127);
 	}
 	waitpid(pid, NULL, 0);
 }
 
-void	run_command(t_pars *pars, t_env *env)
+void	run_single_cmd(t_pars *pars, t_env *env)
 {
-	t_exec holds;
-
 	if (pars->cmd == NULL)
+	{
 		return ;
+	}
 	if(pars->redir != NULL)
 	{
 		redirect_check(pars);
 	}
 	if (access(pars->cmd[0], X_OK | F_OK) == 0)
 	{
-		holds.true_path = pars->cmd[0];
-		new_proccess(pars, env, &holds);
+		pars->path = pars->cmd[0];
+		new_proccess(pars, env);
 		return ;
 	}
-	holds.all_pathes = env_split_path(&env);
-	if (holds.all_pathes == NULL)
-		holds.true_path = NULL;
-	matching_pathes(&holds, pars->cmd[0]);
-	double_array_free(holds.all_pathes);
-	new_proccess(pars, env,  &holds);
+	path_hendler(env, &pars, pars->cmd[0]);
+	new_proccess(pars, env);
 	restore_fd(pars);
 }

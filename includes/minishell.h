@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 09:10:21 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/01 17:39:59 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ typedef enum s_redirect_type
 	OUT,
 	OUT_A
 }	t_redirect_type;
+
+typedef	enum s_built_in
+{
+	PWD,
+	CD,
+	ECHO,
+	ENV,
+	EXIT,
+	EXPORT,
+	UNSET
+}	t_built_in;
 
 typedef enum e_type
 {
@@ -70,8 +81,8 @@ typedef struct s_env
 
 /**
  * @brief Data struct to hold redirection values
- * @param filename 	name of the file
- * @param type		redirection type
+ * @param type redirection type.
+ * @param filename name of the file.
  */
 typedef struct s_redirect
 {
@@ -85,16 +96,23 @@ typedef struct s_pars
 	int					orig_out;
 	char				**cmd;
 	t_redirect			*redir;
+	char 				*path;
 	struct s_pars		*next_process;
 } t_pars;
 
-/*For extractin the path from the env*/
-typedef struct s_exec
-{
-	char	**all_pathes;
-	char	*temp_path;
-	char	*true_path;
-}t_exec;
+
+///**
+// * @brief Data sructure for extractin the path from the environment.
+// * @param all_pathes arrayy of pathes arrays.
+// * @param temp_path	 a temporary path with '/' joinedat the end.
+// * @param true_path	the actuall path for execution.
+// */
+//typedef struct s_exec
+//{
+//	char	**all_pathes;
+//	char	*temp_path;
+//	char	*true_path;
+//}t_exec;
 
 
 /*Linked list*/
@@ -128,14 +146,16 @@ int		update_env_value(t_env *env, char *var_name, char *new);
 /*PATH*/
 char	**env_split_path(t_env **env);
 char	*get_path(char *name, t_env *env);
-void	matching_pathes(t_exec *holds, char *check_path);
+char	*matching_pathes(char **splited_pathes, char *check_path);
+void	path_hendler(t_env *env, t_pars **pars, char *cmd);
 
 /*STRING UTILITI*/
 int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
-void	run_command(t_pars *pars, t_env *env);
+void	run_single_cmd(t_pars *pars, t_env *env);
+int		run_multi_cmd(t_pars *pars);
 
 /*FREE*/
 void	free_list(t_env *head);

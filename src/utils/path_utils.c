@@ -6,12 +6,11 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 12:13:38 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/01 16:49:25 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	*get_path(char *name, t_env *env)
 {
@@ -31,27 +30,41 @@ char	**env_split_path(t_env **env)
 	path = get_path("PATH", *env);
 	if (path == NULL)
 		return (NULL);
-;	path = ft_strchr(path, '/');
+	path = ft_strchr(path, '/');
 	return (ft_split(path, ':'));
 }
 
-void	matching_pathes(t_exec *holds, char *check_path)
+char	*matching_pathes(char **splited_pathes, char *check_path)
 {
 	int		i;
+	char	*tmp_path;
+	char	*correct_path;
 
 	i = 0;
-	if (holds->all_pathes == NULL)
-		return ;
-	while (holds->all_pathes[i])
+	tmp_path = NULL;
+	if (splited_pathes == NULL)
+		return (NULL);
+	while (splited_pathes[i])
 	{
-		holds->temp_path = ft_strjoin(holds->all_pathes[i], "/");
-		holds->true_path = ft_strjoin(holds->temp_path, check_path);
-		if (access(holds->true_path, X_OK | F_OK) == 0)
+		tmp_path = ft_strjoin(splited_pathes[i], "/");
+		correct_path = ft_strjoin(tmp_path, check_path);
+		if (access(correct_path, X_OK | F_OK) == 0)
 		{
-			free(holds->temp_path);
-			return ;
+			free(tmp_path);
+			return (correct_path);
 		}
-			i++;
-			free (holds->temp_path);
+		i++;
+		free (tmp_path);
 	}
+	return (NULL);
 }
+
+void	path_hendler(t_env *env, t_pars **pars, char *cmd)
+{
+	char **splited_pathes;
+
+	splited_pathes = env_split_path(&env);
+	(*pars)->path = matching_pathes(splited_pathes, cmd);
+	double_array_free(splited_pathes);
+}
+

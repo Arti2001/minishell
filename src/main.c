@@ -6,14 +6,33 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 12:30:26 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/01 17:52:08 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
 int	is_builtin(t_env **env, char **arg)
+{
+	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
+		return (CD);
+	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
+		return (PWD);
+	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])))
+		return (ENV);
+	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
+		return (ECHO);
+	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
+		return (EXIT);
+	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
+		return (UNSET);
+	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
+		return (EXPORT);
+	return (NO_BUILTIN);
+}
+
+/*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
+int	run_buit_in(t_env **env, char **arg)
 {
 	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
 		return (ft_cd(*env, arg));
@@ -24,7 +43,7 @@ int	is_builtin(t_env **env, char **arg)
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
 		return (ft_echo(arg));
 	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
-	ft_exit(arg);
+		return (exit(arg));
 	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
 		return (ft_unset(env, arg));
 	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
@@ -88,6 +107,7 @@ t_pars	*parsing_node(char **cmd)
 	pars->orig_out = dup(STDOUT_FILENO);
 	pars->cmd = cmd;
 	pars->redir = NULL;
+	pars->path = NULL;
 	pars->next_process = NULL;
 	return (pars);
 }
@@ -165,8 +185,12 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars->next_process == NULL)
 			{
-				if (is_builtin(&env, pars->cmd) == NO_BUILTIN)
-					run_command(pars, env);
+				if (run_built_in(&env, pars->cmd) == NO_BUILTIN)
+					run_single_cmd(pars, env);
+			}
+			else
+			{
+				run_multi_cmd(pars);
 			}
 		}
 		free_list(env);
