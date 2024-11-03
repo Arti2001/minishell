@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 14:43:13 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 15:09:02 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ typedef enum s_redirect_type
 
 typedef	enum s_built_in
 {
-	PWD,
 	CD,
-	ECHO,
+	PWD,
 	ENV,
+	ECHO,
 	EXIT,
+	UNSET,
 	EXPORT,
-	UNSET
+	NO_BUILTIN
 }	t_built_in;
 
 typedef enum e_type
@@ -64,12 +65,6 @@ typedef struct s_token
 	char	*str;
 	t_type	type;
 }	t_token;
-
-typedef enum s_builtin
-{
-	NO_BUILTIN = 10
-
-} t_builtin;
 
 typedef struct s_env
 {
@@ -147,8 +142,9 @@ int		update_env_value(t_env *env, char *var_name, char *new);
 /*PATH*/
 char	**env_split_path(t_env **env);
 char	*get_path(char *name, t_env *env);
-char	*matching_pathes(char **splited_pathes, char *check_path);
+void	set_extern_cmd_path(t_pars *pars, t_env *env);
 void	path_hendler(t_env *env, t_pars **pars, char *cmd);
+char	*matching_pathes(char **splited_pathes, char *check_path);
 
 
 /*STRING UTILITI*/

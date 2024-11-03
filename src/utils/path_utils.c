@@ -6,11 +6,27 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 14:25:38 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 15:07:53 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	set_extern_cmd_path(t_pars *pars, t_env *env)
+{
+	while (pars != NULL)
+	{
+		if (is_builtin(pars->cmd[0]) == NO_BUILTIN)
+		{
+			path_hendler(env, &pars, pars->cmd[0]);
+		}
+		else
+		{
+			pars->path = NULL;
+		}
+		pars = pars->next_process;
+	}
+}
 
 char	*get_path(char *name, t_env *env)
 {

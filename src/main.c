@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 14:45:06 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/27 15:02:38 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char*	input;
 	t_env*	env;
-	t_pars	*pars;	
+	t_pars	*pars;
 
 	if (argc == 1  && argv[0])
 	{
@@ -185,8 +185,10 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars->next_process == NULL)
 			{
-				if (run_built_in(&env, pars->cmd) == NO_BUILTIN)
+				if (is_builtin(pars->cmd[0]) == NO_BUILTIN)
 					run_single_cmd(pars, env);
+				else
+					run_built_in(&env, pars->cmd);
 			}
 			else
 			{
