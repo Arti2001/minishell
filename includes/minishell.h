@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 15:09:02 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/05 19:41:33 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ typedef struct s_redirect
 
 typedef struct s_pars
 {
-	int					orig_in;
-	int					orig_out;
+	int					tmp_read;
+	int					fd_in;
+	int					fd_out;
 	char				**cmd;
 	t_redirect			*redir;
 	char 				*path;
@@ -112,7 +113,7 @@ typedef struct s_pars
 
 /*Linked list*/
 t_env	*ll_last(t_env *last);
-int		ft_lst_size(t_env *lst);
+int		ft_lst_size(t_pars *lst);
 t_env	*ft_env_lstnew(char *key , char *value);
 void	ll_addback(t_env **env_head, t_env *new_node);
 int		append_node(t_env **head_env, char *content);
@@ -161,7 +162,7 @@ void	free_node(t_env *node);
 void	double_array_free(char **to_free);
 
 /*REDIRECTS*/
-void	restore_fd(t_pars *pars);
+void	restore_fd(int	orig_in, int orig_out);
 int		redirect_check(t_pars *pars);
 void	close_fd(int in, int out);
 int		run_herdoc(t_redirect *redirects);

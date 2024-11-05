@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 09:21:29 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/05 18:21:37 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,31 @@ void	close_fd(int in, int out)
 		exit(EXIT_FAILURE);
 	}
 }
-void	restore_fd(t_pars *pars)
+
+void	restore_fd(int	orig_in, int orig_out)
 {
-	if (dup2(pars->orig_in, STDIN_FILENO) == -1)
+	if (dup2(orig_in, STDIN_FILENO) == -1)
 	{
 		perror("error: can not restore the original fd in");
 		return ;
 	}
-	if (close(pars->orig_in) == -1)
+	if (close(orig_in) == -1)
 	{
 		perror("error: closing  fd in");
 		return ;
 	}
-	if (dup2(pars->orig_out, STDOUT_FILENO) == -1)
+	if (dup2(orig_out, STDOUT_FILENO) == -1)
 	{
 		perror("error: can not restore the original fd out");
 		return ;
 	}
-	if (close(pars->orig_out) == -1)
+	if (close(orig_out) == -1)
 	{
 		perror("error: closing  fd out");
 		return ;
 	}
 }
+
 int	redirect_in(t_redirect redirect)
 {
 	int	file_fd;

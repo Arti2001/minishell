@@ -36,9 +36,29 @@ void	new_proccess(t_pars *pars, t_env *env)
 	}
 	waitpid(pid, NULL, 0);
 }
+void duplicate_origin_fd(int *origin_in, int *origin_out)
+{
+	*origin_in = dup(STDIN_FILENO);
+	if (*origin_in == -1)
+	{
+		perror("failed to dupuplicate the original stdin");
+		return ;
+
+	}
+	*origin_out = dup(STDOUT_FILENO);
+	if (*origin_out == -1)
+	{
+		perror("failed to dupuplicate the original stdout");
+		return ;
+	}
+}
 
 void	run_single_cmd(t_pars *pars, t_env *env)
-{
+{	
+	int		orig_in;
+	int		orig_out;
+
+	duplicate_origin_fd(&orig_in, &orig_out);
 	if (pars->cmd == NULL)
 	{
 		return ;
@@ -55,5 +75,5 @@ void	run_single_cmd(t_pars *pars, t_env *env)
 	}
 	path_hendler(env, &pars, pars->cmd[0]);
 	new_proccess(pars, env);
-	restore_fd(pars);
+	restore_fd(orig_in, orig_out);
 }

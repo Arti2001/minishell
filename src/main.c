@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 15:02:38 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/05 19:39:39 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ t_redirect	*init_redirect(void)
 	int					i;
 	int					count;
 	t_redirect			*redirects;
-	char				*names[] = { "a", "b", "c", NULL};
-	t_redirect_type		type[] = {HEREDOC_RE, HEREDOC_RE, HEREDOC_RE, 0};
+	char				*names[] = { "infile", "test", NULL};
+	t_redirect_type		type[] = {IN, OUT, 0};
 
-	count = 3;
+	count = 2;
 	i = 0;
 	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
 	if (redirects == NULL)
@@ -103,9 +103,9 @@ t_pars	*parsing_node(char **cmd)
 	t_pars *pars;
 
 	pars = (t_pars *)malloc(sizeof(t_pars) * 1);
-	pars->orig_in = dup(STDIN_FILENO); 
-	pars->orig_out = dup(STDOUT_FILENO);
 	pars->cmd = cmd;
+	pars->fd_in = STDIN_FILENO;
+	pars->fd_out = STDOUT_FILENO;
 	pars->redir = NULL;
 	pars->path = NULL;
 	pars->next_process = NULL;
@@ -190,10 +190,10 @@ int main(int argc, char *argv[], char *envp[])
 				else
 					run_built_in(&env, pars->cmd);
 			}
-			else
-			{
-				run_multi_cmd(pars, env);
-			}
+			//else
+			//{
+			//	run_multi_cmd(pars, env);
+			//}
 		}
 		free_list(env);
 	}
