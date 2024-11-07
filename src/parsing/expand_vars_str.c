@@ -6,32 +6,11 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:42:25 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_env_var(char *var, t_env *env)
-{
-	char	*str;
-	t_env	*tmp;
-
-	str = NULL;
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strncmp(var, tmp->name, ft_strlen(var) + 1))
-		{
-			str = null_exit(ft_strdup(tmp->value));
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	if (!str)
-		str = null_exit(ft_strdup(""));
-	return (str);
-}
 
 static void	lookup_var(char **var, t_env *env)
 {
@@ -99,7 +78,6 @@ static	int	var_is_valid_first(int c)
  * @param type string token type
  * @return char* string containing expanded variables
  */
-
 char	*expand_vars_str(char *input, t_type type, t_env *env)
 {
 	size_t	i;

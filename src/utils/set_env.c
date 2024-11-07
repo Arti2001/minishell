@@ -6,11 +6,32 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:18:51 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:42:41 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_env_var(char *var, t_env *env)
+{
+	char	*str;
+	t_env	*tmp;
+
+	str = NULL;
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strncmp(var, tmp->name, ft_strlen(var) + 1))
+		{
+			str = null_exit(ft_strdup(tmp->value));
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	if (!str)
+		str = null_exit(ft_strdup(""));
+	return (str);
+}
 
 int ft_env_size(t_env *env)
 {

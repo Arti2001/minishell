@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:06:08 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:42:51 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ void	repalce_t_list(t_list **lst, t_list *(*list_f)(t_list *));
 /*EXPAND_VARS*/
 void	expand_vars(t_list **tokens, t_env *env);
 char	*expand_vars_str(char *input, t_type type, t_env *env);
+char	*get_env_var(char *var, t_env *env);
 
 #endif
 
