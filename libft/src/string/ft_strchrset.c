@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   tokenizer.c                                        :+:    :+:            */
+/*   ft_strchrset.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl          +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:26:59 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:04:32 by ydidenko      ########   odam.nl         */
+/*   Created: 2024/11/07 10:16:33 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/11/07 10:16:35 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-t_list	*tokenizer(char *line, t_env *env)
+char	*ft_strchrset(const char *s, const char *set)
 {
-	t_list *tokens;
-
-	tokens = null_exit(ft_lstnew(create_token(line, DEFAULT)));
-	lexer(&tokens);
-	expand_vars(&tokens, env);
-	return (tokens);
+	while (*s)
+	{
+		if (ft_strrchr(set, *s))
+			return ((char *)s);
+		s++;
+	}
+	return (NULL);
 }
