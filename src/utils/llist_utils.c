@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   llist_utils.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/05 19:41:20 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   llist_utils.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/15 16:13:06 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 t_env	*ll_last(t_env *last)
 {
@@ -47,7 +47,7 @@ void	ll_addback(t_env **env_head, t_env *new_node)
 t_env	*ft_env_lstnew(char *key, char *value)
 {
 	t_env	*new_node;
-	
+
 
 	new_node = ft_calloc(1, sizeof(t_env));
 	if (new_node == NULL)

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/28 19:40:16 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cd.c                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/11 13:16:30 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/07 14:28:17 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	change_cwd(t_env *env, char *str)
 {
@@ -23,7 +23,7 @@ void	change_cwd(t_env *env, char *str)
 //{
 //	char	*tmp;
 //	char	*full_var;
-	
+
 //	tmp = ft_strjoin(name, "=");
 //	full_var = ft_strjoin(tmp, value);
 //	free(tmp);
@@ -51,7 +51,7 @@ int		ft_cd(t_env *env, char **arg)
 		return (printf("bash: %s: %s: No such file or directory\n", arg[0], arg[1]), 1);
 	else if (dir == NULL)
 	{
-		
+
 		printf("bash: %s: %s: Not a directory\n", arg[0], arg[1]);
 		return (closedir(dir), 1);
 	}

@@ -6,11 +6,11 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:11:20 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 char	*get_env_var(char *var, t_env *env)
 {

@@ -6,11 +6,11 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:30:48 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:03:59 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	check_amb_redir(t_token token, char *expanded, t_token prev)
 {

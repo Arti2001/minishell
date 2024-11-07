@@ -6,11 +6,11 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:18:51 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/06 15:35:59 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int ft_env_size(t_env *env)
 {

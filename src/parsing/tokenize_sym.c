@@ -6,11 +6,11 @@
 /*   By: ydidenko <ydidenko@student.codam.nl          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 21:55:15 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/29 14:52:15 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static size_t	fill_token(t_type label, const char *sym, \
 				t_token *token)
