@@ -16,7 +16,7 @@ VPATH			=	$(dir $(SRCS))
 
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g -fPIE $(HEADERS)
+CFLAGS			=	-Wall -Wextra -Werror -g $(HEADERS)
 RFLAGS 			=	-lreadline
 
 all:			libft $(NAME)
