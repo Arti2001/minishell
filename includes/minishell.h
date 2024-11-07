@@ -6,12 +6,14 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/05 19:41:33 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/07 17:00:54 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
+#define MAX_PROCESSES 1024
 
 #include <dirent.h>
 #include <fcntl.h>
@@ -25,6 +27,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <errno.h>
+
 
 typedef enum s_redirect_type
 {
@@ -87,7 +91,6 @@ typedef struct s_redirect
 
 typedef struct s_pars
 {
-	int					tmp_read;
 	int					fd_in;
 	int					fd_out;
 	char				**cmd;
@@ -113,7 +116,7 @@ typedef struct s_pars
 
 /*Linked list*/
 t_env	*ll_last(t_env *last);
-int		ft_lst_size(t_pars *lst);
+int		ft_lst_size(t_env *lst);
 t_env	*ft_env_lstnew(char *key , char *value);
 void	ll_addback(t_env **env_head, t_env *new_node);
 int		append_node(t_env **head_env, char *content);

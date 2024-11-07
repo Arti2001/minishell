@@ -75,5 +75,8 @@ void	run_single_cmd(t_pars *pars, t_env *env)
 	}
 	path_hendler(env, &pars, pars->cmd[0]);
 	new_proccess(pars, env);
-	restore_fd(orig_in, orig_out);
+	if(pars->redir != NULL)
+	{
+		restore_fd(orig_in, orig_out);
+	}
 }

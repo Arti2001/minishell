@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/05 19:41:20 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/06 14:51:22 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ t_env	*ll_last(t_env *last)
 	return (last);
 }
 
-int	ft_lst_size(t_pars *lst)
+int	ft_lst_size(t_env *lst)
 {
 	int	i;
 
 	i = 0;
 	while (lst != NULL)
 	{
-		lst = lst->next_process;
+		lst = lst->next;
 		i++;
 	}
 	return (i);

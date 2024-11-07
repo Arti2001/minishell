@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/05 19:39:39 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/07 19:50:54 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ t_redirect	*init_redirect(void)
 	int					i;
 	int					count;
 	t_redirect			*redirects;
-	char				*names[] = { "infile", "test", NULL};
-	t_redirect_type		type[] = {IN, OUT, 0};
+	char				*names[] = { "infile", NULL};
+	t_redirect_type		type[] = {IN,  0};
 
-	count = 2;
+	count = 1;
 	i = 0;
 	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
 	if (redirects == NULL)
@@ -190,10 +190,12 @@ int main(int argc, char *argv[], char *envp[])
 				else
 					run_built_in(&env, pars->cmd);
 			}
-			//else
-			//{
-			//	run_multi_cmd(pars, env);
-			//}
+			else
+			{
+				//set_extern_cmd_path(pars, env);
+				if (run_multi_cmd(pars, env) == 0)
+					return(1);
+			}
 		}
 		free_list(env);
 	}
