@@ -16,7 +16,7 @@ VPATH			=	$(dir $(SRCS))
 
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g -fPIE
+CFLAGS			=	-Wall -Wextra -Werror -g -fPIE $(HEADERS)
 RFLAGS 			=	-lreadline
 
 all:			libft $(NAME)
@@ -29,7 +29,7 @@ $(NAME):		$(OBJS)
 				@echo "$(GREEN)Compiled$(NC)"
 $(OBJ_DIR)/%.o:	%.c
 				@mkdir -p $(OBJ_DIR)
-				@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
+				@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 				@$(RM) $(OBJS)
@@ -40,6 +40,6 @@ fclean:			clean
 				@$(RM) $(NAME)
 				@$(RM) $(LIBFT_PATH)
 
-re:				fclean $(NAME)
+re:				fclean all
 
 .PHONY:			clean fclean re all test libft
