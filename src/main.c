@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/08 09:23:47 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/12 16:35:45 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ t_redirect	*init_redirect(void)
 	int					i;
 	int					count;
 	t_redirect			*redirects;
-	char				*names[] = { "infile", NULL};
-	t_redirect_type		type[] = {IN,  0};
+	char				*names[] = { "a", NULL};
+	t_redirect_type		type[] = {HEREDOC_RE, 0};
 
 	count = 1;
 	i = 0;
@@ -106,7 +106,7 @@ t_pars	*parsing_node(char **cmd)
 	pars->cmd = cmd;
 	pars->fd_in = STDIN_FILENO;
 	pars->fd_out = STDOUT_FILENO;
-	pars->redir = NULL;
+	pars->redir = init_redirect();
 	pars->path = NULL;
 	pars->next_process = NULL;
 	return (pars);
@@ -162,6 +162,7 @@ int main(int argc, char *argv[], char *envp[])
 	char*	input;
 	t_env*	env;
 	t_pars	*pars;
+	//t_data	data;
 
 	if (argc == 1  && argv[0])
 	{
@@ -177,6 +178,7 @@ int main(int argc, char *argv[], char *envp[])
 			if (!input[0])
 				continue;
 			add_history(input);
+			//data.err_code = 0;
 			pars = set_parsing_lst(ft_split(input, '|'));
 			//init_pars_struct(input, &pars);
 			/* lexer testing */

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/06 17:27:29 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/11 18:07:38 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ int		ft_cd(t_env *env, char **arg)
 	DIR		*dir;
 	char	*home;
 
-	dir = opendir(arg[1]);
-	home = get_path("HOME", env);
 	if (arg[1] == NULL)
 	{
+		home = get_path("HOME", env);
 		if (home == NULL)
 			return (ft_putendl_fd("bash: cd: HOME not set\n", 2), 1);
 		return (change_cwd(env, home), 0);
 	}
-	else if (arg[2] != NULL)
+	if (arg[2] != NULL)
 		return (ft_putendl_fd("bash: cd: too many arguments", 2), 1);
-	else if (access(arg[1], F_OK ) == 0 && (dir != NULL))
+	dir = opendir(arg[1]);
+	if (access(arg[1], F_OK ) == 0 && (dir != NULL))
 		return (change_cwd(env, arg[1]), 0);
 	else if (access(arg[1], F_OK) == -1)
 		return (printf("bash: %s: %s: No such file or directory\n", arg[0], arg[1]), 1);

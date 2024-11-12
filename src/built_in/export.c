@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/27 10:10:50 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/11 17:38:15 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	print_export_env(t_env *env)
 			}
 			env = env->next;
 		}
-	return ;
 }
 
 int	insert_or_assign(t_env* env, char *key, char *value)

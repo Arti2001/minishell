@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/08 09:25:05 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/12 13:33:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ typedef struct s_token
 	char	*str;
 	t_type	type;
 }	t_token;
+
+//typedef struct s_data
+//{
+//	int	err_code;
+	
+//} t_data;
 
 typedef struct s_env
 {

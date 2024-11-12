@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 14:09:40 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/10 15:25:30 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/12 19:07:18 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,16 @@ int redir_mid_proc(t_pars *pars, int fd_write_end)
 int redir_last_proc(t_pars	*pars)
 {
 	if (dup2(pars->fd_in, STDIN_FILENO) == -1)
-	{
-		perror("Failed to redirect the read end");
-		return (0);
-	}
-	if (close(pars->fd_in) == -1)
-	{
-		perror("Failed to close the read end");
-		return (0);
-	}
+		{
+			perror("Failed to redirect the read end");
+			return (0);
+		}
+		if (close(pars->fd_in) == -1)
+		{
+			perror("Failed to close the read end");
+			return (0);
+	
+		}
 	return (1);
 }
 int	check_redirection_type(int	process_num, t_pars *pars, int fd_write_end)
@@ -116,7 +117,7 @@ void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env)
 		perror ("pipe redirection failed");
 		exit(EXIT_FAILURE);
 	}
-	//redirect_check(pars);
+	redirect_check(pars);
 	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 	{
 		run_built_in(&env, pars->cmd);
@@ -189,55 +190,6 @@ void	handle_parent_process(int fd[2], t_pars *pars, int	p_num)
 	}
 }
 
-// int	run_multi_cmd(t_pars *pars, t_env *env)
-//  {
-// 	pid_t		pid;
-// 	pid_t		pids[MAX_PROCESSES];
-// 	int			fd[2];
-// 	int			process_num;
-// 	int			pid_count;
-	
-// 	process_num = 0;
-// 	pid_count = 0;
-// 	while (pars != NULL)
-// 	{
-// 		if (pars->next_process != NULL)
-// 			if (pipe(fd) == -1)
-// 			{
-// 				perror("Failed to create a pipe ");
-// 				return (errno);
-// 			}
-// 		pid = fork();
-// 		pids[pid_count++] = pid;
-// 		if (pid == -1)
-// 		{
-// 			perror("Failed to fork");
-// 			return (errno);
-// 		}
-// 		if (pid == 0)
-// 		{
-// 			if (pars->next_process != NULL)
-// 				close(fd[0]);
-// 			my_dear_child(fd[1], process_num, pars, env);
-// 		}
-// 		else
-// 		{
-// 			if (pars->next_process != NULL)
-// 			{
-// 				close(fd[1]);
-// 				pars->next_process->fd_in = fd[0];
-// 			}
-// 			if (process_num != 0)
-// 				close(pars->fd_in);
-
-// 			pars = pars->next_process;
-// 			process_num++;
-// 		}
-// 	}
-// 	wait_for_childs(pid_count, pids);
-// 	return (1);
-// }
-
 int	run_multi_cmd(t_pars *pars, t_env *env)
 {
 	pid_t		pid;
@@ -252,6 +204,7 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 	{
 		if (pars->next_process != NULL)
 			 create_pipe(fd);
+		run_herdoc(pars->redir);
 		pid = fork();
 		pids[pid_count++] = pid;
 		if (pid == 0)

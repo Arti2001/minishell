@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/06 14:51:22 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/11 18:03:33 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_env	*ft_env_lstnew(char *key, char *value)
 {
 	t_env	*new_node;
 	
-
 	new_node = ft_calloc(1, sizeof(t_env));
 	if (new_node == NULL)
 		return (NULL);
@@ -58,9 +57,16 @@ t_env	*ft_env_lstnew(char *key, char *value)
 	new_node->name = ft_strdup(key);
 	if (new_node->name == NULL)
 		return (free_node(new_node), NULL);
-	new_node->value= ft_strdup(value);
-	if (new_node->value == NULL)
-		return (free_node(new_node), NULL);
+	if (value == NULL)
+		new_node->value= NULL;
+	else
+	{
+		new_node->value= ft_strdup(value);
+		if (new_node->value == NULL)
+		{
+			return (free_node(new_node), NULL);
+		}
+	}
 	new_node->next = NULL;
 	return (new_node);
 }

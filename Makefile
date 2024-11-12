@@ -40,6 +40,6 @@ fclean:			clean
 				@$(RM) $(NAME)
 				@$(RM) $(LIBFT_PATH)
 
-re:				fclean $(NAME)
+re:				fclean $(NAME) 
 
 .PHONY:			clean fclean re all test libft
