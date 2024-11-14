@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 14:27:08 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 15:44:01 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,11 +179,7 @@ int main(int argc, char *argv[], char *envp[])
 				continue;
 			add_history(input);
 			//data.err_code = 0;
-			pars = set_parsing_lst(ft_split(input, '|'));
-			//init_pars_struct(input, &pars);
-			/* lexer testing */
-			init_pars(input, env);
-			/* lexer testing*/
+			pars = init_pars(input, env);
 			free(input);
 			if (pars->next_process == NULL)
 			{
