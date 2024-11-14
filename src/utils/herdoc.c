@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   herdoc.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/27 05:01:20 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 14:29:25 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/14 16:32:57 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ int    open_herdoc(t_redirect *redirect)
 {
     int		fd;
 
-    fd = open("/tmp/herdoc.txt", O_TRUNC | O_CREAT | O_RDWR, 0644);
+	///tmp/herdoc.txt
+    fd = open("infile", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd == -1)
     {
         perror("Faild to open the heredoc.txt");

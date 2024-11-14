@@ -65,7 +65,6 @@ int redir_mid_proc(t_pars *pars, int fd_write_end)
 	}
 	return (1);
 }
-
 int redir_last_proc(t_pars	*pars)
 {
 	if (dup2(pars->fd_in, STDIN_FILENO) == -1)
@@ -102,7 +101,6 @@ void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env)
 {
 	char	**environment;
 
-	/*translate environment to double array*/
 	path_hendler(env, &pars, pars->cmd[0]);
 	environment = back_to_array(env);
 	if (!environment)
@@ -117,7 +115,8 @@ void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env)
 		perror ("pipe redirection failed");
 		exit(EXIT_FAILURE);
 	}
-	redirect_check(pars);
+	if (pars->redir != NULL)
+		redirect_check(pars);
 	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 	{
 		run_built_in(&env, pars->cmd);
@@ -204,7 +203,7 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 	{
 		if (pars->next_process != NULL)
 			 create_pipe(fd);
-		run_herdoc(pars->redir);
+		//run_herdoc(pars->redir);
 		pid = fork();
 		pids[pid_count++] = pid;
 		if (pid == 0)

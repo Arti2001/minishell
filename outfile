@@ -1,1 +1,11 @@
-infile_context
+includes
+infile
+libft
+LICENSE
+Makefile
+minishell
+obj
+outfile
+README.md
+src
+test
