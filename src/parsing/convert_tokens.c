@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/07 18:06:00 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:25:12 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:36:33 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_pars *create_new_pars(void)
 	t_pars *pars = malloc(sizeof(t_pars));
 	if (!pars)
 		return NULL;
-	pars->tmp_read = -1;
 	pars->fd_in = -1;
 	pars->fd_out = -1;
 	pars->cmd = NULL;

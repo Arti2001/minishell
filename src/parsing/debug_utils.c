@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 14:52:48 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 13:33:50 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:36:39 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void print_pars(t_pars *pars)
 		}
 
 		// Print file descriptors (if relevant)
-		printf("  tmp_read: %d\n", current->tmp_read);
 		printf("  fd_in: %d\n", current->fd_in);
 		printf("  fd_out: %d\n", current->fd_out);
 
