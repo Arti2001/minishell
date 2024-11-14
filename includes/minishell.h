@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:42:51 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 13:23:07 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ typedef struct s_pars
 	int					fd_in;
 	int					fd_out;
 	char				**cmd;
+	char				*path;
 	t_redirect			*redir;
-	char 				*path;
 	struct s_pars		*next_process;
 } t_pars;
 
@@ -174,14 +174,20 @@ int		redirect_herdoc(t_redirect *redirect);
 void	*null_exit(void	*ptr);
 
 /*PARSING*/
-t_pars	*init_pars(char *line, t_env *env);
-t_list	*tokenizer(char *line, t_env *env);
-void	lexer(t_list **lst);
-size_t	tokenize_sym(char *line, int i, t_token *token);
-int	tokenize_quoted(char *line, int i, t_token *token);
-void	print_tokens(t_list *tokens);
-int		is_whitespace(char c);
-int		is_token_type_redir(t_token token);
+t_pars			*init_pars(char *line, t_env *env);
+t_list			*tokenizer(char *line, t_env *env);
+void			lexer(t_list **lst);
+size_t			tokenize_sym(char *line, int i, t_token *token);
+int				tokenize_quoted(char *line, int i, t_token *token);
+void			print_tokens(t_list *tokens);
+int				is_whitespace(char c);
+int				is_token_type_redir(t_token token);
+int				is_token_type_text(t_token token);
+void			split_tokens(t_list **lst);
+void			combine_tokens(t_list **lst);
+t_pars			*convert_tokens(t_list *lst);
+t_redirect_type	map_token_to_redirect(t_type type);
+void			print_pars(t_pars *pars);
 
 /*TOKEN*/
 t_token	*init_token(void);

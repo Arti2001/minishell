@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 14:52:48 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:40:04 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 13:02:53 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,76 @@ static void	fprint_token(void *data)
 void	print_tokens(t_list *tokens)
 {
 	ft_lstiter(tokens, fprint_token);
+}
+
+const char *redirect_type_to_string(t_redirect_type type)
+{
+	switch (type)
+	{
+		case HEREDOC_RE:
+			return "HEREDOC_RE";
+		case IN:
+			return "IN";
+		case OUT:
+			return "OUT";
+		case OUT_A:
+			return "OUT_A";
+		default:
+			return "UNKNOWN";
+	}
+}
+
+// Function to print the t_pars structure
+void print_pars(t_pars *pars)
+{
+	int process_num = 1;
+	t_pars *current = pars;
+
+	while (current)
+	{
+		printf("Process %d:\n", process_num);
+		// Print command arguments
+		if (current->cmd)
+		{
+			printf("  Command: ");
+			for (size_t i = 0; current->cmd[i]; i++)
+			{
+				printf("%s", current->cmd[i]);
+				if (current->cmd[i + 1])
+					printf(" ");
+			}
+			printf("\n");
+		}
+		else
+		{
+			printf("  Command: (none)\n");
+		}
+
+		// Print redirections
+		// if (current->redir)
+		// {
+		// 	printf("  Redirections:\n");
+		// 	for (size_t i = 0; current->redir[i]; i++)
+		// 	{
+		// 		t_redirect *redir = current->redir[i];
+		// 		printf("	Type: %s, Filename: %s\n",
+		// 			   redirect_type_to_string(redir->type),
+		// 			   redir->filename);
+		// 	}
+		// }
+		// else
+		// {
+		// 	printf("  Redirections: (none)\n");
+		// }
+
+		// Print file descriptors (if relevant)
+		printf("  tmp_read: %d\n", current->tmp_read);
+		printf("  fd_in: %d\n", current->fd_in);
+		printf("  fd_out: %d\n", current->fd_out);
+
+		printf("\n");
+
+		current = current->next_process;
+		process_num++;
+	}
 }

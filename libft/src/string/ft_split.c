@@ -6,12 +6,25 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/05 18:44:30 by ydidenko      #+#    #+#                 */
-/*   Updated: 2023/11/06 14:40:16 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 18:02:17 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft.h"
 #include <stdlib.h>
+
+void	ft_split_free(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 
 static size_t	get_words_count(char const *s, char c)
 {
