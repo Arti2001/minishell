@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 14:52:48 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 13:02:53 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 13:33:50 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,21 @@ void print_pars(t_pars *pars)
 		}
 
 		// Print redirections
-		// if (current->redir)
-		// {
-		// 	printf("  Redirections:\n");
-		// 	for (size_t i = 0; current->redir[i]; i++)
-		// 	{
-		// 		t_redirect *redir = current->redir[i];
-		// 		printf("	Type: %s, Filename: %s\n",
-		// 			   redirect_type_to_string(redir->type),
-		// 			   redir->filename);
-		// 	}
-		// }
-		// else
-		// {
-		// 	printf("  Redirections: (none)\n");
-		// }
+		if (current->redir)
+		{
+			printf("  Redirections:\n");
+			while (current->redir->filename)
+			{
+				printf("    Type: %s, Filename: %s\n",
+					   redirect_type_to_string(current->redir->type),
+					   current->redir->filename);
+				current->redir++;
+			}
+		}
+		else
+		{
+			printf("  Redirections: (none)\n");
+		}
 
 		// Print file descriptors (if relevant)
 		printf("  tmp_read: %d\n", current->tmp_read);

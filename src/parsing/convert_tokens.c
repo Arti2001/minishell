@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/07 18:06:00 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 13:22:47 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:25:12 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,38 +47,27 @@ void add_cmd_arg(t_pars *pars, char *arg)
 	pars->cmd = new_cmd;
 }
 
-// Function to add a redirection to t_pars
 void add_redirection(t_pars *pars, t_redirect_type redir_type, char *filename)
 {
 	size_t len = 0;
-	while (pars->redir && pars->redir[len])
+	size_t i = 0;
+
+	while (pars->redir && pars->redir[len].filename != NULL)
 		len++;
-	t_redirect **new_redir = malloc(sizeof(t_redirect *) * (len + 2));
+	t_redirect *new_redir = malloc(sizeof(t_redirect) * (len + 2));
 	if (!new_redir)
-		return;
-
-	for (size_t i = 0; i < len; i++)
-		new_redir[i] = pars->redir[i];
-
-	t_redirect *redir = malloc(sizeof(t_redirect));
-	if (!redir)
+		return ;
+	while (i < len)
 	{
-		free(new_redir);
-		return;
+		new_redir[len].type = pars->redir[len].type;
+		new_redir[len].filename = pars->redir[len].filename;
+		i++;
 	}
-
-	redir->type = redir_type;
-	redir->filename = ft_strdup(filename);
-	if (!redir->filename)
-	{
-		free(redir);
-		free(new_redir);
-		return;
-	}
-
-	new_redir[len] = redir;
-	new_redir[len + 1] = NULL;
-
+	new_redir[len].type = redir_type;
+	new_redir[len].filename = ft_strdup(filename);
+	if (!new_redir[len].filename)
+		return (free(new_redir), free(pars->redir));
+	new_redir[len + 1].filename = NULL;
 	free(pars->redir);
 	pars->redir = new_redir;
 }
@@ -97,10 +86,10 @@ void free_pars(t_pars *pars)
 
 	if (pars->redir)
 	{
-		for (size_t i = 0; pars->redir[i]; i++)
+		while (pars->redir->filename)
 		{
-			free(pars->redir[i]->filename);
-			free(pars->redir[i]);
+			free(pars->redir->filename);
+			pars->redir++;
 		}
 		free(pars->redir);
 	}
@@ -158,13 +147,12 @@ t_pars	*convert_tokens(t_list *lst)
 				token_list = token_list->next;
 				t_token *filename_token = (t_token *)token_list->content;
 
-				if (!is_token_type_text(*filename_token) && token->type != HEREDOC)
+				if (!is_token_type_text(*filename_token))
 				{
 					// Error: expected filename after redirection
 					free_pars(head);
 					return NULL;
 				}
-				printf("Adding redirection: %d %s\n", map_token_to_redirect(token->type), filename_token->str);
 				add_redirection(current, map_token_to_redirect(token->type), filename_token->str);
 			}
 			else if (is_token_type_text(*token))
