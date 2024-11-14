@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/15 16:13:06 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:29:13 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ t_env	*ll_last(t_env *last)
 	return (last);
 }
 
-int	ft_lst_size(t_pars *lst)
+int	ft_lst_size(t_env *lst)
 {
 	int	i;
 
 	i = 0;
 	while (lst != NULL)
 	{
-		lst = lst->next_process;
+		lst = lst->next;
 		i++;
 	}
 	return (i);
@@ -48,7 +48,6 @@ t_env	*ft_env_lstnew(char *key, char *value)
 {
 	t_env	*new_node;
 
-
 	new_node = ft_calloc(1, sizeof(t_env));
 	if (new_node == NULL)
 		return (NULL);
@@ -58,9 +57,16 @@ t_env	*ft_env_lstnew(char *key, char *value)
 	new_node->name = ft_strdup(key);
 	if (new_node->name == NULL)
 		return (free_node(new_node), NULL);
-	new_node->value= ft_strdup(value);
-	if (new_node->value == NULL)
-		return (free_node(new_node), NULL);
+	if (value == NULL)
+		new_node->value= NULL;
+	else
+	{
+		new_node->value= ft_strdup(value);
+		if (new_node->value == NULL)
+		{
+			return (free_node(new_node), NULL);
+		}
+	}
 	new_node->next = NULL;
 	return (new_node);
 }

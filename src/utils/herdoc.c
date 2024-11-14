@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 05:01:20 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:29:25 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,12 @@ int	run_herdoc(t_redirect *redirects)
 	while (redirects[i].filename)
 	{
 		if (redirects[i].type == HEREDOC_RE)
+		{
 			if (!open_herdoc(&redirects[i]))
 			{
 				return (0);
 			}
+		}
 		i++;
 	}
 	return (1);

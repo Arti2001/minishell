@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 13:27:23 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:27:08 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ t_redirect	*init_redirect(void)
 	int					i;
 	int					count;
 	t_redirect			*redirects;
-	char				*names[] = { "infile", "test", NULL};
-	t_redirect_type		type[] = {IN, OUT, 0};
+	char				*names[] = { "a", NULL};
+	t_redirect_type		type[] = {HEREDOC_RE, 0};
 
-	count = 2;
+	count = 1;
 	i = 0;
 	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
 	if (redirects == NULL)
@@ -106,7 +106,7 @@ t_pars	*parsing_node(char **cmd)
 	pars->cmd = cmd;
 	pars->fd_in = STDIN_FILENO;
 	pars->fd_out = STDOUT_FILENO;
-	pars->redir = NULL;
+	pars->redir = init_redirect();
 	pars->path = NULL;
 	pars->next_process = NULL;
 	return (pars);
@@ -162,6 +162,7 @@ int main(int argc, char *argv[], char *envp[])
 	char*	input;
 	t_env*	env;
 	t_pars	*pars;
+	//t_data	data;
 
 	if (argc == 1  && argv[0])
 	{
@@ -177,6 +178,7 @@ int main(int argc, char *argv[], char *envp[])
 			if (!input[0])
 				continue;
 			add_history(input);
+			//data.err_code = 0;
 			pars = set_parsing_lst(ft_split(input, '|'));
 			//init_pars_struct(input, &pars);
 			/* lexer testing */
@@ -190,10 +192,12 @@ int main(int argc, char *argv[], char *envp[])
 				else
 					run_built_in(&env, pars->cmd);
 			}
-			//else
-			//{
-			//	run_multi_cmd(pars, env);
-			//}
+			else
+			{
+				//set_extern_cmd_path(pars, env);
+				if (run_multi_cmd(pars, env) == 0)
+					return(1);
+			}
 		}
 		free_list(env);
 	}

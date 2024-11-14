@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:18:51 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:42:41 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:28:28 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,17 @@ char	*get_value(char *content)
 
 	value = ft_strchr(content, '=');
 	if (value  == NULL)
+	{
 		return (NULL);
+	}
 	else if (*(value + 1) == '\0')
+	{
 		return (ft_strdup(""));
+	}
 	else
+	{
 		value = ft_strdup(++value);
+	}
 	if (value == NULL)
 		return (NULL);
 	return (value);

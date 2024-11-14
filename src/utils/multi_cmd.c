@@ -10,136 +10,232 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-// #include "minishell.h"
+#include "minishell.h"
 
-// int redir_first_proc(t_pars *pars,  int fd[2])
-// {
-// 	if (dup2(fd[1], STDOUT_FILENO) == -1)
-// 	{
-// 		perror("Failed to redirect the write end");
-// 		return (0);
-// 	}
-// 	if (close(fd[1]) == -1)
-// 	{
-// 		perror("Failed to close the write end");
-// 		return (0);
-// 	}
-// 	return (1);
-// }
-// int redir_middele_proc(t_pars *pars,  int fd[2])
-// {
-// 	if (dup2(pars->fd_in, STDIN_FILENO) == -1)
-// 	{
-// 		perror("Failed to redirect the read end");
-// 		return (0);
-// 	}
-// 	if (close(pars->fd_in) == -1)
-// 	{
-// 		perror("Failed to close the read end");
-// 		return (0);
-// 	}
-// 	if (dup2(fd[1], STDOUT_FILENO) == -1)
-// 	{
-// 		perror("Failed to redirect the write end");
-// 		return (0);
-// 	}
-// 	if (close(fd[1]) == -1)
-// 	{
-// 		perror("Failed to close the write end");
-// 		return (0);
-// 	}
+void wait_for_childs(int num_pid, pid_t *pids)
+{
+	int		i;
 
-// }
-// int redir_last_proc(t_pars *pars,  int fd[2])
-// {
-// 	if (dup2(pars->fd_in, STDIN_FILENO) == -1)
-// 	{
-// 		perror("Failed to redirect the read end");
-// 		return (0);
-// 	}
-// 	if (close(fd[0]) == -1)
-// 	{
-// 		perror("Failed to close the read end");
-// 		return (0);
-// 	}
-
-// }
-// void	check_redirection_type(int	process_num, t_pars *pars, int fd[2])
-// {
-// 	if (process_num == 0 && pars->next_process != NULL)
-// 		redir_first_proc(pars, fd[2]);
-// 	else if (process_num != 0 && pars->next_process != NULL)
-// 		redir_middle_proc(pars, fd[2]);
-// 	else if (process_num != 0 && pars->next_process == NULL)
-// 		redir_last_proc(pars, fd[2]);
-// }
-// /*try to store the read end  before  you fork*/
-// void	my_dear_child(int fd_pipe[2], int	process_num, t_pars *pars, t_env *env)
-// {
-// 	char	**env;
-
-// 	env = back_to_array(env);
-// 	check_redirection_type(process_num, pars, fd_pipe[2]);
-
-// 	execve(pars->path, pars->cmd, env);
-// 	ft_putstr_fd(pars->cmd[0], 2);
-// 	ft_putendl_fd(": command not found", 2);
-// 	double_array_free(pars->cmd);
-// 	free(pars->	path);
-// }
-// //int	run_multi_cmd(t_pars *pars, t_env *env)
-// // {
-// //	pid_t		pid;
-// //	int			fd[2];
+	i = 0;
+	while (i < num_pid)
+	{
+		waitpid(pids[i], NULL, 0);
+		i++;
+	}
+}
 
 
-// //	set_extern_cmd_path(pars, env);
-// //	while (pars != NULL)
-// //	{
-// //		if (pipe(fd) == -1)
-// //		{
-// //			perror("Failed to create a pipe in multi cmd");
-// //			return (1);
-// //		}
-// //		pid = fork();
-// //		if (pid == -1)
-// //		{
-// //			perror("Failed to fork in multi cmd");
-// //			return (1);
-// //		}
-// //		if (pid == 0)
-// //		{
-// //			my_dear_child(fd, pars, env);
-// //		}
-// //		pars = pars->next_process;
-// //	}
-// //	return (1);
-// //}
+int redir_first_proc(int fd_write_end)
+{
+	if (dup2(fd_write_end, STDOUT_FILENO) == -1)
+	{
+		perror("Failed to redirect the write end");
+		return (0);
+	}
+
+	if (close(fd_write_end) == -1)
+	{
+		perror("Failed to close the write end");
+		return (0);
+	}
+	return (1);
+}
+
+int redir_mid_proc(t_pars *pars, int fd_write_end)
+{
+	if (dup2(pars->fd_in, STDIN_FILENO) == -1)
+	{
+		perror("Failed to redirect the read end");
+		return (0);
+	}
+	if (close(pars->fd_in) == -1)
+	{
+		perror("Failed to close the read end");
+		return (0);
+	}
+	if (dup2(fd_write_end, STDOUT_FILENO) == -1)
+	{
+		perror("Failed to redirect the write end");
+		return (0);
+	}
+	if (close(fd_write_end) == -1)
+	{
+		perror("Failed to close the write end");
+		return (0);
+	}
+	return (1);
+}
+
+int redir_last_proc(t_pars	*pars)
+{
+	if (dup2(pars->fd_in, STDIN_FILENO) == -1)
+		{
+			perror("Failed to redirect the read end");
+			return (0);
+		}
+		if (close(pars->fd_in) == -1)
+		{
+			perror("Failed to close the read end");
+			return (0);
+
+		}
+	return (1);
+}
+int	check_redirection_type(int	process_num, t_pars *pars, int fd_write_end)
+{
+	if (process_num == 0 && pars->next_process != NULL)
+	{
+		return(redir_first_proc(fd_write_end));
+	}
+	else if (process_num != 0 && pars->next_process != NULL)
+	{
+		return(redir_mid_proc(pars, fd_write_end));
+	}
+	else if (process_num != 0 && pars->next_process == NULL)
+	{
+		return(redir_last_proc(pars));
+	}
+	return (0);
+}
+/*try to store the read end  before  you fork*/
+void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env)
+{
+	char	**environment;
+
+	/*translate environment to double array*/
+	path_hendler(env, &pars, pars->cmd[0]);
+	environment = back_to_array(env);
+	if (!environment)
+	{
+		close(fd_write_end);
+		perror("Environment array creation failed");
+		exit(errno);
+	}
+	if (check_redirection_type(process_num, pars, fd_write_end) == 0)
+	{
+		close(fd_write_end);
+		perror ("pipe redirection failed");
+		exit(EXIT_FAILURE);
+	}
+	redirect_check(pars);
+	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
+	{
+		run_built_in(&env, pars->cmd);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		execve(pars->path, pars->cmd, environment);
+		ft_putstr_fd(pars->cmd[0], 2);
+		ft_putendl_fd(": command not found", 2);
+		double_array_free(pars->cmd);
+		free(pars->	path);
+		exit(127);
+	}
+}
 
 
-// int	run_multi_cmd(t_pars *pars, t_env *env)
-//  {
-// 	pid_t		pid;
-// 	int			fd[2];
-// 	int			process_num;
+void		create_pipe(int	fd[2])
+{
+	if (pipe(fd) == -1)
+	{
+		perror("Failed to create a pipe ");
+		exit (errno);
+	}
+}
 
-// 	process_num = 0;
-// 	set_extern_cmd_path(pars, env);
-// 	while (pars != NULL)
-// 	{
-// 		pipe(fd);
-// 		pid = fork();
-// 		if (pid == 0)
-// 		{
-// 			close(fd[0]);
-// 			my_dear_child(fd, process_num, pars, env);
-// 		}
-// 		waitpid(pid, NULL, 0);
-// 		pars->next_process->fd_in = fd[0];
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 		pars = pars->next_process;
-// 		process_num++;
-// 	}
-// 	return (1);
-// }
+pid_t		create_fork()
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Failed to fork");
+		exit(errno);
+	}
+	return (pid);
+}
+
+void	handle_child_process(int fd[2], int	p_num, t_pars *pars, t_env *env)
+{
+	if (pars->next_process != NULL)
+	{
+		if (close(fd[0]) == -1)
+		{
+			perror("Failed to close read end");
+			exit(errno);
+		}
+	}
+	my_dear_child(fd[1], p_num, pars, env);
+}
+void	handle_parent_process(int fd[2], t_pars *pars, int	p_num)
+{
+	if (pars->next_process != NULL)
+	{
+		if (close(fd[1]) == -1)
+		{
+			perror("Failed to close write end");
+			exit(errno);
+		}
+		pars->next_process->fd_in = fd[0];
+	}
+	if (p_num != 0)
+	{
+		if (close(pars->fd_in) == -1)
+		{
+			perror("Failed to close read end");
+			exit(errno);
+		}
+	}
+}
+
+int	run_multi_cmd(t_pars *pars, t_env *env)
+{
+	pid_t		pid;
+	pid_t		pids[MAX_PROCESSES];
+	int			fd[2];
+	int			pid_count;
+	int			count;
+
+	pid_count = 0;
+	count = 0;
+	while (pars != NULL)
+	{
+		if (pars->next_process != NULL)
+			 create_pipe(fd);
+		run_herdoc(pars->redir);
+		pid = fork();
+		pids[pid_count++] = pid;
+		if (pid == 0)
+			handle_child_process(fd, count, pars, env);
+		else
+		{
+			handle_parent_process(fd, pars, count);
+			pars = pars->next_process;
+			count++;
+		}
+	}
+	wait_for_childs(pid_count, pids);
+	return (1);
+}
+
+
+
+
+
+
+//int	ft_close (int *ptr)
+//{
+//	int	ret;
+
+//	ret = 0;
+//	if (*ptr != -1)
+//	{
+//		ret = close(*ptr);
+//		*ptr = -1;
+//	}
+//	else
+//		printf("fd was already closed\n");
+//	return (ret);
+//}

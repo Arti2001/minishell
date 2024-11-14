@@ -6,12 +6,14 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 13:23:07 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:29:52 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
+#define MAX_PROCESSES 1024
 
 #include <dirent.h>
 #include <fcntl.h>
@@ -25,6 +27,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <errno.h>
+
 
 # define WHITESPACE " "
 
@@ -68,6 +72,12 @@ typedef struct s_token
 	t_type	type;
 }	t_token;
 
+//typedef struct s_data
+//{
+//	int	err_code;
+
+//} t_data;
+
 typedef struct s_env
 {
 	char			*content;
@@ -89,7 +99,6 @@ typedef struct s_redirect
 
 typedef struct s_pars
 {
-	int					tmp_read;
 	int					fd_in;
 	int					fd_out;
 	char				**cmd;
@@ -115,7 +124,7 @@ typedef struct s_pars
 
 /*Linked list*/
 t_env	*ll_last(t_env *last);
-int		ft_lst_size(t_pars *lst);
+int		ft_lst_size(t_env *lst);
 t_env	*ft_env_lstnew(char *key , char *value);
 void	ll_addback(t_env **env_head, t_env *new_node);
 int		append_node(t_env **head_env, char *content);
@@ -124,11 +133,12 @@ int		append_node(t_env **head_env, char *content);
 int		ft_pwd(void);
 int		ft_env(t_env *env);
 void	ft_exit(char **arg);
+int		is_builtin(char *arg);
 int		ft_echo(char**commands);
 int		ft_unset(t_env **env, char **arg);
 int		ft_cd(t_env *env, char **commands);
 int		ft_export(t_env *env, char **commands);
-int		is_builtin(char *arg);
+int	run_built_in(t_env **env, char **arg);
 
 /*ENVIRONMENT*/
 t_env	*set_env(char **env);

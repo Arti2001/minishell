@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/24 15:55:48 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:29:37 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	print_export_env(t_env *env)
 			}
 			env = env->next;
 		}
-	return ;
 }
 
 int	insert_or_assign(t_env* env, char *key, char *value)
