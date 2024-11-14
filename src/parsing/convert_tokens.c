@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/07 18:06:00 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:36:33 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:52:42 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void add_redirection(t_pars *pars, t_redirect_type redir_type, char *filename)
 		return ;
 	while (i < len)
 	{
-		new_redir[len].type = pars->redir[len].type;
-		new_redir[len].filename = pars->redir[len].filename;
+		new_redir[i].type = pars->redir[i].type;
+		new_redir[i].filename = pars->redir[i].filename;
 		i++;
 	}
 	new_redir[len].type = redir_type;

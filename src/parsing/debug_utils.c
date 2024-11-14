@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 14:52:48 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:36:39 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:47:43 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void print_pars(t_pars *pars)
 			while (current->redir->filename)
 			{
 				printf("    Type: %s, Filename: %s\n",
-					   redirect_type_to_string(current->redir->type),
-					   current->redir->filename);
+						redirect_type_to_string(current->redir->type),
+						current->redir->filename);
 				current->redir++;
 			}
 		}
