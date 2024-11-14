@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   herdoc.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/12 15:54:49 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   herdoc.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/27 05:01:20 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/14 14:29:25 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 
 // char *get_lastheredoc(t_redirect *redirects)
@@ -90,7 +90,7 @@ void    write_into_herdoc(int fd, t_redirect *redirect)
     while (1)
     {
         line = readline(">");
-        if (line == NULL) 
+        if (line == NULL)
 		{
         	printf("Warning: Here-document is not properly closed. Expected delimiter: `%s'\n", delimiter);
 			free(line);

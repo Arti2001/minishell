@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free_utils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 15:38:10 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/26 15:22:20 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   free_utils.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/03 15:38:10 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	double_array_free(char **to_free)
 {
@@ -41,7 +41,7 @@ void	free_node(t_env *node)
 void	free_list(t_env *head)
 {
 	t_env	*temp;
-	
+
 	while (head->next != NULL)
 	{
 		free(head->content);

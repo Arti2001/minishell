@@ -1,21 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   set_env.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/11 17:16:39 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   set_env.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:18:51 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/14 14:28:28 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
+
+char	*get_env_var(char *var, t_env *env)
+{
+	char	*str;
+	t_env	*tmp;
+
+	str = NULL;
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strncmp(var, tmp->name, ft_strlen(var) + 1))
+		{
+			str = null_exit(ft_strdup(tmp->value));
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	if (!str)
+		str = null_exit(ft_strdup(""));
+	return (str);
+}
+
+int ft_env_size(t_env *env)
+{
+	int i;
+
+	i = 0;
+	while (env != NULL)
+	{
+		env = env->next;
+		i++;
+	}
+	return (i);
+}
 
 char	*get_value(char *content)
 {
 	char *value;
-	
+
 	value = ft_strchr(content, '=');
 	if (value  == NULL)
 	{
@@ -25,7 +59,7 @@ char	*get_value(char *content)
 	{
 		return (ft_strdup(""));
 	}
-	else	
+	else
 	{
 		value = ft_strdup(++value);
 	}
@@ -52,7 +86,7 @@ char	*get_key(char *content)
 		i++;
 	}
 	key = (char *)malloc(sizeof(char) * (i + 1));
-	key[i--] = '\0'; 
+	key[i--] = '\0';
 	while (i >= 0)
 	{
 		key[i] = content[i];
@@ -67,9 +101,9 @@ char **back_to_array(t_env *env)
 	char	**ptr_env;
 	int		size;
 	int		count;
-	
+
 	count = 0;
-	size = ft_lst_size(env);
+	size = ft_env_size(env);
 	ptr_env= ft_calloc(size + 1, sizeof(char *));
 	while (env != NULL)
 	{
@@ -106,7 +140,7 @@ char	*key_val_join(char *key, char *value)
 {
 	char	*tmp;
 	char	*full_str;
-	
+
 	tmp= ft_strjoin(key, "=");
 	if (tmp == NULL)
 		return (NULL);
@@ -140,7 +174,7 @@ int	append_node(t_env **head_env, char *content)
 	if (new_node == NULL)
 		return (0);
 	if (*head_env == NULL)
-		*head_env = new_node; 
+		*head_env = new_node;
 	else
 		ll_addback(head_env, new_node);
 	return (1);

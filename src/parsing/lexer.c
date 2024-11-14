@@ -6,11 +6,11 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 14:52:41 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/10/29 14:52:43 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:40:38 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	tokenize_word(char *line, int i, t_token *token)
 {
@@ -59,7 +59,8 @@ t_token	*process_tokens(t_token *input)
 }
 
 /**
- * @brief This function takes a list of strings and converts it into a list of tokens.
+ * @brief This function takes a list of strings
+ * and converts it into a list of tokens.
  */
 void	lexer(t_list **lst)
 {

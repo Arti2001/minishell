@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/11 18:07:38 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cd.c                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/11 13:16:30 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/14 14:27:27 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	change_cwd(t_env *env, char *str)
 {
@@ -23,7 +23,7 @@ void	change_cwd(t_env *env, char *str)
 //{
 //	char	*tmp;
 //	char	*full_var;
-	
+
 //	tmp = ft_strjoin(name, "=");
 //	full_var = ft_strjoin(tmp, value);
 //	free(tmp);

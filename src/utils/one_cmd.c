@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 /* This function runs small child proccess and executes given command-> */
 void	new_proccess(t_pars *pars, t_env *env)
@@ -54,7 +54,7 @@ void duplicate_origin_fd(int *origin_in, int *origin_out)
 }
 
 void	run_single_cmd(t_pars *pars, t_env *env)
-{	
+{
 	int		orig_in;
 	int		orig_out;
 

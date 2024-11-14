@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/12 13:33:16 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/14 14:29:52 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+
+# define WHITESPACE " "
 
 typedef enum s_redirect_type
 {
@@ -73,7 +75,7 @@ typedef struct s_token
 //typedef struct s_data
 //{
 //	int	err_code;
-	
+
 //} t_data;
 
 typedef struct s_env
@@ -100,8 +102,8 @@ typedef struct s_pars
 	int					fd_in;
 	int					fd_out;
 	char				**cmd;
+	char				*path;
 	t_redirect			*redir;
-	char 				*path;
 	struct s_pars		*next_process;
 } t_pars;
 
@@ -182,19 +184,31 @@ int		redirect_herdoc(t_redirect *redirect);
 void	*null_exit(void	*ptr);
 
 /*PARSING*/
-t_pars	*init_pars(char *line);
-t_list	*tokenizer(char *line);
-void	lexer(t_list **lst);
-size_t	tokenize_sym(char *line, int i, t_token *token);
-int	tokenize_quoted(char *line, int i, t_token *token);
-void	print_tokens(t_list *tokens);
-int		is_whitespace(char c);
+t_pars			*init_pars(char *line, t_env *env);
+t_list			*tokenizer(char *line, t_env *env);
+void			lexer(t_list **lst);
+size_t			tokenize_sym(char *line, int i, t_token *token);
+int				tokenize_quoted(char *line, int i, t_token *token);
+void			print_tokens(t_list *tokens);
+int				is_whitespace(char c);
+int				is_token_type_redir(t_token token);
+int				is_token_type_text(t_token token);
+void			split_tokens(t_list **lst);
+void			combine_tokens(t_list **lst);
+t_pars			*convert_tokens(t_list *lst);
+t_redirect_type	map_token_to_redirect(t_type type);
+void			print_pars(t_pars *pars);
 
 /*TOKEN*/
 t_token	*init_token(void);
 t_token	*destroy_token(t_token *token);
 t_token	*create_token(char *str, t_type type);
 void	repalce_t_list(t_list **lst, t_list *(*list_f)(t_list *));
+
+/*EXPAND_VARS*/
+void	expand_vars(t_list **tokens, t_env *env);
+char	*expand_vars_str(char *input, t_type type, t_env *env);
+char	*get_env_var(char *var, t_env *env);
 
 #endif
 

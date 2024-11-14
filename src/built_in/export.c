@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/11 17:38:15 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   export.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/24 15:55:48 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/14 14:29:37 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	check_var_syntax(char *str)
 {
@@ -60,7 +60,7 @@ int	key_exists(t_env *env, char *key)
 
 		len_current_key = ft_strlen(env->name);
 		len_key = ft_strlen(key);
-		if (len_key == len_current_key && !ft_strncmp(key, env->name, len_key)) 
+		if (len_key == len_current_key && !ft_strncmp(key, env->name, len_key))
 		{
 			return (1);
 		}

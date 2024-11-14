@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/12 16:35:45 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/14 14:27:08 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	is_builtin(char *arg)
 {
@@ -182,7 +182,7 @@ int main(int argc, char *argv[], char *envp[])
 			pars = set_parsing_lst(ft_split(input, '|'));
 			//init_pars_struct(input, &pars);
 			/* lexer testing */
-			//init_pars(input);
+			init_pars(input, env);
 			/* lexer testing*/
 			free(input);
 			if (pars->next_process == NULL)

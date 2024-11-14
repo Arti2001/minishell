@@ -1,22 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error.c                                            :+:    :+:            */
+/*   pars_t.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:47:15 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*   Created: 2024/11/07 19:05:58 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/11/07 19:06:00 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
-
-void	*null_exit(void	*ptr)
-{
-	if (ptr != NULL)
-		return (ptr);
-	perror("minishell");
-	exit(1);
-}
 

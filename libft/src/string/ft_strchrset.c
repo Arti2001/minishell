@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error.c                                            :+:    :+:            */
+/*   ft_strchrset.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: eugenedidenko <eugenedidenko@student.co      +#+                     */
+/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/28 20:47:15 by eugenediden   #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*   Created: 2024/11/07 10:16:33 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/11/07 10:16:35 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	*null_exit(void	*ptr)
+char	*ft_strchrset(const char *s, const char *set)
 {
-	if (ptr != NULL)
-		return (ptr);
-	perror("minishell");
-	exit(1);
+	while (*s)
+	{
+		if (ft_strrchr(set, *s))
+			return ((char *)s);
+		s++;
+	}
+	return (NULL);
 }
-
