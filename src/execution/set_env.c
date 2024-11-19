@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   set_env.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:18:51 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 14:28:28 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   set_env.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/15 17:23:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,21 +114,22 @@ char **back_to_array(t_env *env)
 	return (ptr_env);
 }
 
+
 int	update_env_value(t_env *env, char *var_name, char *new_val)
 {
 	while (env != NULL)
 	{
-		if (!ft_strncmp(var_name, env->name, ft_strlen(var_name)))
+		if (!ft_strncmp(var_name, env->name, ft_strlen(var_name) + 1))
 		{
+			if (new_val == NULL)
+			{
+				return (1);
+			}
 			if (env->value != NULL)
 			{
 				free(env->value);
 			}
 			env->value = ft_strdup(new_val);
-			if (env->value == NULL)
-			{
-				return (0);
-			}
 			return (1);
 		}
 		env = env->next;

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/14 16:32:57 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/19 14:56:08 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void    write_into_herdoc(int fd, t_redirect *redirect)
 			close(fd);
 			exit(0);
 		}
-        if (ft_strncmp(line, redirect->filename, ft_strlen(redirect->filename)) == 0)
+        if (ft_strncmp(line, redirect->filename, ft_strlen(redirect->filename) + 1) == 0)
         {
             free(line);
     		close(fd);
@@ -112,7 +112,6 @@ int    open_herdoc(t_redirect *redirect)
 {
     int		fd;
 
-	///tmp/herdoc.txt
     fd = open("infile", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd == -1)
     {

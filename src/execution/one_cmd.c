@@ -12,72 +12,71 @@
 
 #include "minishell.h"
 
-/* This function runs small child proccess and executes given command-> */
-void	new_proccess(t_pars *pars, t_env *env)
+
+int		is_herdoc(t_redirect *redirect)
+{
+	int	i;
+
+	i = 0;
+	if (redirect == NULL)
+		return (0);
+	while (redirect[i].filename != NULL)
+	{
+		if (redirect[i].type == HEREDOC_RE)
+			return (1);
+		else
+			i++;
+	}
+	return (0);
+}
+
+void	execute_cmd(t_pars *pars, t_env *env)
 {
 	char	**env_array;
-	pid_t	pid;
 
 	env_array = back_to_array(env);
+	redirect_check(pars);
+	execve(pars->path, pars->cmd, env_array);
+	ft_putstr_fd(pars->cmd[0], 2);
+	ft_putendl_fd(": command not found", 2);
+	double_array_free(pars->cmd);
+	free(pars->path);
+	exit(127);
+}
+
+void	new_proccess(t_pars *pars, t_env *env)
+{
+	pid_t	pid;
+
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("pid filed");
 		exit(EXIT_FAILURE);
 	}
-	if (pid == 0)
+	if (pid == 0 && pars->cmd != NULL)
 	{
-		execve(pars->path, pars->cmd, env_array);
-		ft_putstr_fd(pars->cmd[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		double_array_free(pars->cmd);
-		free(pars->path);
-		exit(127);
+		execute_cmd(pars, env);
 	}
 	waitpid(pid, NULL, 0);
-}
-void duplicate_origin_fd(int *origin_in, int *origin_out)
-{
-	*origin_in = dup(STDIN_FILENO);
-	if (*origin_in == -1)
-	{
-		perror("failed to dupuplicate the original stdin");
-		return ;
-
-	}
-	*origin_out = dup(STDOUT_FILENO);
-	if (*origin_out == -1)
-	{
-		perror("failed to dupuplicate the original stdout");
-		return ;
-	}
 }
 
 void	run_single_cmd(t_pars *pars, t_env *env)
 {
-	int		orig_in;
-	int		orig_out;
-
-	duplicate_origin_fd(&orig_in, &orig_out);
-	if (pars->cmd == NULL)
-	{
-		return ;
-	}
-	if(pars->redir != NULL)
+	if (is_herdoc(pars->redir))
 	{
 		run_herdoc(pars->redir);
-		redirect_check(pars);
 	}
-	if (access(pars->cmd[0], X_OK | F_OK) == 0)
+	if (pars -> cmd != NULL)
 	{
-		pars->path = pars->cmd[0];
-		new_proccess(pars, env);
-		return ;
+		if (access(pars->cmd[0], X_OK | F_OK) == 0)
+		{
+			pars->path = pars->cmd[0];
+		}
+		else
+		{
+			path_hendler(env, &pars, pars->cmd[0]);
+		}
 	}
-	path_hendler(env, &pars, pars->cmd[0]);
 	new_proccess(pars, env);
-	if(pars->redir != NULL)
-	{
-		restore_fd(orig_in, orig_out);
-	}
 }

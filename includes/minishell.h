@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 14:29:52 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/19 16:59:58 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <signal.h>
 
 
 # define WHITESPACE " "
@@ -165,8 +166,10 @@ int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
-void	run_single_cmd(t_pars *pars, t_env *env);
+void	wait_for_childs(int num_pid, pid_t *pids);
 int		run_multi_cmd(t_pars *pars, t_env *env);
+void	run_single_cmd(t_pars *pars, t_env *env);
+void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env);
 
 /*FREE*/
 void	free_list(t_env *head);
@@ -174,11 +177,15 @@ void	free_node(t_env *node);
 void	double_array_free(char **to_free);
 
 /*REDIRECTS*/
-void	restore_fd(int	orig_in, int orig_out);
+int		check_redirection_type(int	process_num, t_pars *pars, int fd_write_end);
 int		redirect_check(t_pars *pars);
 void	close_fd(int in, int out);
 int		run_herdoc(t_redirect *redirects);
+int		is_herdoc(t_redirect *redirect);
 int		redirect_herdoc(t_redirect *redirect);
+
+/*SIGNALS*/
+
 
 /*ERROR*/
 void	*null_exit(void	*ptr);

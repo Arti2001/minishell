@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   export.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/24 15:55:48 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 14:29:37 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/15 16:56:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ int	check_equel(char *str)
 
 int	key_exists(t_env *env, char *key)
 {
+	//size_t len_key;
+	//size_t len_current_key;
+		
 	while (env != NULL)
 	{
-		size_t len_key;
-		size_t len_current_key;
-
-		len_current_key = ft_strlen(env->name);
-		len_key = ft_strlen(key);
-		if (len_key == len_current_key && !ft_strncmp(key, env->name, len_key))
+		//len_current_key = ft_strlen(env->name);
+		//len_key = ft_strlen(key);
+		if (!ft_strncmp(key, env->name, ft_strlen(key) + 1))
 		{
 			return (1);
 		}
@@ -133,6 +133,7 @@ int	ft_export(t_env *env, char **commands)
 		}
 		if (!insert_or_assign(env, key, value))
 		{
+	printf("here\n");
 			free(key);
 			free(value);
 			return (0);

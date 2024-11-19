@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/14 16:33:38 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/19 14:48:52 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,8 @@ int		redirect_check(t_pars *pars)
 	int		i;
 
 	i = 0;
-	//if (!run_herdoc(pars->redir))
-	//	return (0);
-	//printf("delim is %s\n", pars->redir[i].filename);
+	if (pars->redir == NULL)
+		return (0);
 	while (pars->redir[i].filename)
 	{
 		if (pars->redir[i].type == HEREDOC_RE)

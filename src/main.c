@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/14 16:21:57 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/18 17:53:52 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	is_builtin(char *arg)
 /*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
 int	run_built_in(t_env **env, char **arg)
 {
+	if (arg == NULL)
+		return (NO_BUILTIN);
 	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
 		return (ft_cd(*env, arg));
 	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
@@ -164,6 +166,8 @@ int main(int argc, char *argv[], char *envp[])
 	t_pars	*pars;
 	//t_data	data;
 
+		signal(SIGQUIT, SIG_IGN);
+
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
@@ -183,10 +187,8 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars->next_process == NULL)
 			{
-				if (is_builtin(pars->cmd[0]) == NO_BUILTIN)
+				if (run_built_in(&env, pars->cmd) == NO_BUILTIN)
 					run_single_cmd(pars, env);
-				else
-					run_built_in(&env, pars->cmd);
 			}
 			else
 			{
