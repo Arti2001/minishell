@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/19 16:58:39 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/19 17:17:04 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 	{
 		if (pars->next_process != NULL)
 			 create_pipe(fd);
-			//run_herdoc(pars->redir);
 		pid = fork();
 		pids[pid_count++] = pid;
 		if (pid == 0)

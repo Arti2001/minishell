@@ -6,12 +6,14 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/19 16:59:58 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/19 17:03:01 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
+#define _GNU_SOURCE //This is for sigaction
 
 #define MAX_PROCESSES 1024
 

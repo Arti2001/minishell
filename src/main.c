@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/18 17:53:52 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/19 18:09:34 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,15 +157,44 @@ t_pars *set_parsing_lst(char **cmds)
 // 	pars->next_process = NULL;
 // }
 
+void	handle_built_in(t_pars *pars, t_env *env)
+{
+	int	fd_in;
+	int	fd_out;
 
+	fd_in = dup(STDIN_FILENO);
+	fd_out = dup(STDOUT_FILENO);
+	if (pars->redir != NULL)
+		redirect_check(pars);
+	run_built_in(&env, pars->cmd);
+	if (dup2(fd_in, STDIN_FILENO) == -1)
+	{
+		perror("Faild to restore stdin");
+		return ;
+	}
+	if (close(fd_in) == -1)
+	{
+		perror("Faild to close temporary stdin");
+		return ;
+	}
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
+	{
+		perror("Faild to restore stdout");
+		return ;
+	}
+	if (close(fd_out) == -1)
+	{
+		perror("Faild to close temporary stdout");
+		return ;
+	}
+}
 
 int main(int argc, char *argv[], char *envp[])
 {
 	char*	input;
 	t_env*	env;
 	t_pars	*pars;
-	//t_data	data;
-
+	
 		signal(SIGQUIT, SIG_IGN);
 
 	if (argc == 1  && argv[0])
@@ -187,7 +216,11 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars->next_process == NULL)
 			{
-				if (run_built_in(&env, pars->cmd) == NO_BUILTIN)
+				if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
+				{
+					handle_built_in(pars, env);
+				}
+				else
 					run_single_cmd(pars, env);
 			}
 			else

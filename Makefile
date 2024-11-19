@@ -10,7 +10,7 @@ NC=\033[0m
 
 LIBFT_PATH		=	$(addprefix $(LIBFT)/, libft.a)
 HEADERS			=	-I$(INC_DIR)
-SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/**/*.c), multi_cmd.c
+SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/**/*.c)
 OBJS 			=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 VPATH			=	$(dir $(SRCS))
 
@@ -25,7 +25,7 @@ libft:
 				@make -C libft
 
 $(NAME):		$(OBJS)
-				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_PATH) -o $(NAME) $(RFLAGS)
+				@$(CC) $(CFLAGS) $(OBJS) -I $(INC_DIR) $(LIBFT_PATH) -o $(NAME) $(RFLAGS)
 				@echo "$(GREEN)Compiled$(NC)"
 $(OBJ_DIR)/%.o:	%.c
 				@mkdir -p $(OBJ_DIR)
