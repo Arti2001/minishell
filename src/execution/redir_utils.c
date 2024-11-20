@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/19 14:48:52 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/20 14:20:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	redirect_in(t_redirect redirect)
 	int	file_fd;
 
 	if (redirect.type == HEREDOC_RE)
-		file_fd = open("infile", O_RDONLY);
+		file_fd = open("/tmp/herdoc.txt", O_RDONLY);
 	else
 		file_fd = open(redirect.filename, O_RDONLY);
 	if (file_fd == -1)

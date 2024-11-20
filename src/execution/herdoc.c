@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/19 14:56:08 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/20 14:19:55 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int    open_herdoc(t_redirect *redirect)
 {
     int		fd;
 
-    fd = open("infile", O_TRUNC | O_CREAT | O_RDWR, 0644);
+    fd = open("/tmp/herdoc.txt", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd == -1)
     {
         perror("Faild to open the heredoc.txt");

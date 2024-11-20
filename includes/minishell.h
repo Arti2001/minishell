@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/19 17:03:01 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/20 16:05:12 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int		is_herdoc(t_redirect *redirect);
 int		redirect_herdoc(t_redirect *redirect);
 
 /*SIGNALS*/
+void	init_siagtion(void);
 
 
 /*ERROR*/
