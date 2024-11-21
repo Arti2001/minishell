@@ -6,16 +6,19 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/20 16:05:12 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/21 16:23:03 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+# define MAX_PROCESSES 1024
+# define _GNU_SOURCE //This is for sigaction
+# define WHITESPACE " "
 
-#define _GNU_SOURCE //This is for sigaction
-
-#define MAX_PROCESSES 1024
+# define INTERACTIVE 1
+# define NON_INTERACTIVE 2
+# define HERDOC_SIG 3
 
 #include <dirent.h>
 #include <fcntl.h>
@@ -33,7 +36,6 @@
 #include <signal.h>
 
 
-# define WHITESPACE " "
 
 typedef enum s_redirect_type
 {
@@ -187,7 +189,7 @@ int		is_herdoc(t_redirect *redirect);
 int		redirect_herdoc(t_redirect *redirect);
 
 /*SIGNALS*/
-void	init_siagtion(void);
+void	init_siagtion(int param);
 
 
 /*ERROR*/

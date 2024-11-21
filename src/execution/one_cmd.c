@@ -54,11 +54,13 @@ void	new_proccess(t_pars *pars, t_env *env)
 		perror("pid filed");
 		exit(EXIT_FAILURE);
 	}
+	init_siagtion(NON_INTERACTIVE);
 	if (pid == 0 && pars->cmd != NULL)
 	{
 		execute_cmd(pars, env);
 	}
 	waitpid(pid, NULL, 0);
+	init_siagtion(INTERACTIVE);
 }
 
 void	run_single_cmd(t_pars *pars, t_env *env)

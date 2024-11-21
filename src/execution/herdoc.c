@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/20 14:19:55 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:52:42 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@
 // 	return (1);
 // }
 
+extern volatile sig_atomic_t g_signal;
+
 void    write_into_herdoc(int fd, t_redirect *redirect)
 {
     char    *line;
@@ -92,10 +94,15 @@ void    write_into_herdoc(int fd, t_redirect *redirect)
         line = readline(">");
         if (line == NULL)
 		{
+			//if (g_signal == SIGINT)
+			//{
+			//	break ;
+			//	//wyjsc z heredocu + wyczyscic fd
+			//}
         	printf("Warning: Here-document is not properly closed. Expected delimiter: `%s'\n", delimiter);
 			free(line);
 			close(fd);
-			exit(0);
+			break ;
 		}
         if (ft_strncmp(line, redirect->filename, ft_strlen(redirect->filename) + 1) == 0)
         {

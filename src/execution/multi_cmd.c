@@ -6,11 +6,13 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/19 17:17:04 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:14:01 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile sig_atomic_t g_signal;
 
 void		create_pipe(int	fd[2])
 {
@@ -91,6 +93,9 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 	pid_count = 0;
 	count = 0;
 	go_all_herdoc(pars);
+	init_siagtion(NON_INTERACTIVE);
+	if (g_signal == SIGINT)
+		printf("hello\n");
 	while (pars != NULL)
 	{
 		if (pars->next_process != NULL)

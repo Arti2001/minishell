@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/20 16:07:58 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/21 19:50:30 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@
 // 	pars->next_process = NULL;
 // }
 
+volatile sig_atomic_t g_signal;
 
 int	is_builtin(char *arg)
 {
@@ -197,16 +198,16 @@ int main(int argc, char *argv[], char *envp[])
 	t_env*	env;
 	t_pars	*pars;
 	
-	//signal(SIGQUIT, SIG_IGN);
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
+		g_signal = 0;
 		if (env == NULL)
 			return (1);
 		input = NULL;
+		init_siagtion(INTERACTIVE);
 		while (1)
 		{
-			init_siagtion();
 			input = readline("Minishell>");
 			if (input == NULL)
 				return (1);
@@ -218,18 +219,19 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars->next_process == NULL)
 			{
-				if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
-				{
-					handle_built_in(pars, env);
-				}
-				else
-					run_single_cmd(pars, env);
+				if (pars->cmd != NULL)
+					if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
+					{
+						handle_built_in(pars, env);
+					}
+				run_single_cmd(pars, env);
 			}
 			else
 			{
 				if (run_multi_cmd(pars, env) == 0)
 					return(1);
 			}
+			g_signal = 0;
 		}
 		free_list(env);
 	}
