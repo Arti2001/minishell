@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 16:35:06 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/22 17:24:51 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_env
 }	t_env;
 
 
-typedef struct s_i_env 
+typedef struct s_i_env
 {
 	int		err_code;
 	t_env	*env;
@@ -213,6 +213,7 @@ void			print_tokens(t_list *tokens);
 int				is_whitespace(char c);
 int				is_token_type_redir(t_token token);
 int				is_token_type_text(t_token token);
+int				is_expandable(t_token token);
 void			split_tokens(t_list **lst);
 void			combine_tokens(t_list **lst);
 t_pars			*convert_tokens(t_list *lst);

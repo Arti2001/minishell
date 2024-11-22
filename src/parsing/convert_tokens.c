@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   convert_tokens.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 18:06:00 by ydidenko          #+#    #+#             */
-/*   Updated: 2024/11/22 15:24:31 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   convert_tokens.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/11/07 18:06:00 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/11/22 17:31:11 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void add_cmd_arg(t_pars *pars, char *arg)
 	pars->cmd = new_cmd;
 }
 
-void add_redirection(t_pars *pars, t_redirect_type redir_type, char *filename)
+void add_redirection(t_pars *pars, t_redirect_type redir_type, t_token *filename)
 {
 	size_t len = 0;
 	size_t i = 0;
@@ -62,7 +62,8 @@ void add_redirection(t_pars *pars, t_redirect_type redir_type, char *filename)
 		i++;
 	}
 	new_redir[len].type = redir_type;
-	new_redir[len].filename = ft_strdup(filename);
+	new_redir[len].filename = ft_strdup(filename->str);
+	new_redir[len].is_epandable = is_expandable(*filename);
 	if (!new_redir[len].filename)
 		return (free(new_redir), free(pars->redir));
 	new_redir[len + 1].filename = NULL;
@@ -139,7 +140,7 @@ t_pars	*convert_tokens(t_list *lst)
 				{
 					// Error: redirection without filename
 					free_pars(head);
-					return NULL;
+					return (NULL);
 				}
 
 				token_list = token_list->next;
@@ -149,9 +150,10 @@ t_pars	*convert_tokens(t_list *lst)
 				{
 					// Error: expected filename after redirection
 					free_pars(head);
-					return NULL;
+					return (NULL);
 				}
-				add_redirection(current, map_token_to_redirect(token->type), filename_token->str);
+				add_redirection(current, map_token_to_redirect(token->type),
+					filename_token);
 			}
 			else if (is_token_type_text(*token))
 			{
