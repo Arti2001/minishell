@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 17:42:10 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/22 17:53:30 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ int	execution(t_pars *pars, t_i_env *i_env)
 				handle_built_in(pars, i_env);
 				return (1);
 			}
-			
+
 		}
 		run_single_cmd(pars, i_env);
 	}
@@ -231,11 +231,12 @@ int main(int argc, char *argv[], char *envp[])
 	t_pars	*pars;
 	char	*promt;
 	t_i_env	*i_env;
-	
-	if (argc == 1  && argv[0])
+
+	if (argc == 1 && argv[0])
 	{
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
 		i_env->env = (t_env *)null_exit(set_env(envp));
+		i_env->err_code = 127;
 		g_signal = 0;
 		input = NULL;
 		init_siagtion(INTERACTIVE);
@@ -249,7 +250,7 @@ int main(int argc, char *argv[], char *envp[])
 			if (!input[0])
 				continue;
 			add_history(input);
-			pars = init_pars(input, i_env->env);
+			pars = init_pars(input, i_env);
 			free(input);
 			execution(pars, i_env);
 			g_signal = 0;

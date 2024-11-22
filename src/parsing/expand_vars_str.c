@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expand_vars_str.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 17:56:37 by ydidenko          #+#    #+#             */
-/*   Updated: 2024/11/22 16:41:07 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   expand_vars_str.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/11/22 17:44:32 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	lookup_var(char **var, t_env *env)
+static void	lookup_var(char **var, t_i_env *i_env)
 {
 	char	*str;
 
 	if (!ft_strncmp(*var, "?", 2))
 		// TODO: print last exit cod e
-		str = "0";
+		str = ft_itoa(i_env->err_code);
 	else
 	{
-		str = get_env_var(*var, env);
+		str = get_env_var(*var, i_env->env);
 	}
 	free(*var);
 	*var = str;
@@ -41,7 +41,7 @@ static size_t	calc_varlen(char *var)
 	return (i);
 }
 
-static void	replace_var(char **str, size_t start, size_t *len, t_env *env)
+static void	replace_var(char **str, size_t start, size_t *len, t_i_env *i_env)
 {
 	char	*before;
 	char	*var;
@@ -55,7 +55,7 @@ static void	replace_var(char **str, size_t start, size_t *len, t_env *env)
 	else
 		var = null_exit(ft_substr(*str, start + 1, varlen - 1));
 	after = null_exit(ft_strdup(&(*str)[start + varlen]));
-	lookup_var(&var, env);
+	lookup_var(&var, i_env);
 	free(*str);
 	*str = null_exit(ft_strjoin3(before, var, after));
 	free(before);
@@ -78,7 +78,7 @@ static	int	var_is_valid_first(int c)
  * @param type string token type
  * @return char* string containing expanded variables
  */
-char	*expand_vars_str(char *input, t_type type, t_env *env)
+char	*expand_vars_str(char *input, t_type type, t_i_env *i_env)
 {
 	size_t	i;
 	size_t	varlen;
@@ -91,7 +91,7 @@ char	*expand_vars_str(char *input, t_type type, t_env *env)
 		if ((str[i] == '$' && var_is_valid_first(str[i + 1])) \
 		|| (str[i] == '~' && type == DEFAULT))
 		{
-			replace_var(&str, i, &varlen, env);
+			replace_var(&str, i, &varlen, i_env);
 			i += varlen;
 		}
 		else

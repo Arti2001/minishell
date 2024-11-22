@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 17:51:45 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/22 17:53:17 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,8 +204,8 @@ void	init_siagtion(int param);
 void	*null_exit(void	*ptr);
 
 /*PARSING*/
-t_pars			*init_pars(char *line, t_env *env);
-t_list			*tokenizer(char *line, t_env *env);
+t_pars			*init_pars(char *line, t_i_env *i_env);
+t_list			*tokenizer(char *line, t_i_env *i_env);
 void			lexer(t_list **lst);
 size_t			tokenize_sym(char *line, int i, t_token *token);
 int				tokenize_quoted(char *line, int i, t_token *token);
@@ -227,8 +227,8 @@ t_token	*create_token(char *str, t_type type);
 void	repalce_t_list(t_list **lst, t_list *(*list_f)(t_list *));
 
 /*EXPAND_VARS*/
-void	expand_vars(t_list **tokens, t_env *env);
-char	*expand_vars_str(char *input, t_type type, t_env *env);
+void	expand_vars(t_list **tokens, t_i_env *i_env);
+char	*expand_vars_str(char *input, t_type type, t_i_env *i_env);
 char	*get_env_var(char *var, t_env *env);
 
 #endif
