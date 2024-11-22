@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/22 17:53:30 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/22 22:16:55 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,24 +139,24 @@ int	is_builtin(char *arg)
 }
 
 /*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
-int	run_built_in(t_env **env, char **arg)
+int	run_built_in(t_i_env *i_env, char **arg)
 {
 	if (arg == NULL)
 		return (NO_BUILTIN);
 	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
-		return (ft_cd(*env, arg));
+		return (ft_cd(i_env->env, arg));
 	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
 		return (ft_pwd());
 	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])))
-		return (ft_env(*env));
+		return (ft_env(i_env->env));
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
 		return (ft_echo(arg));
 	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
-		ft_exit(arg);
+		return(ft_exit(arg, i_env));
 	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
-		return (ft_unset(env, arg));
+		return (ft_unset(&i_env->env, arg));
 	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
-		return (ft_export(*env, arg));
+		return (ft_export(i_env->env, arg));
 	return (NO_BUILTIN);
 }
 
@@ -169,7 +169,7 @@ void	handle_built_in(t_pars *pars, t_i_env *i_env)
 	fd_out = dup(STDOUT_FILENO);
 	if (pars->redir != NULL)
 		redirect_check(pars);
-	run_built_in(&i_env->env, pars->cmd);
+	i_env->err_code = run_built_in(i_env, pars->cmd);
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{
 		perror("Faild to restore stdin");

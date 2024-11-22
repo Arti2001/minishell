@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/22 17:53:17 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/22 23:28:28 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,13 @@ int		append_node(t_env **head_env, char *content);
 /*Built_ins*/
 int		ft_pwd(void);
 int		ft_env(t_env *env);
-void	ft_exit(char **arg);
+int		ft_exit(char **arg, t_i_env *i_env);
 int		is_builtin(char *arg);
 int		ft_echo(char**commands);
 int		ft_unset(t_env **env, char **arg);
 int		ft_cd(t_env *env, char **commands);
 int		ft_export(t_env *env, char **commands);
-int	run_built_in(t_env **env, char **arg);
+int		run_built_in(t_i_env *i_env, char **arg);
 
 /*ENVIRONMENT*/
 t_env	*set_env(char **env);
@@ -174,8 +174,7 @@ char	*matching_pathes(char **splited_pathes, char *check_path);
 
 
 /*STRING UTILITI*/
-int		check_equel(char *str);
-int		check_new_line(char *str);
+
 
 /*PROCCESSES*/
 void	wait_for_childs(int num_pid, pid_t *pids);
@@ -187,6 +186,7 @@ void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env);
 void	free_list(t_env *head);
 void	free_node(t_env *node);
 void	double_array_free(char **to_free);
+void	free_key_value(char *key, char *value);
 
 /*REDIRECTS*/
 int		check_redirection_type(int	process_num, t_pars *pars, int fd_write_end);

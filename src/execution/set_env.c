@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/15 17:23:16 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 23:03:50 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int ft_env_size(t_env *env)
 
 char	*get_value(char *content)
 {
-	char *value;
+	char	*value;
 
 	value = ft_strchr(content, '=');
 	if (value  == NULL)
@@ -123,18 +123,18 @@ int	update_env_value(t_env *env, char *var_name, char *new_val)
 		{
 			if (new_val == NULL)
 			{
-				return (1);
+				return (0);
 			}
-			if (env->value != NULL)
+			else if (env->value != NULL)
 			{
 				free(env->value);
 			}
 			env->value = ft_strdup(new_val);
-			return (1);
+			return (0);
 		}
 		env = env->next;
 	}
-	return(0);
+	return(1);
 }
 
 char	*key_val_join(char *key, char *value)

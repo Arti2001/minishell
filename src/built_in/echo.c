@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   echo.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/23 13:17:34 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/07 14:29:24 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/23 13:17:34 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/23 00:00:44 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_new_line(char *str)
+static int	check_new_line(char *str)
 {
 	if ((*(str + 0) == '-') && (*(str + 1) == 'n'))
 	{
@@ -32,9 +32,9 @@ int	check_new_line(char *str)
 	return (1);
 }
 
-void	basic_echo(char **commands)
+static void	basic_echo(char **commands)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (commands[i])
@@ -54,14 +54,14 @@ void	basic_echo(char **commands)
 
 int	ft_echo(char **commands)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	if (commands[1] == NULL)
+	if (commands[i] == NULL)
 	{
-		return (ft_putstr_fd("\n", 1), 1);
+		return (ft_putstr_fd("\n", 1), 0);
 	}
-	else if(check_new_line(commands[1]))
+	else if (check_new_line(commands[i]))
 	{
 		i = 2;
 		while (commands[i])
@@ -78,4 +78,3 @@ int	ft_echo(char **commands)
 		basic_echo(commands);
 	return (0);
 }
-
