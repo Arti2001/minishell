@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 16:01:43 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 17:49:06 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	handle_parent_process(int fd[2], t_pars *pars, int	p_num)
 	}
 }
 
-void go_all_herdoc(t_pars *pars, t_env *env)
+void go_all_herdoc(t_pars *pars, t_i_env *i_env)
 {
 	t_pars	*tmp;
 	
@@ -78,11 +78,11 @@ void go_all_herdoc(t_pars *pars, t_env *env)
 	{
 		
 		if (is_herdoc(tmp->redir))
-			run_herdoc(tmp->redir, env);
+			run_herdoc(tmp->redir, i_env);
 		tmp = tmp->next_process;
 	}
 }
-int	run_multi_cmd(t_pars *pars, t_env *env)
+int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 {
 	pid_t		pid;
 	pid_t		pids[MAX_PROCESSES];
@@ -92,7 +92,7 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 
 	pid_count = 0;
 	count = 0;
-	go_all_herdoc(pars, env);
+	go_all_herdoc(pars, i_env);
 	init_siagtion(NON_INTERACTIVE);
 	while (pars != NULL)
 	{
@@ -101,7 +101,7 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 		pid = fork();
 		pids[pid_count++] = pid;
 		if (pid == 0)
-			handle_child_process(fd, count, pars, env);
+			handle_child_process(fd, count, pars, i_env->env);
 		else
 		{
 			handle_parent_process(fd, pars, count);

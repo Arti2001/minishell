@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 16:35:54 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 17:50:57 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,24 @@
 
 extern volatile sig_atomic_t g_signal;
 
-void    write_into_herdoc(int fd, t_redirect *redirect, t_env *env)
+void    write_into_herdoc(int fd, t_redirect *redirect, t_i_env *i_env)
 {
     char    *line;
     char    *delimiter;
 
     line = NULL;
     delimiter = redirect->filename;
+	init_siagtion(HERDOC_SIG);
     while (1)
     {
-		//init_siagtion(HERDOC_SIG);
         line = readline(">");
         if (line == NULL)
 		{
-			//if (g_signal == SIGINT)
-			//{
-			//	init_siagtion(INTERACTIVE);
-			//	break;
-			//}
+			if (g_signal == SIGINT)
+			{
+				init_siagtion(INTERACTIVE);
+				break;
+			}
         	printf("Warning: Here-document is not properly closed. Expected delimiter: `%s'\n", delimiter);
 			free(line);
 			close(fd);
@@ -112,15 +112,15 @@ void    write_into_herdoc(int fd, t_redirect *redirect, t_env *env)
             break;
         }
 		if (redirect->is_epandable)
-			ft_putendl_fd(expand_vars_str(line, DEFAULT, env), fd);
+			ft_putendl_fd(expand_vars_str(line, DEFAULT, i_env), fd);
 		else
 			ft_putendl_fd(line, fd);
         free(line);
     }
-	
+	dup2(1, STDIN_FILENO);
 }
 
-int    open_herdoc(t_redirect *redirect, t_env *env)
+int    open_herdoc(t_redirect *redirect, t_i_env *i_env)
 {
     int		fd;
 
@@ -130,12 +130,12 @@ int    open_herdoc(t_redirect *redirect, t_env *env)
         perror("Faild to open the heredoc.txt");
         return (0);
     }
-   write_into_herdoc(fd, redirect, env);
+   write_into_herdoc(fd, redirect, i_env);
    return (1);
 }
 
 
-int	run_herdoc(t_redirect *redirects, t_env *env)
+int	run_herdoc(t_redirect *redirects, t_i_env *i_env)
 {
 	int	i;
 
@@ -144,7 +144,7 @@ int	run_herdoc(t_redirect *redirects, t_env *env)
 	{
 		if (redirects[i].type == HEREDOC_RE)
 		{
-			if (!open_herdoc(&redirects[i], env))
+			if (!open_herdoc(&redirects[i], i_env))
 			{
 				return (0);
 			}

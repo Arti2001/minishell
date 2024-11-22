@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 16:40:05 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 17:42:10 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	run_built_in(t_env **env, char **arg)
 	return (NO_BUILTIN);
 }
 
-void	handle_built_in(t_pars *pars, t_env *env)
+void	handle_built_in(t_pars *pars, t_i_env *i_env)
 {
 	int	fd_in;
 	int	fd_out;
@@ -169,7 +169,7 @@ void	handle_built_in(t_pars *pars, t_env *env)
 	fd_out = dup(STDOUT_FILENO);
 	if (pars->redir != NULL)
 		redirect_check(pars);
-	run_built_in(&env, pars->cmd);
+	run_built_in(&i_env->env, pars->cmd);
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{
 		perror("Faild to restore stdin");
@@ -191,7 +191,7 @@ void	handle_built_in(t_pars *pars, t_env *env)
 		return ;
 	}
 }
-int	execution(t_pars *pars, t_env *env)
+int	execution(t_pars *pars, t_i_env *i_env)
 {
 	if (pars->next_process == NULL)
 	{
@@ -199,16 +199,16 @@ int	execution(t_pars *pars, t_env *env)
 		{
 			if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 			{
-				handle_built_in(pars, env);
+				handle_built_in(pars, i_env);
 				return (1);
 			}
 			
 		}
-		run_single_cmd(pars, env);
+		run_single_cmd(pars, i_env);
 	}
 	else
 	{
-		if (run_multi_cmd(pars, env) == 0)
+		if (run_multi_cmd(pars, i_env) == 0)
 		{
 			return(0);
 		}
@@ -251,7 +251,7 @@ int main(int argc, char *argv[], char *envp[])
 			add_history(input);
 			pars = init_pars(input, i_env->env);
 			free(input);
-			execution(pars, i_env->env);
+			execution(pars, i_env);
 			g_signal = 0;
 		}
 		free_list(i_env->env);

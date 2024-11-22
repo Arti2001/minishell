@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/22 17:24:51 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/22 17:51:45 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,8 @@ int		check_new_line(char *str);
 
 /*PROCCESSES*/
 void	wait_for_childs(int num_pid, pid_t *pids);
-int		run_multi_cmd(t_pars *pars, t_env *env);
-void	run_single_cmd(t_pars *pars, t_env *env);
+int		run_multi_cmd(t_pars *pars, t_i_env *env);
+void	run_single_cmd(t_pars *pars, t_i_env *env);
 void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env);
 
 /*FREE*/
@@ -192,7 +192,7 @@ void	double_array_free(char **to_free);
 int		check_redirection_type(int	process_num, t_pars *pars, int fd_write_end);
 int		redirect_check(t_pars *pars);
 void	close_fd(int in, int out);
-int		run_herdoc(t_redirect *redirects, t_env *env);
+int		run_herdoc(t_redirect *redirects, t_i_env *i_env);
 int		is_herdoc(t_redirect *redirect);
 int		redirect_herdoc(t_redirect *redirect);
 

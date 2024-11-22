@@ -63,11 +63,11 @@ void	new_proccess(t_pars *pars, t_env *env)
 	init_siagtion(INTERACTIVE);
 }
 
-void	run_single_cmd(t_pars *pars, t_env *env)
+void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 {
 	if (is_herdoc(pars->redir))
 	{
-		run_herdoc(pars->redir, env);
+		run_herdoc(pars->redir, i_env);
 	}
 	if (pars -> cmd != NULL)
 	{
@@ -77,8 +77,8 @@ void	run_single_cmd(t_pars *pars, t_env *env)
 		}
 		else
 		{
-			path_hendler(env, &pars, pars->cmd[0]);
+			path_hendler(i_env->env, &pars, pars->cmd[0]);
 		}
 	}
-	new_proccess(pars, env);
+	new_proccess(pars, i_env->env);
 }

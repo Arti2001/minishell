@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 17:09:25 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 14:31:12 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 17:28:59 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern volatile sig_atomic_t g_signal;
 
 static void	handler_int(int num)
 {
-	//write(1, "I'm in interactive", 19);
 	write(1, "\n", 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -33,8 +32,7 @@ static void	handler_non_int(int num)
 
 static void	handler_herdoc(int num)
 {
-	printf("Herdoc signal\n");
-	
+	close(STDIN_FILENO);
 	g_signal = num;
 }
 
