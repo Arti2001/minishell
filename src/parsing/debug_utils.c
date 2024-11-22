@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   debug_utils.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/29 14:52:48 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:47:43 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   debug_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 14:52:48 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/11/22 15:50:34 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void print_pars(t_pars *pars)
 
 		// Print file descriptors (if relevant)
 		printf("  fd_in: %d\n", current->fd_in);
-		printf("  fd_out: %d\n", current->fd_out);
 
 		printf("\n");
 

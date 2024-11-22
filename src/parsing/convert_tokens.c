@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   convert_tokens.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/11/07 18:06:00 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/14 15:42:05 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   convert_tokens.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 18:06:00 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/11/22 15:24:31 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_pars *create_new_pars(void)
 	if (!pars)
 		return NULL;
 	pars->fd_in = STDIN_FILENO;
-	pars->fd_out = STDOUT_FILENO;
 	pars->cmd = NULL;
 	pars->redir = NULL;
 	pars->next_process = NULL;

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/21 16:23:03 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:35:06 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,14 @@ typedef struct s_env
 	struct	s_env	*next;
 }	t_env;
 
+
+typedef struct s_i_env 
+{
+	int		err_code;
+	t_env	*env;
+}	t_i_env;
+
+
 /**
  * @brief Data struct to hold redirection values
  * @param type redirection type.
@@ -99,13 +107,13 @@ typedef struct s_env
 typedef struct s_redirect
 {
 	char				*filename;
+	bool				is_epandable;
 	t_redirect_type		type;
 }	t_redirect;
 
 typedef struct s_pars
 {
 	int					fd_in;
-	int					fd_out;
 	char				**cmd;
 	char				*path;
 	t_redirect			*redir;
@@ -184,7 +192,7 @@ void	double_array_free(char **to_free);
 int		check_redirection_type(int	process_num, t_pars *pars, int fd_write_end);
 int		redirect_check(t_pars *pars);
 void	close_fd(int in, int out);
-int		run_herdoc(t_redirect *redirects);
+int		run_herdoc(t_redirect *redirects, t_env *env);
 int		is_herdoc(t_redirect *redirect);
 int		redirect_herdoc(t_redirect *redirect);
 

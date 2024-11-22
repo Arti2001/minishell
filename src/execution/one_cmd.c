@@ -67,7 +67,7 @@ void	run_single_cmd(t_pars *pars, t_env *env)
 {
 	if (is_herdoc(pars->redir))
 	{
-		run_herdoc(pars->redir);
+		run_herdoc(pars->redir, env);
 	}
 	if (pars -> cmd != NULL)
 	{

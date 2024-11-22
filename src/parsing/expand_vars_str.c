@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   expand_vars_str.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:42:25 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   expand_vars_str.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 17:56:37 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/11/22 16:41:07 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	lookup_var(char **var, t_env *env)
 	char	*str;
 
 	if (!ft_strncmp(*var, "?", 2))
-		// TODO: print last exit code
+		// TODO: print last exit cod e
 		str = "0";
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/21 19:50:30 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:40:05 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,49 +191,71 @@ void	handle_built_in(t_pars *pars, t_env *env)
 		return ;
 	}
 }
+int	execution(t_pars *pars, t_env *env)
+{
+	if (pars->next_process == NULL)
+	{
+		if (pars->cmd != NULL)
+		{
+			if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
+			{
+				handle_built_in(pars, env);
+				return (1);
+			}
+			
+		}
+		run_single_cmd(pars, env);
+	}
+	else
+	{
+		if (run_multi_cmd(pars, env) == 0)
+		{
+			return(0);
+		}
+	}
+	return (1);
+}
+char	*path_promt(char *curr_path)
+{
+	char *str;
+
+	str = ft_strjoin(curr_path, "$ ");
+	if (str == NULL)
+		return (NULL);
+	return (str);
+}
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char*	input;
-	t_env*	env;
+	char	*input;
 	t_pars	*pars;
+	char	*promt;
+	t_i_env	*i_env;
 	
 	if (argc == 1  && argv[0])
 	{
-		env = set_env(envp);
+		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
+		i_env->env = (t_env *)null_exit(set_env(envp));
 		g_signal = 0;
-		if (env == NULL)
-			return (1);
 		input = NULL;
 		init_siagtion(INTERACTIVE);
 		while (1)
 		{
-			input = readline("Minishell>");
+			promt = path_promt(getcwd(NULL, 0));
+			input = readline(promt);
+			free(promt);
 			if (input == NULL)
 				return (1);
 			if (!input[0])
 				continue;
 			add_history(input);
-			//data.err_code = 0;
-			pars = init_pars(input, env);
+			pars = init_pars(input, i_env->env);
 			free(input);
-			if (pars->next_process == NULL)
-			{
-				if (pars->cmd != NULL)
-					if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
-					{
-						handle_built_in(pars, env);
-					}
-				run_single_cmd(pars, env);
-			}
-			else
-			{
-				if (run_multi_cmd(pars, env) == 0)
-					return(1);
-			}
+			execution(pars, i_env->env);
 			g_signal = 0;
 		}
-		free_list(env);
+		free_list(i_env->env);
+		free(i_env);
 	}
 	return (0);
 }

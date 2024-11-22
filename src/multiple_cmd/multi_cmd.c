@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/21 14:14:01 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:01:43 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	handle_parent_process(int fd[2], t_pars *pars, int	p_num)
 	}
 }
 
-void go_all_herdoc(t_pars *pars)
+void go_all_herdoc(t_pars *pars, t_env *env)
 {
 	t_pars	*tmp;
 	
@@ -78,7 +78,7 @@ void go_all_herdoc(t_pars *pars)
 	{
 		
 		if (is_herdoc(tmp->redir))
-			run_herdoc(tmp->redir);
+			run_herdoc(tmp->redir, env);
 		tmp = tmp->next_process;
 	}
 }
@@ -92,10 +92,8 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 
 	pid_count = 0;
 	count = 0;
-	go_all_herdoc(pars);
+	go_all_herdoc(pars, env);
 	init_siagtion(NON_INTERACTIVE);
-	if (g_signal == SIGINT)
-		printf("hello\n");
 	while (pars != NULL)
 	{
 		if (pars->next_process != NULL)
@@ -111,7 +109,7 @@ int	run_multi_cmd(t_pars *pars, t_env *env)
 			count++;
 		}
 	}
-	return (wait_for_childs(pid_count, pids), 1);
+	return (wait_for_childs(pid_count, pids), init_siagtion(NON_INTERACTIVE), 1);
 }
 
 
