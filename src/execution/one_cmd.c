@@ -41,13 +41,15 @@ void	execute_cmd(t_pars *pars, t_env *env)
 	ft_putendl_fd(": command not found", 2);
 	double_array_free(pars->cmd);
 	free(pars->path);
-	exit(127);
+	//exit(127);
 }
 
-void	new_proccess(t_pars *pars, t_env *env)
+int	new_proccess(t_pars *pars, t_env *env)
 {
 	pid_t	pid;
+	int		status;
 
+	status = 0;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -59,12 +61,15 @@ void	new_proccess(t_pars *pars, t_env *env)
 	{
 		execute_cmd(pars, env);
 	}
-	waitpid(pid, NULL, 0);
+	wait_for_childs(1, &pid);
 	init_siagtion(INTERACTIVE);
+	return (status);
 }
 
 void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 {
+	int	exit_status;
+
 	if (is_herdoc(pars->redir))
 	{
 		run_herdoc(pars->redir, i_env);
@@ -72,13 +77,15 @@ void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 	if (pars -> cmd != NULL)
 	{
 		if (access(pars->cmd[0], X_OK | F_OK) == 0)
-		{
 			pars->path = pars->cmd[0];
-		}
 		else
-		{
 			path_hendler(i_env->env, &pars, pars->cmd[0]);
-		}
 	}
-	new_proccess(pars, i_env->env);
+	exit_status = new_proccess(pars, i_env->env);
+	if (WIFEXITED(exit_status))
+	{
+		i_env->err_code = WEXITSTATUS(exit_status);
+	}
+	else
+		i_env->err_code = 127;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   herdoc.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/27 05:01:20 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/22 17:53:52 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/23 03:32:45 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,19 @@
 // }
 
 extern volatile sig_atomic_t g_signal;
+
+void	go_all_herdoc(t_pars *pars, t_i_env *i_env)
+{
+	t_pars	*tmp;
+
+	tmp = pars;
+	while (tmp != NULL)
+	{
+		if (is_herdoc(tmp->redir))
+			run_herdoc(tmp->redir, i_env);
+		tmp = tmp->next_process;
+	}
+}
 
 void    write_into_herdoc(int fd, t_redirect *redirect, t_i_env *i_env)
 {

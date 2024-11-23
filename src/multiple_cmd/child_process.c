@@ -6,22 +6,29 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/20 14:13:31 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/23 03:48:59 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void wait_for_childs(int num_pid, pid_t *pids)
+int	wait_for_childs(int num_pid,  pid_t *pids)
 {
 	int		i;
+	int		status;
 
 	i = 0;
+	status = 0;
 	while (i < num_pid)
 	{
-		waitpid(pids[i], NULL, 0);
+		if (waitpid(pids[i], &status, 0)  == -1)
+		{
+			perror("waitpid failed");
+			exit(1);
+		}
 		i++;
 	}
+	return (status);
 }
 
 /*try to store the read end  before  you fork*/
@@ -46,19 +53,19 @@ void	set_child(t_pars *pars, t_env *env, int fd_write_end, int	process_num, char
 		redirect_check(pars);
 }
 
-void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env)
+void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_i_env *i_env)
 {
 	char	**env_array;
-	
-	set_child(pars, env, fd_write_end, process_num, &env_array);
+
+	set_child(pars, i_env->env, fd_write_end, process_num, &env_array);
 	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 	{
-		run_built_in(&env, pars->cmd);
+		run_built_in(i_env, pars->cmd);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		path_hendler(env, &pars, pars->cmd[0]);
+		path_hendler(i_env->env, &pars, pars->cmd[0]);
 		execve(pars->path, pars->cmd, env_array);
 		ft_putstr_fd(pars->cmd[0], 2);
 		ft_putendl_fd(": command not found", 2);

@@ -6,13 +6,13 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 17:49:06 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/23 03:59:37 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 void		create_pipe(int	fd[2])
 {
@@ -23,7 +23,7 @@ void		create_pipe(int	fd[2])
 	}
 }
 
-pid_t		create_fork()
+pid_t	create_fork(void)
 {
 	pid_t	pid;
 
@@ -36,7 +36,7 @@ pid_t		create_fork()
 	return (pid);
 }
 
-void	handle_child_process(int fd[2], int	p_num, t_pars *pars, t_env *env)
+void	handle_child_process(int fd[2], int	p_num, t_pars *pars, t_i_env *i_env)
 {
 	if (pars->next_process != NULL)
 	{
@@ -46,8 +46,9 @@ void	handle_child_process(int fd[2], int	p_num, t_pars *pars, t_env *env)
 			exit(errno);
 		}
 	}
-	my_dear_child(fd[1], p_num, pars, env);
+	my_dear_child(fd[1], p_num, pars, i_env);
 }
+
 void	handle_parent_process(int fd[2], t_pars *pars, int	p_num)
 {
 	if (pars->next_process != NULL)
@@ -69,19 +70,7 @@ void	handle_parent_process(int fd[2], t_pars *pars, int	p_num)
 	}
 }
 
-void go_all_herdoc(t_pars *pars, t_i_env *i_env)
-{
-	t_pars	*tmp;
-	
-	tmp = pars;
-	while (tmp != NULL)
-	{
-		
-		if (is_herdoc(tmp->redir))
-			run_herdoc(tmp->redir, i_env);
-		tmp = tmp->next_process;
-	}
-}
+
 int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 {
 	pid_t		pid;
@@ -97,11 +86,11 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 	while (pars != NULL)
 	{
 		if (pars->next_process != NULL)
-			 create_pipe(fd);
+			create_pipe(fd);
 		pid = fork();
 		pids[pid_count++] = pid;
 		if (pid == 0)
-			handle_child_process(fd, count, pars, i_env->env);
+			handle_child_process(fd, count, pars, i_env);
 		else
 		{
 			handle_parent_process(fd, pars, count);
@@ -109,7 +98,16 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 			count++;
 		}
 	}
-	return (wait_for_childs(pid_count, pids), init_siagtion(NON_INTERACTIVE), 1);
+	count = wait_for_childs(pid_count, pids);
+	if (WIFEXITED(count))
+		i_env->err_code = WEXITSTATUS(count);
+	else
+	{
+		printf("did not terminate normally\n");
+	}
+	
+
+	return (init_siagtion(NON_INTERACTIVE), 1);
 }
 
 

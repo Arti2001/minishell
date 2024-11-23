@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 23:28:28 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/23 03:56:27 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include<sys/wait.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include "../libft/libft.h"
@@ -177,10 +178,10 @@ char	*matching_pathes(char **splited_pathes, char *check_path);
 
 
 /*PROCCESSES*/
-void	wait_for_childs(int num_pid, pid_t *pids);
+int		wait_for_childs(int num_pid, pid_t *pids);
 int		run_multi_cmd(t_pars *pars, t_i_env *env);
 void	run_single_cmd(t_pars *pars, t_i_env *env);
-void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_env *env);
+void	my_dear_child(int fd_write_end, int	process_num, t_pars *pars, t_i_env *i_env);
 
 /*FREE*/
 void	free_list(t_env *head);
@@ -194,6 +195,7 @@ int		redirect_check(t_pars *pars);
 void	close_fd(int in, int out);
 int		run_herdoc(t_redirect *redirects, t_i_env *i_env);
 int		is_herdoc(t_redirect *redirect);
+void	go_all_herdoc(t_pars *pars, t_i_env *i_env);
 int		redirect_herdoc(t_redirect *redirect);
 
 /*SIGNALS*/
