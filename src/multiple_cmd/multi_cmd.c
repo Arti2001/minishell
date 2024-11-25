@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/23 03:59:37 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/25 16:47:28 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,13 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 
 	pid_count = 0;
 	count = 0;
-	go_all_herdoc(pars, i_env);
+	if (go_all_herdoc(pars, i_env) == SIGINT)
+	{
+		i_env->err_code = g_signal + 128;
+		return (1);
+	}
 	init_siagtion(NON_INTERACTIVE);
-	while (pars != NULL)
+	while (pars != NULL && pars->cmd != NULL)
 	{
 		if (pars->next_process != NULL)
 			create_pipe(fd);
@@ -102,11 +106,8 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 	if (WIFEXITED(count))
 		i_env->err_code = WEXITSTATUS(count);
 	else
-	{
-		printf("did not terminate normally\n");
-	}
-	
-
+		if(WTERMSIG(count))
+			i_env->err_code = g_signal + 128;
 	return (init_siagtion(NON_INTERACTIVE), 1);
 }
 

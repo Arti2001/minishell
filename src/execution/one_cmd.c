@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+extern volatile sig_atomic_t	g_signal;
 
 int		is_herdoc(t_redirect *redirect)
 {
@@ -41,7 +42,7 @@ void	execute_cmd(t_pars *pars, t_env *env)
 	ft_putendl_fd(": command not found", 2);
 	double_array_free(pars->cmd);
 	free(pars->path);
-	//exit(127);
+	exit(127);
 }
 
 int	new_proccess(t_pars *pars, t_env *env)
@@ -61,7 +62,12 @@ int	new_proccess(t_pars *pars, t_env *env)
 	{
 		execute_cmd(pars, env);
 	}
-	wait_for_childs(1, &pid);
+	if (pars->cmd != NULL)
+	if (waitpid(pid, &status, 0) == -1)
+	{
+		perror("error waitpid");
+		exit(EXIT_FAILURE);
+	}
 	init_siagtion(INTERACTIVE);
 	return (status);
 }
@@ -70,10 +76,6 @@ void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 {
 	int	exit_status;
 
-	if (is_herdoc(pars->redir))
-	{
-		run_herdoc(pars->redir, i_env);
-	}
 	if (pars -> cmd != NULL)
 	{
 		if (access(pars->cmd[0], X_OK | F_OK) == 0)
@@ -87,5 +89,6 @@ void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 		i_env->err_code = WEXITSTATUS(exit_status);
 	}
 	else
-		i_env->err_code = 127;
+		if(WTERMSIG(exit_status))
+			i_env->err_code = g_signal + 128;
 }

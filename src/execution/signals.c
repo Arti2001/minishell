@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   signals.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/11/18 17:09:25 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/22 17:56:10 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 17:09:25 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/25 16:56:29 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,19 @@ static void	handler_int(int num)
 static void	handler_non_int(int num)
 {
 	write(1, "\n", 2);
-	signal(SIGINT, SIG_IGN);
+	g_signal = num;
+}
+
+static void	handler_sigq(int num)
+{
+	write(1, "Quit (core dumped)", 19);
+	write(1, "\n", 2);
 	g_signal = num;
 }
 
 static void	handler_herdoc(int num)
 {
+	write(1, "\n", 2);
 	close(STDIN_FILENO);
 	g_signal = num;
 }
@@ -60,7 +67,7 @@ void	init_siagtion(int param)
 			perror("Failed to call sigaction().");
 			exit(0);
 		}
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, handler_sigq);
 	}
 	else if (param == HERDOC_SIG)
 	{

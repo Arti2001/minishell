@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 22:16:55 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/25 18:23:43 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,19 +143,19 @@ int	run_built_in(t_i_env *i_env, char **arg)
 {
 	if (arg == NULL)
 		return (NO_BUILTIN);
-	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_cd(i_env->env, arg));
-	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_pwd());
-	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_env(i_env->env));
-	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_echo(arg));
-	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0]) + 1))
 		return(ft_exit(arg, i_env));
-	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_unset(&i_env->env, arg));
-	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0])))
+	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_export(i_env->env, arg));
 	return (NO_BUILTIN);
 }
@@ -191,28 +191,47 @@ void	handle_built_in(t_pars *pars, t_i_env *i_env)
 		return ;
 	}
 }
+//if (pars->next_process == NULL)
+//	{
+//		if (pars->cmd != NULL || pars->redir != NULL )
+//		{
+
+//		if (is_herdoc(pars->redir))
+//		if (run_herdoc(pars->redir, i_env) == SIGINT)
+//		{
+//				i_env->err_code = g_signal + 128;
+//				return (1);
+//		}
+//		if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
+//		{
+//				handle_built_in(pars, i_env);
+//				return (1);
+//		}
+//		}
+//		run_single_cmd(pars, i_env);
+//	}
 int	execution(t_pars *pars, t_i_env *i_env)
 {
 	if (pars->next_process == NULL)
 	{
+		if (is_herdoc(pars->redir))
+			if (run_herdoc(pars->redir, i_env) == SIGINT)
+			{
+					i_env->err_code = g_signal + 128;
+					return (1);
+			}
 		if (pars->cmd != NULL)
 		{
 			if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 			{
-				handle_built_in(pars, i_env);
-				return (1);
+					handle_built_in(pars, i_env);
+					return (1);
 			}
-
+			run_single_cmd(pars, i_env);
 		}
-		run_single_cmd(pars, i_env);
 	}
 	else
-	{
-		if (run_multi_cmd(pars, i_env) == 0)
-		{
-			return(0);
-		}
-	}
+		return(run_multi_cmd(pars, i_env));
 	return (1);
 }
 char	*path_promt(char *curr_path)
@@ -236,7 +255,6 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
 		i_env->env = (t_env *)null_exit(set_env(envp));
-		i_env->err_code = 127;
 		g_signal = 0;
 		input = NULL;
 		init_siagtion(INTERACTIVE);
@@ -249,6 +267,8 @@ int main(int argc, char *argv[], char *envp[])
 				return (1);
 			if (!input[0])
 				continue;
+			if (g_signal == 2)
+				i_env->err_code = 130;
 			add_history(input);
 			pars = init_pars(input, i_env);
 			free(input);

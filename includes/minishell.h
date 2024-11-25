@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/23 03:56:27 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/25 16:47:35 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int		redirect_check(t_pars *pars);
 void	close_fd(int in, int out);
 int		run_herdoc(t_redirect *redirects, t_i_env *i_env);
 int		is_herdoc(t_redirect *redirect);
-void	go_all_herdoc(t_pars *pars, t_i_env *i_env);
+int		go_all_herdoc(t_pars *pars, t_i_env *i_env);
 int		redirect_herdoc(t_redirect *redirect);
 
 /*SIGNALS*/

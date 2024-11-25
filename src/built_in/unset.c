@@ -6,22 +6,22 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:58:32 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/23 00:04:33 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/25 18:32:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	unset_firs_node(t_env *env, char *str)
+static int	unset_firs_node(t_env **env, char *str)
 {
 	t_env	*tmp;
 
 	tmp = NULL;
-	if (ft_strncmp(str, env->name, ft_strlen(env->name) + 1) == 0)
+	if (ft_strncmp(str, (*env)->name, ft_strlen((*env)->name) + 1) == 0)
 	{
-		tmp = env->next;
-		free_node(env);
-		env = tmp;
+		tmp = (*env)->next;
+		free_node(*env);
+		*env = tmp;
 		return (0);
 	}
 	return (1);
@@ -34,9 +34,9 @@ int	find_unset(t_env **env, char *str)
 
 	tmp = NULL;
 	curr = *env;
-	if (!env || !(*env))
+	if (!env || !(env))
 		return (0);
-	if (!unset_firs_node(*env, str))
+	if (!unset_firs_node(env, str))
 		return (0);
 	while (curr->next != NULL)
 	{
