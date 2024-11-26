@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/07 18:06:00 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/26 15:32:01 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/26 15:52:46 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,14 @@ void	free_pars(t_pars *pars)
 	free(pars);
 }
 
+void	clean_exit(t_pars *pars, t_list *lst, char *err_msg)
+{
+	ft_putstr_fd(err_msg, 2);
+	free_pars(pars);
+	ft_lstclear(lst, ((void (*))(void *)destroy_token));
+	exit(1);
+}
+
 t_pars	*convert_tokens(t_list *lst)
 {
 	t_pars	*head;
@@ -126,13 +134,11 @@ t_pars	*convert_tokens(t_list *lst)
 		{
 			new_pars = create_new_pars();
 			if (!new_pars)
-				return (free_pars(head),
-					ft_lstclear(lst, ((void (*))(void *)destroy_token)), NULL);
+				clean_exit(head, lst, "Error: failed to create new process\n");
 			if (!head)
 				head = new_pars;
 			else if (current)
 				current->next_process = new_pars;
-
 			current = new_pars;
 		}
 		else
@@ -141,35 +147,20 @@ t_pars	*convert_tokens(t_list *lst)
 			{
 				current = create_new_pars();
 				if (!current)
-				{
-					ft_putstr_fd("Error: failed to create new process\n", 2);
-					free_pars(head);
-					ft_lstclear(lst, ((void (*))(void *)destroy_token));
-					exit(1);
-				}
+					clean_exit(head, lst,
+						"Error: failed to create new process\n");
 				head = current;
 			}
-
 			if (is_token_type_redir(*token))
 			{
 				if (!token_list->next)
-				{
-					ft_putstr_fd("Error: expected filename after redirection\n",
-						2);
-					ft_lstclear(lst, ((void (*))(void *)destroy_token));
-					free_pars(head);
-					exit(1);
-				}
+					clean_exit(head, lst,
+						"Error: expected filename after redirection\n");
 				token_list = token_list->next;
 				filename_token = (t_token *)token_list->content;
 				if (!is_token_type_text(*filename_token))
-				{
-					ft_putstr_fd("Error: expected filename after redirection\n",
-						2);
-					ft_lstclear(lst, ((void (*))(void *)destroy_token));
-					free_pars(head);
-					exit(1);
-				}
+					clean_exit(head, lst,
+						"Error: expected filename after redirection\n");
 				add_redirection(current, map_token_to_redirect(token->type),
 					filename_token);
 			}
