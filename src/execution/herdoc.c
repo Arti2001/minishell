@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   herdoc.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/25 16:47:15 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   herdoc.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/27 05:01:20 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/26 14:26:07 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int  write_into_herdoc(int fd, t_redirect *redirect, t_i_env *i_env)
     		close(fd);
             break;
         }
-		if (redirect->is_epandable)
+		if (redirect->is_expandable)
 			ft_putendl_fd(expand_vars_str(line, DEFAULT, i_env), fd);
 		else
 			ft_putendl_fd(line, fd);
@@ -158,7 +158,7 @@ int	run_herdoc(t_redirect *redirects, t_i_env *i_env)
 {
 	int	i;
 	int	ret;
-	
+
 	ret = 1;
 	i = 0;
 	while (redirects[i].filename)

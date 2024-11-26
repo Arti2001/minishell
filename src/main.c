@@ -1,121 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/25 18:23:43 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/26 16:35:06 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-///*This is a temporary parsing. Below in the main() I read the input from the console, then  I split it with the ft_split function
-//and initialize the temporary struct init_temp_struct() which should contain the data for exexution (such as redirections, amount of pipes, heredoc) */
-
-
-
-//t_redirect	*init_redirect(void)
-//{
-//	int					i;
-//	int					count;
-//	t_redirect			*redirects;
-//	char				*names[] = { "a", NULL};
-//	t_redirect_type		type[] = {HEREDOC_RE, 0};
-
-//	count = 1;
-//	i = 0;
-//	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
-//	if (redirects == NULL)
-//		return (NULL);
-//	while (count > i)
-//	{
-//		redirects[i] = (t_redirect){names[i], type[i]};
-//		i++;
-//	}
-//	redirects[i] = (t_redirect){names[i], type[i]};
-//	return (redirects);
-//}
-
-
-//t_pars	*ll_last_pars(t_pars *last)
-//{
-//	if (last == NULL)
-//		return (NULL);
-//	while (last->next_process != NULL)
-//		last = last->next_process;
-//	return (last);
-//}
-
-//void	node_add_back(t_pars	**head, t_pars *new_node)
-//{
-//	t_pars*	last;
-
-//	if (head == NULL)
-//		return ;
-//	last = ll_last_pars(*head);
-//	last->next_process = new_node;
-//}
-
-//t_pars	*parsing_node(char **cmd)
-//{
-//	t_pars *pars;
-
-//	pars = (t_pars *)malloc(sizeof(t_pars) * 1);
-//	pars->cmd = cmd;
-//	pars->fd_in = STDIN_FILENO;
-//	pars->fd_out = STDOUT_FILENO;
-//	pars->redir = init_redirect();
-//	pars->path = NULL;
-//	pars->next_process = NULL;
-//	return (pars);
-//}
-
-//void	append_pars_node(t_pars **head, char **cmd)
-//{
-//	t_pars	*new_pars_node;
-
-//	new_pars_node = parsing_node(cmd);
-//	if (cmd == NULL)
-//	{
-//		printf("cmd is NULL");
-//		return ;
-//	}
-//	if (*head == NULL)
-//		*head = new_pars_node;
-//	else
-//		node_add_back(head, new_pars_node);
-//}
-
-//t_pars *set_parsing_lst(char **cmds)
-//{
-//	int	i;
-//	t_pars 	*head_pars;
-//	char 	**cmd_arg;
-//	i = 0;
-//	head_pars  = NULL;
-//	while (cmds[i])
-//	{
-//		cmd_arg = ft_split(cmds[i], ' ');
-//		append_pars_node(&head_pars, cmd_arg);
-//		i++;
-//	}
-//	return (head_pars);
-//}
-
-// void	init_pars_struct(char *input, t_pars *pars)
-// {
-// 	//pars =(t_pars *)ft_calloc(1, sizeof(t_pars));
-
-// 	pars->orig_in = dup(STDIN_FILENO);
-// 	pars->orig_out = dup(STDOUT_FILENO);
-// 	pars->cmd = ft_split(input, ' ');
-// 	pars->redir = init_redirect();
-// 	pars->next_process = NULL;
-// }
 
 volatile sig_atomic_t g_signal;
 
@@ -138,7 +33,6 @@ int	is_builtin(char *arg)
 	return (NO_BUILTIN);
 }
 
-/*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
 int	run_built_in(t_i_env *i_env, char **arg)
 {
 	if (arg == NULL)
@@ -152,7 +46,7 @@ int	run_built_in(t_i_env *i_env, char **arg)
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_echo(arg));
 	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0]) + 1))
-		return(ft_exit(arg, i_env));
+		return (ft_exit(arg, i_env));
 	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_unset(&i_env->env, arg));
 	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0]) + 1))
@@ -266,12 +160,17 @@ int main(int argc, char *argv[], char *envp[])
 			if (input == NULL)
 				return (1);
 			if (!input[0])
-				continue;
+				continue ;
 			if (g_signal == 2)
 				i_env->err_code = 130;
 			add_history(input);
 			pars = init_pars(input, i_env);
 			free(input);
+			if (pars == NULL)
+			{
+				i_env->err_code = 258;
+				continue ;
+			}
 			execution(pars, i_env);
 			g_signal = 0;
 		}
