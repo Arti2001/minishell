@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/25 16:47:35 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/11/26 14:26:07 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 # define MAX_PROCESSES 1024
 # define _GNU_SOURCE //This is for sigaction
 # define WHITESPACE " "
@@ -20,23 +20,22 @@
 # define NON_INTERACTIVE 2
 # define HERDOC_SIG 3
 
-#include <dirent.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include<sys/wait.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include "../libft/libft.h"
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <signal.h>
-
-
+# include <dirent.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include "../libft/libft.h"
+# include <limits.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <errno.h>
+# include <signal.h>
 
 typedef enum s_redirect_type
 {
@@ -108,7 +107,7 @@ typedef struct s_i_env
 typedef struct s_redirect
 {
 	char				*filename;
-	bool				is_epandable;
+	bool				is_expandable;
 	t_redirect_type		type;
 }	t_redirect;
 
@@ -119,7 +118,7 @@ typedef struct s_pars
 	char				*path;
 	t_redirect			*redir;
 	struct s_pars		*next_process;
-} t_pars;
+}	t_pars;
 
 
 ///**

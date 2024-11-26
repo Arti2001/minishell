@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/22 17:44:32 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/26 14:56:41 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	lookup_var(char **var, t_i_env *i_env)
 	char	*str;
 
 	if (!ft_strncmp(*var, "?", 2))
-		// TODO: print last exit cod e
 		str = ft_itoa(i_env->err_code);
 	else
 	{
