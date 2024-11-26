@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/20 14:20:16 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/26 14:59:38 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ int	redirect_in(t_redirect redirect)
 	if (file_fd == -1)
 	{
 		perror("can't open an infile");
-		return (1);
+		exit(EXIT_FAILURE);
 	}
 	if (dup2(file_fd, STDIN_FILENO) == -1)
 	{
 		perror("can't redirect stdin");
-		return (1);
+		exit(EXIT_FAILURE);
 	}
 	if (close(file_fd) == -1)
 	{
 		perror("can't close infile");
-		return(1) ;
+		exit(EXIT_FAILURE);
 	}
 	return (0);
 }
@@ -94,12 +94,12 @@ void	redirect_out(t_redirect redirect)
 	if (dup2(file_fd, STDOUT_FILENO) == -1)
 	{
 		perror("cant't redirect stdout");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	if (close(file_fd) == -1)
 	{
 		perror("can't close outfile");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -112,17 +112,13 @@ int		redirect_check(t_pars *pars)
 		return (0);
 	while (pars->redir[i].filename)
 	{
-		if (pars->redir[i].type == HEREDOC_RE)
+		if (pars->redir[i].type == HEREDOC_RE || pars->redir[i].type == IN)
 		{
 			redirect_in(pars->redir[i]);
 		}
 		else if(pars->redir[i].type == OUT || pars->redir[i].type == OUT_A)
 		{
 			redirect_out(pars->redir[i]);
-		}
-		else if (pars->redir[i].type == IN)
-		{
-			redirect_in(pars->redir[i]);
 		}
 		i++;
 	}

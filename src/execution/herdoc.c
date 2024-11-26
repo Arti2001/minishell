@@ -1,84 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   herdoc.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/27 05:01:20 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/26 14:26:07 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/26 17:56:19 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-// char *get_lastheredoc(t_redirect *redirects)
-// {
-// 	int		i;
-// 	char	*last_heredoc_name;
-
-// 	i = 0;
-// 	last_heredoc_name  = NULL;
-// 	while (redirects[i].filename)
-// 	{
-// 		if (redirects[i].type == HEREDOC_RE)
-// 			last_heredoc_name = redirects[i].filename;
-// 		i++;
-// 	}
-// 	return (last_heredoc_name);
-// }
-
-// void	child_heredoc(int fd[2], char *delimiter)
-// {
-// 	char 	*line;
-
-// 	line =  NULL;
-// 	close(fd[0]);
-// 	while (1)
-// 	{
-// 		line = readline(">");
-// 		if (line == NULL)
-// 		{
-// 			printf("bash: warning: here-document at line 2 delimited by end-of-file (wanted `%s'))", delimiter);
-// 			exit(0);
-// 		}
-// 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-// 		{
-// 			free(line);
-// 			break;
-// 		}
-// 		ft_putendl_fd(line, fd[1]);
-// 		free(line);
-// 	}
-// 	close(fd[1]);
-// 	exit(EXIT_SUCCESS);
-// }
-
-// int		redirect_herdoc(t_redirect *heredoc)
-// {
-// 	char	*delimiter;
-// 	int		fd[2];
-// 	pid_t	pid;
-
-// 	delimiter = heredoc->filename;
-// 	if (pipe(fd) == -1)
-// 		return (perror("Faild to create pipe in heredoc"), 0);
-// 	pid = fork();
-// 	if (pid == -1)
-// 		return (close_fd(fd[1], fd[2]), perror("Faild to fork in heredoc"), 0);
-// 	if (pid == 0)
-// 		child_heredoc(fd, delimiter);
-// 	if (close(fd[1]) == -1)
-// 		return (perror("Faild to close write-end in heredoc"), 0);
-// 	waitpid(pid, NULL, 0);
-// 	if (!ft_strncmp(delimiter, get_lastheredoc(heredoc), ft_strlen(delimiter)))
-// 		if (dup2(fd[0], STDIN_FILENO) == -1)
-// 			return (perror("redirect in heredoc error!"), 0);
-// 	if (close(fd[0]) == -1)
-// 		return (perror("Faild to close read-end in heredoc"),0);
-// 	return (1);
-// }
 
 extern volatile sig_atomic_t g_signal;
 
@@ -98,31 +30,53 @@ int	go_all_herdoc(t_pars *pars, t_i_env *i_env)
 	}
 	return (1);
 }
-
+int	handle_rline_failure(char *delim, int	orig_stdin, char *line, int file_fd)
+{
+	if (g_signal == SIGINT)
+	{
+		if (dup2(orig_stdin, STDIN_FILENO) == -1)
+		{
+			perror("Failed to restore stdin");
+			exit(EXIT_FAILURE);	
+		}
+		if (close(orig_stdin) == -1)
+		{
+			perror("Failed to close stdin");
+			exit(EXIT_FAILURE);	
+		}
+		free(line);
+		return (g_signal);
+	}
+	ft_putstr_fd("Warning: Here-document is not properly closed. Expected delimiter: `", 2);
+	ft_putstr_fd(delim, 2);
+	ft_putendl_fd("'", 2);
+	free(line);
+	close(file_fd);
+	return (1);
+}
+void	expand_or_write(t_redirect *redirect, int fd, char *line, t_i_env *i_env)
+{
+	if (redirect->is_expandable)
+		ft_putendl_fd(expand_vars_str(line, DEFAULT, i_env), fd);
+	else
+		ft_putendl_fd(line, fd);
+    free(line);
+}
 int  write_into_herdoc(int fd, t_redirect *redirect, t_i_env *i_env)
 {
     char    *line;
-    char    *delimiter;
 	int		orig_in;
 
 	orig_in = dup(STDIN_FILENO);
     line = NULL;
-    delimiter = redirect->filename;
 	init_siagtion(HERDOC_SIG);
     while (1)
     {
         line = readline(">");
         if (line == NULL)
 		{
-			if (g_signal == SIGINT)
-			{
-				dup2(orig_in, STDIN_FILENO);
+			if (handle_rline_failure(redirect->filename, orig_in, line, fd) == g_signal)
 				return (g_signal);
-			}
-        	printf("Warning: Here-document is not properly closed. Expected delimiter: `%s'\n", delimiter);
-			free(line);
-			close(fd);
-			break ;
 		}
         if (ft_strncmp(line, redirect->filename, ft_strlen(redirect->filename) + 1) == 0)
         {
@@ -130,11 +84,7 @@ int  write_into_herdoc(int fd, t_redirect *redirect, t_i_env *i_env)
     		close(fd);
             break;
         }
-		if (redirect->is_expandable)
-			ft_putendl_fd(expand_vars_str(line, DEFAULT, i_env), fd);
-		else
-			ft_putendl_fd(line, fd);
-        free(line);
+		expand_or_write(redirect, fd, line, i_env);
     }
 	dup2(orig_in, STDIN_FILENO);
 	return (g_signal);
@@ -148,6 +98,7 @@ int    open_herdoc(t_redirect *redirect, t_i_env *i_env)
     if (fd == -1)
     {
         perror("Faild to open the heredoc.txt");
+		i_env->err_code = 1;
         return (0);
     }
    return (write_into_herdoc(fd, redirect, i_env));

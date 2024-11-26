@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/26 16:35:06 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/26 18:22:04 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,29 +85,12 @@ void	handle_built_in(t_pars *pars, t_i_env *i_env)
 		return ;
 	}
 }
-//if (pars->next_process == NULL)
-//	{
-//		if (pars->cmd != NULL || pars->redir != NULL )
-//		{
 
-//		if (is_herdoc(pars->redir))
-//		if (run_herdoc(pars->redir, i_env) == SIGINT)
-//		{
-//				i_env->err_code = g_signal + 128;
-//				return (1);
-//		}
-//		if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
-//		{
-//				handle_built_in(pars, i_env);
-//				return (1);
-//		}
-//		}
-//		run_single_cmd(pars, i_env);
-//	}
 int	execution(t_pars *pars, t_i_env *i_env)
 {
 	if (pars->next_process == NULL)
 	{
+		
 		if (is_herdoc(pars->redir))
 			if (run_herdoc(pars->redir, i_env) == SIGINT)
 			{
@@ -131,12 +114,17 @@ int	execution(t_pars *pars, t_i_env *i_env)
 char	*path_promt(char *curr_path)
 {
 	char *str;
-
+	
 	str = ft_strjoin(curr_path, "$ ");
 	if (str == NULL)
 		return (NULL);
 	return (str);
 }
+
+//int	free_return(t_i_env **i_env)
+//{
+//	int		
+//}
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -173,6 +161,7 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			execution(pars, i_env);
 			g_signal = 0;
+			free_pars(pars);
 		}
 		free_list(i_env->env);
 		free(i_env);

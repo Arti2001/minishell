@@ -36,6 +36,7 @@ void	execute_cmd(t_pars *pars, t_env *env)
 	char	**env_array;
 
 	env_array = back_to_array(env);
+	path_hendler(env, &pars, pars->cmd[0]);
 	redirect_check(pars);
 	execve(pars->path, pars->cmd, env_array);
 	ft_putstr_fd(pars->cmd[0], 2);
@@ -80,8 +81,6 @@ void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 	{
 		if (access(pars->cmd[0], X_OK | F_OK) == 0)
 			pars->path = pars->cmd[0];
-		else
-			path_hendler(i_env->env, &pars, pars->cmd[0]);
 	}
 	exit_status = new_proccess(pars, i_env->env);
 	if (WIFEXITED(exit_status))

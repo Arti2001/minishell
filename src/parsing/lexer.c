@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/29 14:52:41 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:40:38 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 14:52:41 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/11/26 18:05:04 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	lexer(t_list **lst)
 	{
 		while (1)
 		{
-			token = (*process_tokens)(lst_i->content);
+			token = process_tokens(lst_i->content);
 			if (token == NULL)
 				break ;
 			ft_lstadd_back(&ret, null_exit(ft_lstnew(token)));

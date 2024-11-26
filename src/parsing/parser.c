@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/29 14:52:30 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/26 14:12:37 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 14:52:30 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/11/26 18:01:34 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ t_pars	*init_pars(char *line, t_i_env *i_env)
 	if (!pars)
 		printf("Error: failed to convert tokens\n");
 	//print_pars(pars);
+	ft_lstclear(&tokens, ((void (*))(void *)destroy_token));
 	return (pars);
 }
