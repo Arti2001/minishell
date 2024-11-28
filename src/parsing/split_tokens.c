@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/07 17:50:02 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/28 16:24:16 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/28 16:53:49 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ void	split_tokens(t_list **lst)
 	t_list	*ret;
 
 	ret = split_tokens_f(*lst);
-	ft_lstclear(&ret, ((void (*))(void *)destroy_token));
+	ft_lstclear(lst, ((void (*))(void *)destroy_token));
 	*lst = ret;
 }
