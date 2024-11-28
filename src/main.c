@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/28 16:41:57 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/28 17:02:53 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,10 @@ int main(int argc, char *argv[], char *envp[])
 			if (input == NULL)
 				return (1);
 			if (!input[0])
+			{
+				free(input);
 				continue ;
+			}
 			if (g_signal == 2)
 				i_env->err_code = 130;
 			add_history(input);
