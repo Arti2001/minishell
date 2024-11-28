@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/23 00:00:07 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/27 13:51:28 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,15 @@
 
 static int	change_cwd(t_env *env, char *str)
 {
-	update_env_value(env, "OLDPWD", getcwd(NULL, 0));
+	char	*curr;
+
+	curr = getcwd(NULL, 0);
+	update_env_value(env, "OLDPWD", curr);
+	free(curr);
 	chdir(str);
-	update_env_value(env, "PWD", getcwd(NULL, 0));
+	curr = getcwd(NULL, 0);
+	update_env_value(env, "PWD", curr);
+	free(curr);
 	return (0);
 }
 
@@ -42,7 +48,7 @@ static int	cd_check(char **arg, t_env *env)
 	dir = opendir(arg[1]);
 	if (access(arg[1], F_OK) == 0 && (dir != NULL))
 	{
-		return (change_cwd(env, arg[1]));
+		return (closedir(dir), change_cwd(env, arg[1]));
 	}
 	else if (access(arg[1], F_OK) == -1)
 	{

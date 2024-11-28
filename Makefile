@@ -16,7 +16,7 @@ VPATH			=	$(dir $(SRCS))
 
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g $(HEADERS)
+CFLAGS			=	-Wall -Wextra -Werror -g $(HEADERS) #-fsanitize=address
 RFLAGS 			=	-lreadline
 
 all:			libft $(NAME)

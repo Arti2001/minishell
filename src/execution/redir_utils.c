@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/26 14:59:38 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/27 17:56:06 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	redirect_out(t_redirect redirect)
 {
 	int	file_fd;
 
-	if( redirect.type == OUT)
+	if ( redirect.type == OUT)
 		file_fd = open(redirect.filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	else
 		file_fd = open(redirect.filename, O_CREAT | O_APPEND | O_RDWR, 0644);
@@ -103,20 +103,18 @@ void	redirect_out(t_redirect redirect)
 	}
 }
 
-int		redirect_check(t_pars *pars)
+int	redirect_check(t_pars *pars)
 {
 	int		i;
 
 	i = 0;
-	if (pars->redir == NULL)
-		return (0);
 	while (pars->redir[i].filename)
 	{
 		if (pars->redir[i].type == HEREDOC_RE || pars->redir[i].type == IN)
 		{
 			redirect_in(pars->redir[i]);
 		}
-		else if(pars->redir[i].type == OUT || pars->redir[i].type == OUT_A)
+		else if (pars->redir[i].type == OUT || pars->redir[i].type == OUT_A)
 		{
 			redirect_out(pars->redir[i]);
 		}

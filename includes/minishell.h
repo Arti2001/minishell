@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/26 16:20:31 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/28 11:51:05 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void				ll_addback(t_env **env_head, t_env *new_node);
 int					append_node(t_env **head_env, char *content);
 
 /*Built_ins*/
-int					ft_pwd(void);
+int					ft_pwd(char **arg);
 int					ft_env(t_env *env);
 int					ft_exit(char **arg, t_i_env *i_env);
 int					is_builtin(char *arg);
@@ -150,6 +150,7 @@ int					run_built_in(t_i_env *i_env, char **arg);
 
 /*ENVIRONMENT*/
 t_env				*set_env(char **env);
+void				shell_lvl(t_env *env);
 char				*get_key(char *content);
 char				*get_value(char *content);
 int					check_var_syntax(char *str);

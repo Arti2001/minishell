@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   path_utils.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/24 16:35:55 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/14 14:28:34 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
+/*   Updated: 2024/11/28 14:31:25 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_path(char *name, t_env *env)
 
 char	**env_split_path(t_env **env)
 {
-	char *path;
+	char	*path;
 
 	path = get_path("PATH", *env);
 	if (path == NULL)
@@ -62,7 +62,8 @@ char	*matching_pathes(char **splited_pathes, char *check_path)
 
 void	path_hendler(t_env *env, t_pars **pars, char *cmd)
 {
-	char **splited_pathes;
+	char	**splited_pathes;
+
 	splited_pathes = env_split_path(&env);
 	(*pars)->path = matching_pathes(splited_pathes, cmd);
 	double_array_free(splited_pathes);

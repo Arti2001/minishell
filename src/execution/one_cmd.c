@@ -14,7 +14,7 @@
 
 extern volatile sig_atomic_t	g_signal;
 
-int		is_herdoc(t_redirect *redirect)
+int	is_herdoc(t_redirect *redirect)
 {
 	int	i;
 
@@ -36,8 +36,14 @@ void	execute_cmd(t_pars *pars, t_env *env)
 	char	**env_array;
 
 	env_array = back_to_array(env);
+	if (access(pars->cmd[0], X_OK | F_OK) == 0)
+	{
+		pars->path = pars->cmd[0];
+	}
+	else
 	path_hendler(env, &pars, pars->cmd[0]);
-	redirect_check(pars);
+	if (pars->redir)
+		redirect_check(pars);
 	execve(pars->path, pars->cmd, env_array);
 	ft_putstr_fd(pars->cmd[0], 2);
 	ft_putendl_fd(": command not found", 2);
@@ -64,10 +70,12 @@ int	new_proccess(t_pars *pars, t_env *env)
 		execute_cmd(pars, env);
 	}
 	if (pars->cmd != NULL)
-	if (waitpid(pid, &status, 0) == -1)
 	{
-		perror("error waitpid");
-		exit(EXIT_FAILURE);
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("error waitpid");
+			exit(EXIT_FAILURE);
+		}
 	}
 	init_siagtion(INTERACTIVE);
 	return (status);
@@ -77,17 +85,12 @@ void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 {
 	int	exit_status;
 
-	if (pars -> cmd != NULL)
-	{
-		if (access(pars->cmd[0], X_OK | F_OK) == 0)
-			pars->path = pars->cmd[0];
-	}
 	exit_status = new_proccess(pars, i_env->env);
 	if (WIFEXITED(exit_status))
 	{
 		i_env->err_code = WEXITSTATUS(exit_status);
 	}
 	else
-		if(WTERMSIG(exit_status))
+		if (WTERMSIG(exit_status))
 			i_env->err_code = g_signal + 128;
 }

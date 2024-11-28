@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/25 16:47:28 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 13:50:56 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,27 +106,9 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 	if (WIFEXITED(count))
 		i_env->err_code = WEXITSTATUS(count);
 	else
-		if(WTERMSIG(count))
+		if (WTERMSIG(count))
 			i_env->err_code = g_signal + 128;
 	return (init_siagtion(NON_INTERACTIVE), 1);
 }
 
 
-
-
-
-
-//int	ft_close (int *ptr)
-//{
-//	int	ret;
-
-//	ret = 0;
-//	if (*ptr != -1)
-//	{
-//		ret = close(*ptr);
-//		*ptr = -1;
-//	}
-//	else
-//		printf("fd was already closed\n");
-//	return (ret);
-//}

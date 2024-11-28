@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:06:00 by ydidenko          #+#    #+#             */
-/*   Updated: 2024/11/26 18:14:52 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/27 13:28:01 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,19 @@ void	free_pars(t_pars *pars)
 		return ;
 	if (pars->cmd)
 	{
-		while (pars->cmd[i])
-			(free(pars->cmd[i]), i++);
-		free(pars->cmd);
+		double_array_free(pars->cmd);
+		// while (pars->cmd[i])
+		// 	(free(pars->cmd[i]), i++);
+		// free(pars->cmd);
 	}
 	if (pars->redir)
 	{
-		while (pars->redir->filename)
-			(free(pars->redir->filename), pars->redir++);
+		while (pars->redir[i].filename)
+			(free(pars->redir[i].filename), i++);
 		free(pars->redir);
 	}
-	if (pars->path)
-		free(pars->path);
+	// if (pars->path)
+	// 	free(pars->path);
 	if (pars->next_process)
 		free_pars(pars->next_process);
 	free(pars);

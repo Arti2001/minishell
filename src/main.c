@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/26 18:22:04 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 13:27:44 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	run_built_in(t_i_env *i_env, char **arg)
 	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_cd(i_env->env, arg));
 	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0]) + 1))
-		return (ft_pwd());
+		return (ft_pwd(arg));
 	if (!ft_strncmp("env", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_env(i_env->env));
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0]) + 1))
@@ -90,41 +90,53 @@ int	execution(t_pars *pars, t_i_env *i_env)
 {
 	if (pars->next_process == NULL)
 	{
-		
 		if (is_herdoc(pars->redir))
+		{
 			if (run_herdoc(pars->redir, i_env) == SIGINT)
 			{
-					i_env->err_code = g_signal + 128;
-					return (1);
+				i_env->err_code = g_signal + 128;
+				return (1);
 			}
+		}
 		if (pars->cmd != NULL)
 		{
 			if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 			{
-					handle_built_in(pars, i_env);
-					return (1);
+				handle_built_in(pars, i_env);
+				return (1);
 			}
-			run_single_cmd(pars, i_env);
+			else
+				run_single_cmd(pars, i_env);
 		}
 	}
 	else
-		return(run_multi_cmd(pars, i_env));
+		return (run_multi_cmd(pars, i_env));
 	return (1);
 }
-char	*path_promt(char *curr_path)
+
+char	*path_promt(void)
 {
-	char *str;
-	
-	str = ft_strjoin(curr_path, "$ ");
+	char	*str;
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	str = ft_strjoin(cwd, "$ ");
 	if (str == NULL)
-		return (NULL);
-	return (str);
+		return (free(cwd), NULL);
+	return (free(cwd), str);
 }
 
-//int	free_return(t_i_env **i_env)
-//{
-//	int		
-//}
+void	shell_lvl(t_env *env)
+{
+	char	*value;
+	int		shlvl;
+
+	value = get_path("SHLVL", env);
+	shlvl = ft_atoi(value);
+	shlvl += 1;
+	value = ft_itoa(shlvl);
+	update_env_value(env, "SHLVL", value);
+}
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -137,12 +149,13 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
 		i_env->env = (t_env *)null_exit(set_env(envp));
+		shell_lvl(i_env->env);
 		g_signal = 0;
 		input = NULL;
 		init_siagtion(INTERACTIVE);
 		while (1)
 		{
-			promt = path_promt(getcwd(NULL, 0));
+			promt = path_promt();
 			input = readline(promt);
 			free(promt);
 			if (input == NULL)

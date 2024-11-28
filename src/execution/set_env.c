@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/22 23:03:50 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 12:16:55 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,13 @@ int	update_env_value(t_env *env, char *var_name, char *new_val)
 				free(env->value);
 			}
 			env->value = ft_strdup(new_val);
+			free(env->content);
+			env->content = key_val_join(env->name, env->value);
 			return (0);
 		}
 		env = env->next;
 	}
-	return(1);
+	return (1);
 }
 
 char	*key_val_join(char *key, char *value)
@@ -168,17 +170,18 @@ int	append_node(t_env **head_env, char *content)
 	value = get_value(content);
 	if (value == NULL)
 	{
-		free(key);
-		return (0);
+		return (free(key), 0);
 	}
 	new_node = ft_env_lstnew(key, value);
 	if (new_node == NULL)
-		return (0);
+	{
+		return (free(key), free(value), 0);
+	}
 	if (*head_env == NULL)
 		*head_env = new_node;
 	else
 		ll_addback(head_env, new_node);
-	return (1);
+	return (free(key), free(value), 1);
 }
 
 t_env	*set_env(char **env)
@@ -191,7 +194,10 @@ t_env	*set_env(char **env)
 	while (env[i])
 	{
 		if (!append_node(&head_env, env[i]))
+		{
+			free_list(head_env);
 			return (NULL);
+		}
 		i++;
 	}
 	return (head_env);
