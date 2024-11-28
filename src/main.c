@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/11/28 17:02:53 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/11/28 17:16:47 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,10 @@ int main(int argc, char *argv[], char *envp[])
 			input = readline(promt);
 			free(promt);
 			if (input == NULL)
-				return (1);
+			{
+				printf("exit\n");
+				break ;
+			}
 			if (!input[0])
 			{
 				free(input);
@@ -181,6 +184,7 @@ int main(int argc, char *argv[], char *envp[])
 			g_signal = 0;
 			free_pars(pars);
 		}
+		rl_clear_history();
 		free_list(i_env->env);
 		free(i_env);
 	}
