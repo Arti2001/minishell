@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 13:50:56 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 15:21:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,14 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 {
 	pid_t		pid;
 	pid_t		pids[MAX_PROCESSES];
+	t_pars		*pars_head;
 	int			fd[2];
 	int			pid_count;
 	int			count;
 
 	pid_count = 0;
 	count = 0;
+	pars_head = pars;
 	if (go_all_herdoc(pars, i_env) == SIGINT)
 	{
 		i_env->err_code = g_signal + 128;
@@ -102,12 +104,7 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 			count++;
 		}
 	}
-	count = wait_for_childs(pid_count, pids);
-	if (WIFEXITED(count))
-		i_env->err_code = WEXITSTATUS(count);
-	else
-		if (WTERMSIG(count))
-			i_env->err_code = g_signal + 128;
+	count = wait_for_childs(pid_count, pids, i_env, pars_head);
 	return (init_siagtion(NON_INTERACTIVE), 1);
 }
 

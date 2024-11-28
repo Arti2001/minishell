@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 14:31:25 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 22:59:10 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ char	**env_split_path(t_env **env)
 
 	path = get_path("PATH", *env);
 	if (path == NULL)
-		return (NULL);
+	{
+		return (ft_split(".", ' '));
+	}
 	path = ft_strchr(path, '/');
 	return (ft_split(path, ':'));
 }
@@ -66,6 +68,11 @@ void	path_hendler(t_env *env, t_pars **pars, char *cmd)
 
 	splited_pathes = env_split_path(&env);
 	(*pars)->path = matching_pathes(splited_pathes, cmd);
+	if ((*pars)->path == NULL)
+	{
+		if (access(cmd, X_OK | F_OK) == 0)
+			(*pars)->path = cmd;
+	}
 	double_array_free(splited_pathes);
 }
 

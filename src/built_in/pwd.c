@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:30:47 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/27 13:29:49 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 22:06:41 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,19 @@ int	ft_pwd(char **arg)
 
 	if (arg[1] != NULL)
 	{
-		ft_putendl_fd("To many arguments", 2);
+		ft_putendl_fd("To many arguments", STDERR_FILENO);
 		return (1);
 	}
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 	{
-		ft_putendl_fd("Failed to define the current workin directory", 2);
+		ft_putendl_fd("Failed to define the current workin directory", \
+			STDERR_FILENO);
 		return (1);
 	}
 	else
 	{
-		ft_putendl_fd(path, 1);
+		ft_putendl_fd(path, STDOUT_FILENO);
 		free(path);
 		return (0);
 	}

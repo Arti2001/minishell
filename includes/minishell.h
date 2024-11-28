@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 11:51:05 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 15:21:21 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ char				*matching_pathes(char **splited_pathes, char *check_path);
 /*STRING UTILITI*/
 
 /*PROCCESSES*/
-int					wait_for_childs(int num_pid, pid_t *pids);
+int					wait_for_childs(int num_pid, pid_t *pids, t_i_env *i_env, t_pars *pars);
 int					run_multi_cmd(t_pars *pars, t_i_env *env);
 void				run_single_cmd(t_pars *pars, t_i_env *env);
 void				my_dear_child(int fd_write_end, int process_num,

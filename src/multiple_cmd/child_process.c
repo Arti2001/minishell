@@ -6,13 +6,33 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 13:45:01 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/28 22:54:29 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	wait_for_childs(int num_pid, pid_t *pids)
+extern volatile sig_atomic_t	g_signal;
+
+
+void	exit_code(int status, t_i_env *i_env,  t_pars *pars)
+{
+	if (WIFEXITED(status))
+	{
+		i_env->err_code = WEXITSTATUS(status);
+		if (i_env->err_code == 127)
+		{
+			ft_putstr_fd(pars->cmd[0], 2);
+			ft_putendl_fd(": command not found", 2);
+		}
+	}
+	else if (WTERMSIG(status))
+		i_env->err_code = g_signal + 128;
+	else
+		i_env->err_code = -1;
+}
+
+int	wait_for_childs(int num_pid, pid_t *pids, t_i_env *i_env, t_pars *pars)
 {
 	int		i;
 	int		status;
@@ -21,38 +41,37 @@ int	wait_for_childs(int num_pid, pid_t *pids)
 	status = 0;
 	while (i < num_pid)
 	{
-		if (waitpid(pids[i], &status, 0)  == -1)
+		if (waitpid(pids[i], &status, 0) == -1)
 		{
 			perror("waitpid failed");
 			exit(1);
 		}
+		exit_code(status, i_env, pars);
 		i++;
+		if (pars)
+			pars = pars->next_process;
 	}
 	return (status);
 }
 
 /*try to store the read end  before  you fork*/
-void	set_child(t_pars *pars, t_env *env, int fd_write, int p_num)
+void	set_child(t_pars *pars, int fd_write, int p_num, t_env *env)
 {
 	if (pars->cmd == NULL)
 	{
 		exit(EXIT_SUCCESS);
 	}
-	if (check_redirection_type(p_num, pars, fd_write) == 0)
+	else if (check_redirection_type(p_num, pars, fd_write) == 0)
 	{
 		close(fd_write);
 		perror ("pipe redirection failed");
 		exit(EXIT_FAILURE);
 	}
-	if (pars->redir != NULL)
+	else if (pars->redir != NULL)
 	{
 		redirect_check(pars);
 	}
-	if (access(pars->cmd[0], X_OK | F_OK) == 0)
-	{
-		pars->path = pars->cmd[0];
-	}
-	else
+	if (is_builtin(pars->cmd[0]) == NO_BUILTIN)
 	{
 		path_hendler(env, &pars, pars->cmd[0]);
 	}
@@ -61,22 +80,22 @@ void	set_child(t_pars *pars, t_env *env, int fd_write, int p_num)
 void	my_dear_child(int fd, int process_num, t_pars *pars, t_i_env *i_env)
 {
 	char	**env_array;
+	int		ret;
 
-	env_array = back_to_array(i_env->env);
-	if (!env_array)
-	{
-		close(fd);
-		perror("Environment array creation failed");
-		exit(EXIT_FAILURE);
-	}
-	set_child(pars, i_env->env, fd, process_num);
+	set_child(pars, fd, process_num, i_env->env);
 	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 	{
-		run_built_in(i_env, pars->cmd);
-		exit(EXIT_SUCCESS);
+		ret = run_built_in(i_env, pars->cmd);
+		exit(ret);
 	}
 	else
 	{
+		env_array = back_to_array(i_env->env);
+		if (!env_array)
+		{
+			perror("Environment array creation failed");
+			exit(EXIT_FAILURE);
+		}
 		execve(pars->path, pars->cmd, env_array);
 		double_array_free(pars->cmd);
 		free(pars->path);
