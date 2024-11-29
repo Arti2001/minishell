@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 12:16:55 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/29 15:53:21 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,15 +143,18 @@ char	*key_val_join(char *key, char *value)
 {
 	char	*tmp;
 	char	*full_str;
+	char	*empty_line;
 
+	empty_line = ft_strdup("");
 	tmp= ft_strjoin(key, "=");
 	if (tmp == NULL)
-		return (NULL);
+		return (free(empty_line), NULL);
 	if (value == NULL)
-		full_str = ft_strjoin(tmp, ft_strdup(""));
+		full_str = ft_strjoin(tmp, empty_line);
 	else
 		full_str = ft_strjoin(tmp, value);
 	free(tmp);
+	free(empty_line);
 	return (full_str);
 }
 

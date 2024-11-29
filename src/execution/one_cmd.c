@@ -31,17 +31,18 @@ int	is_herdoc(t_redirect *redirect)
 	return (0);
 }
 
-void	execute_cmd(t_pars *pars, t_env *env)
+void	execute_cmd(t_pars *pars, t_i_env *i_env)
 {
 	char	**env_array;
 
-	env_array = back_to_array(env);
+	env_array = back_to_array(i_env->env);
 
-	path_hendler(env, &pars, pars->cmd[0]);
+	path_hendler(i_env, &pars, pars->cmd[0]);
 	if (pars->redir)
 		redirect_check(pars);
 	if (pars->path)
 		execve(pars->path, pars->cmd, env_array);
+	else if(i_env->err_code != 126)
 	{
 		ft_putstr_fd(pars->cmd[0], 2);
 		ft_putendl_fd(": command not found", 2);
@@ -49,9 +50,15 @@ void	execute_cmd(t_pars *pars, t_env *env)
 		free(pars->path);
 		exit(127);
 	}
+	else
+	{
+		double_array_free(pars->cmd);
+		free(pars->path);
+		exit(126);
+	}
 }
 
-int	new_proccess(t_pars *pars, t_env *env)
+int	new_proccess(t_pars *pars, t_i_env *i_env)
 {
 	pid_t	pid;
 	int		status;
@@ -66,7 +73,7 @@ int	new_proccess(t_pars *pars, t_env *env)
 	init_siagtion(NON_INTERACTIVE);
 	if (pid == 0 && pars->cmd != NULL)
 	{
-		execute_cmd(pars, env);
+		execute_cmd(pars, i_env);
 	}
 	if (pars->cmd != NULL)
 	{
@@ -84,7 +91,7 @@ void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 {
 	int	exit_status;
 
-	exit_status = new_proccess(pars, i_env->env);
+	exit_status = new_proccess(pars, i_env);
 	if (WIFEXITED(exit_status))
 	{
 		i_env->err_code = WEXITSTATUS(exit_status);

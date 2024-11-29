@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/23 00:03:17 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/29 15:13:11 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_var_syntax(char *str)
 	{
 		ft_putstr_fd("bash: export: '", 2);
 		ft_putstr_fd(str, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
+		shell_putendl_fd("': not a valid identifier", 2);
 		return (1);
 	}
 	while (str[i])
@@ -32,7 +32,7 @@ int	check_var_syntax(char *str)
 		{
 			ft_putstr_fd("bash: export: '", 2);
 			ft_putstr_fd(str, 2);
-			ft_putendl_fd("': not a valid identifier", 2);
+			shell_putendl_fd("': not a valid identifier", 2);
 			return (1);
 		}
 	}

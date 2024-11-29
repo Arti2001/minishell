@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 15:21:21 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/29 16:07:34 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,13 +162,12 @@ void				init_pwd(t_env *env, char *name, char *value);
 int					update_env_value(t_env *env, char *var_name, char *new);
 
 /*PATH*/
-char				**env_split_path(t_env **env);
 char				*get_path(char *name, t_env *env);
 void				set_extern_cmd_path(t_pars *pars, t_env *env);
-void				path_hendler(t_env *env, t_pars **pars, char *cmd);
-char				*matching_pathes(char **splited_pathes, char *check_path);
+void				path_hendler(t_i_env *i_env, t_pars **pars, char *cmd);
 
 /*STRING UTILITI*/
+void				shell_putendl_fd(char *s, int fd);
 
 /*PROCCESSES*/
 int					wait_for_childs(int num_pid, pid_t *pids, t_i_env *i_env, t_pars *pars);

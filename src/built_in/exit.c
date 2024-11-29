@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:08 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/26 13:45:50 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/29 15:12:14 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ static int	check_err(char **arg)
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("bash: exit: ", 2);
 		ft_putstr_fd(arg[1], 2);
-		ft_putendl_fd(": numeric argument required", 2);
+		shell_putendl_fd(": numeric argument required", 2);
 		return (2);
 	}
 	else if (arg[2] != NULL)
 	{
-		ft_putendl_fd("exit: too many arguments\n", 2);
+		shell_putendl_fd("exit: too many arguments\n", 2);
 		return (1);
 	}
 	val = ft_atol(arg[1]);
 	if (val > INT_MAX || val < INT_MIN)
 	{
-		ft_putendl_fd("exit", 2);
+		shell_putendl_fd("exit", 2);
 		return (1);
 	}
 	return (val % 256);

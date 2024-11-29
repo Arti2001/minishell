@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 23:22:28 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/29 15:56:23 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	shell_lvl(t_env *env)
 	shlvl += 1;
 	value = ft_itoa(shlvl);
 	update_env_value(env, "SHLVL", value);
+	free(value);
 }
 
 int main(int argc, char *argv[], char *envp[])
