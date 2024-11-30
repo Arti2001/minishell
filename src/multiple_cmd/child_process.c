@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 15:39:46 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 01:16:23 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	wait_for_childs(int num_pid, pid_t *pids, t_i_env *i_env, t_pars *pars)
 }
 
 /*try to store the read end  before  you fork*/
-void	set_child(t_pars *pars, int fd_write, int p_num, t_env *env)
+void	set_child(t_pars *pars, int fd_write, int p_num, t_i_env *i_env)
 {
 	if (pars->cmd == NULL)
 	{
@@ -84,7 +84,7 @@ void	set_child(t_pars *pars, int fd_write, int p_num, t_env *env)
 	}
 	if (is_builtin(pars->cmd[0]) == NO_BUILTIN)
 	{
-		path_hendler(env, &pars, pars->cmd[0]);
+		path_hendler(i_env, &pars, pars->cmd[0]);
 	}
 }
 
@@ -94,7 +94,7 @@ void	my_dear_child(int fd, int process_num, t_pars *pars, t_i_env *i_env)
 	char	**env_array;
 	int		ret;
 
-	set_child(pars, fd, process_num, i_env->env);
+	set_child(pars, fd, process_num, i_env);
 	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 	{
 		ret = run_built_in(i_env, pars->cmd);

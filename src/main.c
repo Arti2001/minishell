@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 15:56:23 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 01:15:22 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,36 +54,39 @@ int	run_built_in(t_i_env *i_env, char **arg)
 	return (NO_BUILTIN);
 }
 
-void	handle_built_in(t_pars *pars, t_i_env *i_env)
+int	handle_built_in(t_pars *pars, t_i_env *i_env)
 {
 	int	fd_in;
 	int	fd_out;
+	int	ret;
 
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	if (pars->redir != NULL)
 		redirect_check(pars);
-	i_env->err_code = run_built_in(i_env, pars->cmd);
+	ret =  run_built_in(i_env, pars->cmd);
+	i_env->err_code = ret;
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{
 		perror("Faild to restore stdin");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	if (close(fd_in) == -1)
 	{
 		perror("Faild to close temporary stdin");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
 		perror("Faild to restore stdout");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	if (close(fd_out) == -1)
 	{
 		perror("Faild to close temporary stdout");
-		return ;
+		exit(EXIT_FAILURE);
 	}
+	return (ret);
 }
 
 int	execution(t_pars *pars, t_i_env *i_env)
@@ -95,22 +98,21 @@ int	execution(t_pars *pars, t_i_env *i_env)
 			if (run_herdoc(pars->redir, i_env) == SIGINT)
 			{
 				i_env->err_code = g_signal + 128;
-				return (1);
+				return (i_env->err_code);
 			}
 		}
 		if (pars->cmd != NULL)
 		{
 			if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
-			{
-				handle_built_in(pars, i_env);
-				return (1);
-			}
+				return (handle_built_in(pars, i_env));
 			else
-				run_single_cmd(pars, i_env);
+				return (run_single_cmd(pars, i_env));
 		}
 	}
 	else
+	{
 		return (run_multi_cmd(pars, i_env));
+	}
 	return (1);
 }
 
@@ -145,9 +147,11 @@ int main(int argc, char *argv[], char *envp[])
 	t_pars	*pars;
 	char	*promt;
 	t_i_env	*i_env;
+	int		ret;
 
 	if (argc == 1 && argv[0])
 	{
+		ret = 0;
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
 		i_env->env = (t_env *)null_exit(set_env(envp));
 		if (i_env->env == NULL)
@@ -181,7 +185,7 @@ int main(int argc, char *argv[], char *envp[])
 				i_env->err_code = 258;
 				continue ;
 			}
-			execution(pars, i_env);
+			ret = execution(pars, i_env);
 			g_signal = 0;
 			free_pars(pars);
 		}
@@ -189,5 +193,5 @@ int main(int argc, char *argv[], char *envp[])
 		free_list(i_env->env);
 		free(i_env);
 	}
-	return (0);
+	return (ret);
 }

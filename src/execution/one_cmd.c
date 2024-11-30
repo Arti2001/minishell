@@ -87,7 +87,7 @@ int	new_proccess(t_pars *pars, t_i_env *i_env)
 	return (status);
 }
 
-void	run_single_cmd(t_pars *pars, t_i_env *i_env)
+int	run_single_cmd(t_pars *pars, t_i_env *i_env)
 {
 	int	exit_status;
 
@@ -95,8 +95,13 @@ void	run_single_cmd(t_pars *pars, t_i_env *i_env)
 	if (WIFEXITED(exit_status))
 	{
 		i_env->err_code = WEXITSTATUS(exit_status);
+		return (i_env->err_code);
+	}
+	else if (WTERMSIG(exit_status))
+	{
+		i_env->err_code = g_signal + 128;
+		return (i_env->err_code);
 	}
 	else
-		if (WTERMSIG(exit_status))
-			i_env->err_code = g_signal + 128;
+		return (-1);
 }

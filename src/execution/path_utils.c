@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 18:12:59 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/29 20:33:01 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,9 @@ static char	*matching_pathes(char **splited_pathes, char *check_path, t_i_env *i
 
 char	*is_absolute_executable(char *cmd, t_i_env *i_env)
 {
-	char *exec_str;
+	char	*exec_str;
 
 	exec_str = NULL;
-
 	if (get_path("PATH", i_env->env) == NULL)
 	{
 		exec_str = ft_strjoin("./", cmd);
@@ -92,7 +91,7 @@ char	*is_absolute_executable(char *cmd, t_i_env *i_env)
 void	path_hendler(t_i_env *i_env, t_pars **pars, char *cmd)
 {
 	char	**splited_pathes;
-	
+
 	splited_pathes = env_split_path(&i_env->env);
 	(*pars)->path = matching_pathes(splited_pathes, cmd, i_env);
 	if ((*pars)->path != NULL)
@@ -106,5 +105,4 @@ void	path_hendler(t_i_env *i_env, t_pars **pars, char *cmd)
 	}
 	double_array_free(splited_pathes);
 }
-
 
