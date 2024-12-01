@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 01:57:27 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/12/01 22:44:35 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ int main(int argc, char *argv[], char *envp[])
 	t_i_env	*i_env;
 	int		ret;
 
+	ret = 0;
 	if (argc == 1 && argv[0])
 	{
-		ret = 0;
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
 		i_env->env = (t_env *)null_exit(set_env(envp));
 		if (i_env->env == NULL)

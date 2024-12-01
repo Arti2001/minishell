@@ -14,18 +14,13 @@
 
 void	shell_putendl_fd(char *s, int fd)
 {
-	int		i;
 	char	*nl_str;
 
-	i = 0;
 	nl_str = ft_strjoin(s, "\n");
 	if (nl_str == NULL)
 		return ;
 	if (s != 0)
-	{
 		write(fd, nl_str, ft_strlen(nl_str));
-		i++;
-	}
 	free(nl_str);
 }
 
