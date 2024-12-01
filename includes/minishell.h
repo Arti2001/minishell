@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 01:57:37 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/01 20:27:02 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int					update_env_value(t_env *env, char *var_name, char *new);
 /*PATH*/
 char				*get_path(char *name, t_env *env);
 void				set_extern_cmd_path(t_pars *pars, t_env *env);
-void				path_hendler(t_i_env *i_env, t_pars **pars, char *cmd);
+void				path_handler(char *cmd, t_i_env *i_env, t_pars **pars);
 
 /*STRING UTILITI*/
 void				shell_putendl_fd(char *s, int fd);

@@ -36,26 +36,19 @@ void	execute_cmd(t_pars *pars, t_i_env *i_env)
 	char	**env_array;
 
 	env_array = back_to_array(i_env->env);
-
-	path_hendler(i_env, &pars, pars->cmd[0]);
+	path_handler(pars->cmd[0], i_env, &pars);
 	if (pars->redir)
 		redirect_check(pars);
 	if (pars->path)
-		execve(pars->path, pars->cmd, env_array);
-	else if(i_env->err_code != 126)
 	{
+		execve(pars->path, pars->cmd, env_array);
 		ft_putstr_fd(pars->cmd[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		double_array_free(pars->cmd);
-		free(pars->path);
+		shell_putendl_fd(": command not found", 2);
 		exit(127);
 	}
-	else
-	{
-		double_array_free(pars->cmd);
-		free(pars->path);
-		exit(126);
-	}
+	free(pars->path);
+	exit(i_env->err_code);
+	//double_array_free(pars->cmd);
 }
 
 int	new_proccess(t_pars *pars, t_i_env *i_env)

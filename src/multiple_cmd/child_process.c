@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 01:16:23 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/01 23:17:44 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 extern volatile sig_atomic_t	g_signal;
 
-
 char	*join_nline(char *str)
 {
-	char *nline_str;
+	char	*nline_str;
 
 	nline_str = ft_strjoin(str, "\n");
 	if (nline_str == NULL)
 	{
-		return	(NULL);
+		return (NULL);
 	}
 	return (nline_str);
 }
+
 void	exit_code(int status, t_i_env *i_env, t_pars *pars)
 {
 	if (WIFEXITED(status))
@@ -84,10 +84,9 @@ void	set_child(t_pars *pars, int fd_write, int p_num, t_i_env *i_env)
 	}
 	if (is_builtin(pars->cmd[0]) == NO_BUILTIN)
 	{
-		path_hendler(i_env, &pars, pars->cmd[0]);
+		path_handler(pars->cmd[0], i_env, &pars);
 	}
 }
-
 
 void	my_dear_child(int fd, int process_num, t_pars *pars, t_i_env *i_env)
 {
@@ -109,12 +108,12 @@ void	my_dear_child(int fd, int process_num, t_pars *pars, t_i_env *i_env)
 			exit(EXIT_FAILURE);
 		}
 		if (pars->path)
-			execve(pars->path, pars->cmd, env_array);
-		else
 		{
-			double_array_free(pars->cmd);
+			execve(pars->path, pars->cmd, env_array);
 			free(pars->path);
 			exit(127);
 		}
+		double_array_free(pars->cmd);
+		exit(i_env->err_code);
 	}
 }

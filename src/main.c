@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/01 22:44:35 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/02 00:18:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	handle_built_in(t_pars *pars, t_i_env *i_env)
 	fd_out = dup(STDOUT_FILENO);
 	if (pars->redir != NULL)
 		redirect_check(pars);
-	ret =  run_built_in(i_env, pars->cmd);
+	ret = run_built_in(i_env, pars->cmd);
 	i_env->err_code = ret;
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{

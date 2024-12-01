@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 04:49:36 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/01 23:18:15 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,29 @@ char	*get_path(char *name, t_env *env)
 static char	**env_split_path(t_env **env)
 {
 	char	*path;
+	char	**splited;
 
+	splited = NULL;
 	path = get_path("PATH", *env);
 	if (path == NULL)
 		return (NULL);
 	path = ft_strchr(path, '/');
-	return (ft_split(path, ':'));
+	splited = ft_split(path, ':');
+	if (splited == NULL)
+		return (NULL);
+	return (splited);
 }
 
-static char	*matching_pathes(char **splited_pathes, char *check_path, t_i_env *i_env)
+char	*path_is_set(char **splited_pathes, char *check_path, t_i_env *i_env)
 {
 	int		i;
 	char	*tmp_path;
 	char	*correct_path;
 
 	i = 0;
-	i_env->err_code= 0;
 	tmp_path = NULL;
-	if (splited_pathes == NULL)
-		return (NULL);
-	while (splited_pathes[i])
+	correct_path = NULL;
+	while (splited_pathes[i] != NULL && check_path[0] != '.')
 	{
 		tmp_path = ft_strjoin(splited_pathes[i], "/");
 		correct_path = ft_strjoin(tmp_path, check_path);
@@ -58,49 +61,41 @@ static char	*matching_pathes(char **splited_pathes, char *check_path, t_i_env *i
 		free (tmp_path);
 		free(correct_path);
 	}
-	return (NULL);
-}
-
-char	*is_absolute_executable(char *cmd, t_i_env *i_env)
-{
-	char	*exec_str;
-
-	exec_str = NULL;
-	if (get_path("PATH", i_env->env) == NULL)
+	if (access(check_path, X_OK | F_OK) == 0)
+		return (check_path);
+	else if (errno == EACCES)
 	{
-		exec_str = ft_strjoin("./", cmd);
-		if (exec_str == NULL)
-		{
-			return (NULL);
-		}
-		if (access(exec_str, X_OK | F_OK) == 0)
-		{
-			return (exec_str);
-		}
-		else
-		{
-			free(exec_str);
-			perror(cmd);
-			i_env->err_code = 126;
-		}
+		perror(check_path);
+		i_env->err_code = errno;
 	}
+	else
+		return (check_path);
 	return (NULL);
 }
 
-void	path_hendler(t_i_env *i_env, t_pars **pars, char *cmd)
+char	*path_is_unset(char *cmd, t_i_env *i_env)
 {
-	char	**splited_pathes;
-
-	splited_pathes = env_split_path(&i_env->env);
-	(*pars)->path = matching_pathes(splited_pathes, cmd, i_env);
-	double_array_free(splited_pathes);
-	if ((*pars)->path != NULL)
-		return ;
-	(*pars)->path = is_absolute_executable(cmd, i_env);
-	if ((*pars)->path != NULL)
-		return ;
 	if (access(cmd, X_OK | F_OK) == 0)
+		return (cmd);
+	else
+		perror(cmd);
+	i_env->err_code = errno;
+	return (NULL);
+}
+
+void	path_handler(char *cmd, t_i_env *i_env, t_pars **pars)
+{
+	char	**pathes;
+
+	pathes = env_split_path(&i_env->env);
+	if (pathes == NULL || pathes[0] == NULL)
 	{
-		(*pars)->path = cmd;
+		(*pars)->path = path_is_unset(cmd, i_env);
 	}
+	else
+	{
+		(*pars)->path = path_is_set(pathes, cmd, i_env);
+	}
+	if (pathes)
+		double_array_free(pathes);
 }
