@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 15:13:11 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 04:29:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,19 @@ int	ft_export(t_env *env, char **commands)
 
 	i = 1;
 	if (commands[i] == NULL)
+	{
 		return (print_export_env(env));
+	}
 	while (commands[i] != NULL)
 	{
 		key = get_key(commands[i]);
-		value = get_value(commands[i]);
 		if (key == NULL)
-			return (free(value), 1);
+		{
+			return (1);
+		}
 		if (check_var_syntax(key))
-			return (free_key_value(key, value), 1);
+			return (free(key), 1);
+		value = get_value(commands[i]);
 		if (insert_or_assign(env, key, value))
 			return (free_key_value(key, value), 1);
 		free_key_value(key, value);

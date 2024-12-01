@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 01:04:19 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 01:57:37 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void				ll_addback(t_env **env_head, t_env *new_node);
 int					append_node(t_env **head_env, char *content);
 
 /*Built_ins*/
-int					ft_pwd(char **arg);
+int					ft_pwd(void);
 int					ft_env(t_env *env);
 int					ft_exit(char **arg, t_i_env *i_env);
 int					is_builtin(char *arg);

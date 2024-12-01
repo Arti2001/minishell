@@ -6,17 +6,16 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 20:33:01 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 04:49:36 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 char	*get_path(char *name, t_env *env)
 {
 	t_env	*tmp;
-	
+
 	tmp = env;
 	while (tmp != NULL)
 	{
@@ -94,6 +93,7 @@ void	path_hendler(t_i_env *i_env, t_pars **pars, char *cmd)
 
 	splited_pathes = env_split_path(&i_env->env);
 	(*pars)->path = matching_pathes(splited_pathes, cmd, i_env);
+	double_array_free(splited_pathes);
 	if ((*pars)->path != NULL)
 		return ;
 	(*pars)->path = is_absolute_executable(cmd, i_env);
@@ -103,6 +103,4 @@ void	path_hendler(t_i_env *i_env, t_pars **pars, char *cmd)
 	{
 		(*pars)->path = cmd;
 	}
-	double_array_free(splited_pathes);
 }
-

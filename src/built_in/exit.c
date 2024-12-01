@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:08 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 01:22:20 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 03:57:40 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	int_check(char *str)
 	int		i;
 
 	i = 0;
+	if (str[0] == '+' || str [0] == '-')
+		i++;
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]) == 1)
@@ -33,7 +35,7 @@ static int	check_err(char **arg)
 
 	if (int_check(arg[1]) == 0)
 	{
-		ft_putstr_fd("exit\n", 2);
+		shell_putendl_fd("exit", 2);
 		ft_putstr_fd("bash: exit: ", 2);
 		ft_putstr_fd(arg[1], 2);
 		shell_putendl_fd(": numeric argument required", 2);

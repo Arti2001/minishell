@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:30:47 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 15:13:36 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 01:57:10 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 void	shell_putendl_fd(char *s, int fd)
 {
-	int	i;
+	int		i;
 	char	*nl_str;
 
-	
 	i = 0;
 	nl_str = ft_strjoin(s, "\n");
 	if (nl_str == NULL)
@@ -29,15 +28,11 @@ void	shell_putendl_fd(char *s, int fd)
 	}
 	free(nl_str);
 }
-int	ft_pwd(char **arg)
+
+int	ft_pwd(void)
 {
 	char	*path;
 
-	if (arg[1] != NULL)
-	{
-		shell_putendl_fd("To many arguments", STDERR_FILENO);
-		return (1);
-	}
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 	{

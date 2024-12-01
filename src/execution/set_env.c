@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 15:53:21 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 04:34:40 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	*get_env_var(char *var, t_env *env)
 	return (str);
 }
 
-int ft_env_size(t_env *env)
+int	ft_env_size(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env != NULL)
@@ -51,7 +51,7 @@ char	*get_value(char *content)
 	char	*value;
 
 	value = ft_strchr(content, '=');
-	if (value  == NULL)
+	if (value == NULL)
 	{
 		return (NULL);
 	}
@@ -68,7 +68,6 @@ char	*get_value(char *content)
 	return (value);
 }
 
-
 char	*get_key(char *content)
 {
 	int		i;
@@ -78,11 +77,11 @@ char	*get_key(char *content)
 	if (content == NULL)
 		return (NULL);
 	if (content[i] == '=')
-		return (content);
-	while(content[i] != '\0')
+		i++;
+	while (content[i] != '\0')
 	{
 		if (content[i] == '=')
-			break;
+			break ;
 		i++;
 	}
 	key = (char *)malloc(sizeof(char) * (i + 1));
@@ -95,8 +94,7 @@ char	*get_key(char *content)
 	return (key);
 }
 
-
-char **back_to_array(t_env *env)
+char	**back_to_array(t_env *env)
 {
 	char	**ptr_env;
 	int		size;
@@ -104,7 +102,7 @@ char **back_to_array(t_env *env)
 
 	count = 0;
 	size = ft_env_size(env);
-	ptr_env= ft_calloc(size + 1, sizeof(char *));
+	ptr_env = ft_calloc(size + 1, sizeof(char *));
 	while (env != NULL)
 	{
 		ptr_env[count] = env->content;
@@ -113,7 +111,6 @@ char **back_to_array(t_env *env)
 	}
 	return (ptr_env);
 }
-
 
 int	update_env_value(t_env *env, char *var_name, char *new_val)
 {

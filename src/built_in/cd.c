@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/27 13:51:28 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 02:13:29 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	change_to_home(t_env *env)
 	home = get_path("HOME", env);
 	if (home == NULL)
 	{
-		ft_putendl_fd("bash: cd: HOME not set", 2);
+		shell_putendl_fd("bash: cd: HOME not set", 2);
 		return (1);
 	}
 	else
@@ -54,14 +54,14 @@ static int	cd_check(char **arg, t_env *env)
 	{
 		ft_putstr_fd("bash: cd: ", 2);
 		ft_putstr_fd(arg[1], 2);
-		ft_putendl_fd(" No such file or directory", 2);
+		shell_putendl_fd(": No such file or directory", 2);
 		return (closedir(dir), 1);
 	}
 	else if (dir == NULL)
 	{
 		ft_putstr_fd("bash: cd: ", 2);
 		ft_putstr_fd(arg[1], 2);
-		ft_putendl_fd(" Not a directory", 2);
+		shell_putendl_fd(" Not a directory", 2);
 		return (closedir(dir), 1);
 	}
 	return (closedir(dir), 1);
@@ -75,7 +75,7 @@ int	ft_cd(t_env *env, char **arg)
 	}
 	else if (arg[2] != NULL)
 	{
-		ft_putendl_fd("bash: cd: too many arguments", 2);
+		shell_putendl_fd("bash: cd: too many arguments", 2);
 		return (1);
 	}
 	else

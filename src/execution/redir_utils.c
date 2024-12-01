@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/27 17:56:06 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/11/30 04:02:59 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,11 @@ int	redirect_in(t_redirect redirect)
 	return (0);
 }
 
-
-
 void	redirect_out(t_redirect redirect)
 {
 	int	file_fd;
 
-	if ( redirect.type == OUT)
+	if (redirect.type == OUT)
 		file_fd = open(redirect.filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	else
 		file_fd = open(redirect.filename, O_CREAT | O_APPEND | O_RDWR, 0644);
