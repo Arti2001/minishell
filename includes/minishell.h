@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/02 16:45:53 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/02 17:46:04 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,7 @@ void				path_handler(char *cmd, t_i_env *i_env, t_pars **pars);
 void				shell_putendl_fd(char *s, int fd);
 
 /*PROCCESSES*/
-int					wait_for_childs(int num_pid, pid_t *pids,
-						t_i_env *i_env, t_pars *pars);
+int					wait_for_childs(int num_pid, pid_t *pids, t_pars *pars);
 int					run_multi_cmd(t_pars *pars, t_i_env *env);
 int					run_single_cmd(t_pars *pars, t_i_env *env);
 void				my_dear_child(int fd_write_end, int process_num,

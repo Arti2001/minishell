@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/27 16:32:12 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/02 18:24:08 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ int	free_line(char *delim, int orig_stdin, char *line, int file_fd)
 		free(line);
 		return (g_signal);
 	}
-	ft_putstr_fd("Warning: Here-document is not properly closed.\
-	Expected delimiter: `", 2);
-	ft_putstr_fd(delim, 2);
-	ft_putendl_fd("'", 2);
-	free(line);
-	close(file_fd);
-	return (1);
+	else
+	{	ft_putstr_fd("Warning: Here-document is not properly closed.\
+		Expected delimiter: `", 2);
+		ft_putstr_fd(delim, 2);
+		ft_putendl_fd("'", 2);
+		free(line);
+		close(file_fd);
+		return (0);
+	}
 }
 
 void	expand_or_write(t_redirect *redir, int fd, char *line, t_i_env *i_env)
@@ -83,8 +85,7 @@ int	write_into_herdoc(int fd, t_redirect *redir, t_i_env *i_env)
 		line = readline(">");
 		if (line == NULL)
 		{
-			if (free_line(redir->filename, orig_in, line, fd) == g_signal)
-				return (g_signal);
+			return (free_line(redir->filename, orig_in, line, fd) == g_signal);
 		}
 		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename) + 1) == 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:13 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/29 13:11:31 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/02 19:21:45 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 	pid_count = 0;
 	count = 0;
 	pars_head = pars;
-	if (go_all_herdoc(pars, i_env) == SIGINT)
-	{
-		i_env->err_code = g_signal + 128;
-		return (1);
-	}
 	init_siagtion(NON_INTERACTIVE);
 	while (pars != NULL && pars->cmd != NULL)
 	{
@@ -104,8 +99,8 @@ int	run_multi_cmd(t_pars *pars, t_i_env *i_env)
 			count++;
 		}
 	}
-	count = wait_for_childs(pid_count, pids, i_env, pars_head);
-	return (init_siagtion(NON_INTERACTIVE), 1);
+	count = wait_for_childs(pid_count, pids, pars_head);
+	return (init_siagtion(INTERACTIVE), count);
 }
 
 

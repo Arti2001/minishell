@@ -82,18 +82,20 @@ int	new_proccess(t_pars *pars, t_i_env *i_env)
 
 int	run_single_cmd(t_pars *pars, t_i_env *i_env)
 {
-	int	exit_status;
+	int		exit_status;
+	int		ret;
 
+	ret = 0;
 	exit_status = new_proccess(pars, i_env);
 	if (WIFEXITED(exit_status))
 	{
-		i_env->err_code = WEXITSTATUS(exit_status);
-		return (i_env->err_code);
+		ret = WEXITSTATUS(exit_status);
+		return (ret);
 	}
 	else if (WTERMSIG(exit_status))
 	{
-		i_env->err_code = g_signal + 128;
-		return (i_env->err_code);
+		ret = g_signal + 128;
+		return (ret);
 	}
 	else
 		return (-1);

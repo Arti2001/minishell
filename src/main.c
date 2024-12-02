@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/02 16:47:31 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/02 18:36:27 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	handle_built_in(t_pars *pars, t_i_env *i_env)
 	if (pars->redir != NULL)
 		redirect_check(pars);
 	ret = run_built_in(i_env, pars->cmd);
-	i_env->err_code = ret;
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{
 		perror("Faild to restore stdin");
@@ -96,24 +95,29 @@ int	execution(t_pars *pars, t_i_env *i_env)
 		if (is_herdoc(pars->redir))
 		{
 			if (run_herdoc(pars->redir, i_env) == SIGINT)
-			{
-				i_env->err_code = g_signal + 128;
-				return (i_env->err_code);
-			}
+				return (g_signal);
 		}
 		if (pars->cmd != NULL)
 		{
 			if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
-				return (handle_built_in(pars, i_env));
+				i_env->err_code = handle_built_in(pars, i_env);
 			else
-				return (run_single_cmd(pars, i_env));
+				i_env->err_code = run_single_cmd(pars, i_env);
 		}
 	}
 	else
 	{
-		return (run_multi_cmd(pars, i_env));
+		if (is_herdoc(pars->redir))
+		{
+			if (go_all_herdoc(pars, i_env) == SIGINT)
+			{
+				i_env->err_code = g_signal + 128;
+				return (1);
+			}
+		}
+		i_env->err_code = run_multi_cmd(pars, i_env);
 	}
-	return (1);
+	return (i_env->err_code);
 }
 
 char	*path_promt(void)
@@ -183,6 +187,7 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars == NULL)
 			{
+				ret = i_env->err_code;
 				continue ;
 			}
 			ret = execution(pars, i_env);
@@ -190,7 +195,6 @@ int main(int argc, char *argv[], char *envp[])
 			free_pars(pars);
 		}
 		rl_clear_history();
-		ret = i_env->err_code;
 		free_list(i_env->env);
 		free(i_env);
 	}

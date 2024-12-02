@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/02 16:12:49 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/02 17:18:58 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,43 +26,50 @@ char	*join_nline(char *str)
 	return (nline_str);
 }
 
-void	exit_code(int status, t_i_env *i_env, t_pars *pars)
+int	exit_code(int status, t_pars *pars)
 {
+	int	ret;
+
+	ret = 0;
 	if (WIFEXITED(status))
 	{
-		i_env->err_code = WEXITSTATUS(status);
-		if (i_env->err_code == 127)
+		ret = WEXITSTATUS(status);
+		if (ret == 127)
 		{
 			ft_putstr_fd(pars->cmd[0], 2);
 			shell_putendl_fd(": command not found", 2);
 		}
 	}
 	else if (WTERMSIG(status))
-		i_env->err_code = g_signal + 128;
+		ret = g_signal + 128;
 	else
-		i_env->err_code = -1;
+		ret = -1;
+	return (ret);
 }
 
-int	wait_for_childs(int num_pid, pid_t *pids, t_i_env *i_env, t_pars *pars)
+int	wait_for_childs(int num_pid, pid_t *pids, t_pars *pars)
 {
 	int		i;
+	int		ret;
 	int		status;
+	
 
 	i = 0;
+	ret = 0;
 	status = 0;
 	while (i < num_pid)
 	{
 		if (waitpid(pids[i], &status, 0) == -1)
 		{
 			perror("waitpid failed");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
-		exit_code(status, i_env, pars);
+		ret = exit_code(status, pars);
 		i++;
 		if (pars)
 			pars = pars->next_process;
 	}
-	return (status);
+	return (ret);
 }
 
 /*try to store the read end  before  you fork*/
