@@ -10,3 +10,5 @@ minishell
 Minishell
 out
 minishell_tester/*
+minishell_tester/**/*
+minishell_tester
