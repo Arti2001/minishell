@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   convert_tokens.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 18:06:00 by ydidenko          #+#    #+#             */
-/*   Updated: 2024/11/27 13:28:01 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   convert_tokens.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/11/07 18:06:00 by ydidenko      #+#    #+#                 */
+/*   Updated: 2024/12/02 17:18:45 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ void	free_pars(t_pars *pars)
 	if (pars->cmd)
 	{
 		double_array_free(pars->cmd);
-		// while (pars->cmd[i])
-		// 	(free(pars->cmd[i]), i++);
-		// free(pars->cmd);
 	}
 	if (pars->redir)
 	{
@@ -100,14 +97,12 @@ void	free_pars(t_pars *pars)
 			(free(pars->redir[i].filename), i++);
 		free(pars->redir);
 	}
-	// if (pars->path)
-	// 	free(pars->path);
 	if (pars->next_process)
 		free_pars(pars->next_process);
 	free(pars);
 }
 
-t_pars	*convert_tokens(t_list *lst)
+t_pars	*convert_tokens(t_list *lst, t_i_env *i_env)
 {
 	t_pars	*head;
 	t_pars	*current;
@@ -119,7 +114,10 @@ t_pars	*convert_tokens(t_list *lst)
 	while (token_list)
 	{
 		if (process_token(&head, &current, &token_list, lst) != 0)
+		{
+			i_env->err_code = 2;
 			return (NULL);
+		}
 		token_list = token_list->next;
 	}
 	return (head);

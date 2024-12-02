@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/02 16:31:48 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/02 16:45:53 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ void				add_cmd_arg(t_pars *pars, char *arg);
 void				add_redirection(t_pars *pars, t_redirect_type redir_type,
 						t_token *filename);
 void				free_pars(t_pars *pars);
-t_pars				*convert_tokens(t_list *lst);
+t_pars				*convert_tokens(t_list *lst, t_i_env *i_env);
 int					is_valid_tokens(t_list *tokens);
 
 

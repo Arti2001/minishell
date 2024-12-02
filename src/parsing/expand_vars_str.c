@@ -6,11 +6,18 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/02 16:13:39 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/02 16:59:34 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	int	var_is_valid_first(int c)
+{
+	if (c == '?' || c == '_' || ft_isalpha(c))
+		return (1);
+	return (0);
+}
 
 static void	lookup_var(char **var, t_i_env *i_env)
 {
@@ -28,6 +35,8 @@ static size_t	calc_varlen(char *var)
 {
 	size_t	i;
 
+	if (!var_is_valid_first(var[1]))
+		return (2);
 	if (var[0] == '~')
 		return (1);
 	if (var[1] == '?')
@@ -61,13 +70,6 @@ static void	replace_var(char **str, size_t start, size_t *len, t_i_env *i_env)
 	free(var);
 }
 
-static	int	var_is_valid_first(int c)
-{
-	if (c == '?' || c == '_' || ft_isalnum(c))
-		return (1);
-	return (0);
-}
-
 /**
  * @brief expands all valid variables in string
  *
@@ -85,7 +87,7 @@ char	*expand_vars_str(char *input, t_type type, t_i_env *i_env)
 	str = null_exit(ft_strdup(input));
 	while (str[i] != '\0')
 	{
-		if ((str[i] == '$' && var_is_valid_first(str[i + 1])) \
+		if ((str[i] == '$' && (var_is_valid_first(str[i + 1]) || ft_isalnum(str[i + 1]))) \
 		|| (str[i] == '~' && type == DEFAULT))
 		{
 			replace_var(&str, i, &varlen, i_env);

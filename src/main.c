@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/02 16:38:44 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/02 16:47:31 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,6 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars == NULL)
 			{
-				i_env->err_code = 2;
 				continue ;
 			}
 			ret = execution(pars, i_env);
