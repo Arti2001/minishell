@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/02 16:14:39 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/12/02 16:38:44 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int main(int argc, char *argv[], char *envp[])
 	if (argc == 1 && argv[0])
 	{
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
+		i_env->err_code = 0;
 		i_env->env = (t_env *)null_exit(set_env(envp));
 		if (i_env->env == NULL)
 			return (free(i_env), 1);
@@ -182,7 +183,7 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars == NULL)
 			{
-				i_env->err_code = 258;
+				i_env->err_code = 2;
 				continue ;
 			}
 			ret = execution(pars, i_env);

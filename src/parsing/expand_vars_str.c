@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/26 14:56:41 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/02 16:13:39 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ static void	lookup_var(char **var, t_i_env *i_env)
 	if (!ft_strncmp(*var, "?", 2))
 		str = ft_itoa(i_env->err_code);
 	else
-	{
 		str = get_env_var(*var, i_env->env);
-	}
 	free(*var);
 	*var = str;
 }
@@ -65,7 +63,7 @@ static void	replace_var(char **str, size_t start, size_t *len, t_i_env *i_env)
 
 static	int	var_is_valid_first(int c)
 {
-	if (c == '?' || c == '_' || ft_isalpha(c))
+	if (c == '?' || c == '_' || ft_isalnum(c))
 		return (1);
 	return (0);
 }

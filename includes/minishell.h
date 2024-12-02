@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/01 20:27:02 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/12/02 16:31:48 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,8 @@ void				path_handler(char *cmd, t_i_env *i_env, t_pars **pars);
 void				shell_putendl_fd(char *s, int fd);
 
 /*PROCCESSES*/
-int					wait_for_childs(int num_pid, pid_t *pids, t_i_env *i_env, t_pars *pars);
+int					wait_for_childs(int num_pid, pid_t *pids,
+						t_i_env *i_env, t_pars *pars);
 int					run_multi_cmd(t_pars *pars, t_i_env *env);
 int					run_single_cmd(t_pars *pars, t_i_env *env);
 void				my_dear_child(int fd_write_end, int process_num,
@@ -230,6 +231,8 @@ void				add_redirection(t_pars *pars, t_redirect_type redir_type,
 						t_token *filename);
 void				free_pars(t_pars *pars);
 t_pars				*convert_tokens(t_list *lst);
+int					is_valid_tokens(t_list *tokens);
+
 
 /*TOKEN*/
 t_token				*init_token(void);
