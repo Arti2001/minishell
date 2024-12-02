@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/01 23:17:44 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/02 16:12:49 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	my_dear_child(int fd, int process_num, t_pars *pars, t_i_env *i_env)
 	char	**env_array;
 	int		ret;
 
+	ret = 0;
 	set_child(pars, fd, process_num, i_env);
 	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 	{

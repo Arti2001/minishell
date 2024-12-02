@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/02 00:18:16 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/02 16:14:39 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ int main(int argc, char *argv[], char *envp[])
 			free_pars(pars);
 		}
 		rl_clear_history();
+		ret = i_env->err_code;
 		free_list(i_env->env);
 		free(i_env);
 	}
