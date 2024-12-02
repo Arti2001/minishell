@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/02 16:24:22 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/02 17:17:02 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/02 17:21:22 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	is_consecutive_valid(t_list *tokens)
 		}
 		tokens = tokens->next;
 	}
+	return (1);
 }
 
 int	is_valid_tokens(t_list *tokens)
