@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/02 16:59:34 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/03 15:53:01 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ char	*expand_vars_str(char *input, t_type type, t_i_env *i_env)
 	str = null_exit(ft_strdup(input));
 	while (str[i] != '\0')
 	{
-		if ((str[i] == '$' && (var_is_valid_first(str[i + 1]) || ft_isalnum(str[i + 1]))) \
-		|| (str[i] == '~' && type == DEFAULT))
+		if ((str[i] == '$'
+				&& (var_is_valid_first(str[i + 1]) || ft_isalnum(str[i + 1])))
+			|| (str[i] == '~' && type == DEFAULT))
 		{
 			replace_var(&str, i, &varlen, i_env);
 			i += varlen;

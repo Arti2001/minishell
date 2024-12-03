@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 14:52:30 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/02 16:47:27 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/03 15:58:17 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ t_pars	*init_pars(char *line, t_i_env *i_env)
 		ft_putendl_fd("minishell: syntax error", 2);
 		return (NULL);
 	}
-	// print_tokens(tokens);
 	pars = convert_tokens(tokens, i_env);
 	if (!pars)
 		return (NULL);
-	//print_pars(pars);
 	ft_lstclear(&tokens, ((void (*))(void *)destroy_token));
 	return (pars);
+}
+
+void	destroy_tokens(t_list *tokens)
+{
+	ft_lstclear(&tokens, ((void (*))(void *)destroy_token));
 }

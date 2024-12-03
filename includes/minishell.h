@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/02 17:46:04 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/12/03 15:57:49 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ t_list				*tokenizer(char *line, t_i_env *i_env);
 void				lexer(t_list **lst);
 size_t				tokenize_sym(char *line, int i, t_token *token);
 int					tokenize_quoted(char *line, int i, t_token *token);
-void				print_tokens(t_list *tokens);
 int					is_whitespace(char c);
 int					is_token_type_redir(t_token token);
 int					is_token_type_text(t_token token);
@@ -213,6 +212,8 @@ void				split_tokens(t_list **lst);
 void				combine_tokens(t_list **lst);
 t_redirect_type		map_token_to_redirect(t_type type);
 void				print_pars(t_pars *pars);
+void				destroy_tokens(t_list *tokens);
+
 
 /*CONVERT TOKENS*/
 int					pars_err(t_pars *pars, t_list *lst, char *err_msg);

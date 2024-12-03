@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:30:48 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/28 16:10:23 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/03 15:58:39 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	check_amb_redir(t_token token, char *expanded, t_token prev)
 		return (1);
 	if (ft_strlen(tmp) < 1 || ft_strchrset(tmp, WHITESPACE) != NULL)
 	{
-		// TODO: set exit code and print error
 		free(tmp);
 		return (1);
 	}
@@ -57,11 +56,7 @@ t_list	*expand_f(t_list *tokens, t_i_env *i_env)
 		{
 			tmp = expand_vars_str(token->str, token->type, i_env);
 			if (check_amb_redir(*token, tmp, prev))
-			{
-				ft_lstclear(&ret, ((void (*))(void *)destroy_token));
-				free(tmp);
-				return (NULL);
-			}
+				return (destroy_tokens(ret), free(tmp), NULL);
 			ft_lstadd_back(&ret, create_token_node(tmp, token->type));
 			free(tmp);
 		}
