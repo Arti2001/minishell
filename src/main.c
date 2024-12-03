@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 18:15:17 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 19:03:02 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,6 @@ int main(int argc, char *argv[], char *envp[])
 		g_signal = 0;
 		input = NULL;
 		init_siagtion(INTERACTIVE);
-		//here make function using isatty  and check if STDIN STDOUT & STDERROR are what they suppose to be if (!isatty(STDIN)){printf("Standard input is not a terminal\n"); return (1);}
-	
 		while (1)
 		{
 			input = readline("minishell$ ");

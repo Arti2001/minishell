@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:08 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 17:55:16 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 19:03:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,15 @@ static int	check_err(char **arg)
 int	ft_exit(char **arg, t_i_env *i_env, t_pars *pars)
 {
 	long	ret;
-
+	
 	if (arg[1] == NULL)
 	{
-		exit (i_env->err_code);
+		ret = i_env->err_code;
+		free_pars(pars);
+		rl_clear_history();
+		free_list(i_env->env);
+		free(i_env);
+		exit(ret);
 	}
 	else
 	{
