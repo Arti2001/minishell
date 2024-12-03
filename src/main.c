@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/02 18:36:27 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 12:49:23 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,12 @@ int	execution(t_pars *pars, t_i_env *i_env)
 		if (is_herdoc(pars->redir))
 		{
 			if (run_herdoc(pars->redir, i_env) == SIGINT)
-				return (g_signal);
+			{
+				i_env->err_code = 128 + g_signal;
+				return (i_env->err_code);
+			}
+			else
+				i_env->err_code = 0;
 		}
 		if (pars->cmd != NULL)
 		{
@@ -111,11 +116,16 @@ int	execution(t_pars *pars, t_i_env *i_env)
 		{
 			if (go_all_herdoc(pars, i_env) == SIGINT)
 			{
-				i_env->err_code = g_signal + 128;
-				return (1);
+				i_env->err_code = 128 + g_signal;
+				return (i_env->err_code);
 			}
+			else
+				i_env->err_code = 0;
 		}
-		i_env->err_code = run_multi_cmd(pars, i_env);
+		if (pars->cmd != NULL)
+		{
+			i_env->err_code = run_multi_cmd(pars, i_env);
+		}
 	}
 	return (i_env->err_code);
 }
@@ -165,6 +175,7 @@ int main(int argc, char *argv[], char *envp[])
 		g_signal = 0;
 		input = NULL;
 		init_siagtion(INTERACTIVE);
+		//here make function using isatty  and check if STDIN STDOUT & STDERROR are what they suppose to be if (!isatty(STDIN)){printf("Standard input is not a terminal\n"); return (1);}
 		while (1)
 		{
 			promt = path_promt();

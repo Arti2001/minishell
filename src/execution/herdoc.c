@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/02 18:24:08 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 12:20:15 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ extern volatile sig_atomic_t g_signal;
 int	go_all_herdoc(t_pars *pars, t_i_env *i_env)
 {
 	t_pars	*tmp;
+	int		ret;
 
+	ret = 0;
 	tmp = pars;
 	while (tmp != NULL)
 	{
 		if (is_herdoc(tmp->redir))
 		{
-			if (run_herdoc(tmp->redir, i_env) == SIGINT)
-				return (g_signal);
+			ret = run_herdoc(tmp->redir, i_env);
 		}
 		tmp = tmp->next_process;
 	}
-	return (1);
+	return (ret);
 }
 
 int	free_line(char *delim, int orig_stdin, char *line, int file_fd)
@@ -52,7 +53,7 @@ int	free_line(char *delim, int orig_stdin, char *line, int file_fd)
 	{	ft_putstr_fd("Warning: Here-document is not properly closed.\
 		Expected delimiter: `", 2);
 		ft_putstr_fd(delim, 2);
-		ft_putendl_fd("'", 2);
+		shell_putendl_fd("'", 2);
 		free(line);
 		close(file_fd);
 		return (0);
@@ -85,7 +86,7 @@ int	write_into_herdoc(int fd, t_redirect *redir, t_i_env *i_env)
 		line = readline(">");
 		if (line == NULL)
 		{
-			return (free_line(redir->filename, orig_in, line, fd) == g_signal);
+			return (free_line(redir->filename, orig_in, line, fd));
 		}
 		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename) + 1) == 0)
 		{
@@ -96,7 +97,7 @@ int	write_into_herdoc(int fd, t_redirect *redir, t_i_env *i_env)
 		expand_or_write(redir, fd, line, i_env);
 	}
 	dup2(orig_in, STDIN_FILENO);
-	return (g_signal);
+	return (0);
 }
 
 int	open_herdoc(t_redirect *redirect, t_i_env *i_env)
@@ -118,17 +119,13 @@ int	run_herdoc(t_redirect *redirects, t_i_env *i_env)
 	int	i;
 	int	ret;
 
-	ret = 1;
+	ret = 0;
 	i = 0;
 	while (redirects[i].filename)
 	{
 		if (redirects[i].type == HEREDOC_RE)
 		{
 			ret = open_herdoc(&redirects[i], i_env);
-			if (!ret)
-			{
-				return (0);
-			}
 		}
 		i++;
 	}
