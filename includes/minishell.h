@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 18:32:42 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/12/03 19:50:14 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,19 +117,6 @@ typedef struct s_pars
 	struct s_pars	*next_process;
 }					t_pars;
 
-///**
-// * @brief Data sructure for extractin the path from the environment.
-// * @param all_pathes arrayy of pathes arrays.
-// * @param temp_path		a temporary path with '/' joinedat the end.
-// * @param true_path	the actuall path for execution.
-// */
-// typedef struct s_exec
-//{
-//	char	**all_pathes;
-//	char	*temp_path;
-//	char	*true_path;
-//}t_exec;
-
 /*Linked list*/
 t_env				*ll_last(t_env *last);
 int					ft_lst_size(t_env *lst);
@@ -147,6 +134,7 @@ int					ft_unset(t_env **env, char **arg);
 int					ft_cd(t_env *env, char **commands);
 int					ft_export(t_env *env, char **commands);
 int					run_built_in(t_i_env *i_env, t_pars *pars);
+int					handle_built_in(t_pars *pars, t_i_env *i_env);
 
 /*ENVIRONMENT*/
 t_env				*set_env(char **env);
@@ -244,5 +232,14 @@ void				repalce_t_list(t_list **lst, t_list *(*list_f)(t_list *));
 void				expand_vars(t_list **tokens, t_i_env *i_env);
 char				*expand_vars_str(char *input, t_type type, t_i_env *i_env);
 char				*get_env_var(char *var, t_env *env);
+
+/*MAIN UTILS*/
+void				cleanup(t_pars *pars, t_i_env *i_env);
+int					check_fd(void);
+void				shell_lvl(t_env *env);
+
+/*EXECUTION*/
+int					execution(t_pars *pars, t_i_env *i_env);
+
 
 #endif

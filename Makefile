@@ -10,7 +10,7 @@ NC=\033[0m
 
 LIBFT_PATH		=	$(addprefix $(LIBFT)/, libft.a)
 HEADERS			=	-I$(INC_DIR)
-SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/**/*.c)
+SRCS			=	$(SRC_DIR)/main.c $(SRC_DIR)/main_utils.c $(wildcard $(SRC_DIR)/**/*.c)
 OBJS 			=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 VPATH			=	$(dir $(SRCS))
 
