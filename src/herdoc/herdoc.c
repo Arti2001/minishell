@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 12:20:15 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 19:54:03 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,6 @@ int	free_line(char *delim, int orig_stdin, char *line, int file_fd)
 	}
 }
 
-void	expand_or_write(t_redirect *redir, int fd, char *line, t_i_env *i_env)
-{
-	char	*expanded;
-
-	expanded = expand_vars_str(line, DEFAULT, i_env);
-	if (redir->is_expandable)
-		ft_putendl_fd(expanded, fd);
-	else
-		ft_putendl_fd(line, fd);
-	free(expanded);
-	free(line);
-}
-
 int	write_into_herdoc(int fd, t_redirect *redir, t_i_env *i_env)
 {
 	char	*line;
@@ -80,14 +67,12 @@ int	write_into_herdoc(int fd, t_redirect *redir, t_i_env *i_env)
 
 	orig_in = dup(STDIN_FILENO);
 	line = NULL;
-	init_siagtion(HERDOC_SIG);
+	init_sigaction(HEREDOC_SIG);
 	while (1)
 	{
 		line = readline(">");
 		if (line == NULL)
-		{
 			return (free_line(redir->filename, orig_in, line, fd));
-		}
 		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename) + 1) == 0)
 		{
 			free(line);
@@ -96,7 +81,11 @@ int	write_into_herdoc(int fd, t_redirect *redir, t_i_env *i_env)
 		}
 		expand_or_write(redir, fd, line, i_env);
 	}
-	dup2(orig_in, STDIN_FILENO);
+	if (dup2(orig_in, STDIN_FILENO) == -1)
+	{
+		perror("Failed to restore stdin");
+		exit(EXIT_FAILURE);
+	}
 	return (0);
 }
 

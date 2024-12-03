@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 04:34:40 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 20:07:14 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,6 @@ char	*get_env_var(char *var, t_env *env)
 	if (!str)
 		str = null_exit(ft_strdup(""));
 	return (str);
-}
-
-int	ft_env_size(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env != NULL)
-	{
-		env = env->next;
-		i++;
-	}
-	return (i);
 }
 
 char	*get_value(char *content)
@@ -85,6 +72,8 @@ char	*get_key(char *content)
 		i++;
 	}
 	key = (char *)malloc(sizeof(char) * (i + 1));
+	if (key == NULL)
+		return (NULL);
 	key[i--] = '\0';
 	while (i >= 0)
 	{
@@ -94,69 +83,7 @@ char	*get_key(char *content)
 	return (key);
 }
 
-char	**back_to_array(t_env *env)
-{
-	char	**ptr_env;
-	int		size;
-	int		count;
-
-	count = 0;
-	size = ft_env_size(env);
-	ptr_env = ft_calloc(size + 1, sizeof(char *));
-	while (env != NULL)
-	{
-		ptr_env[count] = env->content;
-		count++;
-		env = env->next;
-	}
-	return (ptr_env);
-}
-
-int	update_env_value(t_env *env, char *var_name, char *new_val)
-{
-	while (env != NULL)
-	{
-		if (!ft_strncmp(var_name, env->name, ft_strlen(var_name) + 1))
-		{
-			if (new_val == NULL)
-			{
-				return (0);
-			}
-			else if (env->value != NULL)
-			{
-				free(env->value);
-			}
-			env->value = ft_strdup(new_val);
-			free(env->content);
-			env->content = key_val_join(env->name, env->value);
-			return (0);
-		}
-		env = env->next;
-	}
-	return (1);
-}
-
-char	*key_val_join(char *key, char *value)
-{
-	char	*tmp;
-	char	*full_str;
-	char	*empty_line;
-
-	empty_line = ft_strdup("");
-	tmp= ft_strjoin(key, "=");
-	if (tmp == NULL)
-		return (free(empty_line), NULL);
-	if (value == NULL)
-		full_str = ft_strjoin(tmp, empty_line);
-	else
-		full_str = ft_strjoin(tmp, value);
-	free(tmp);
-	free(empty_line);
-	return (full_str);
-}
-
-
-int	append_node(t_env **head_env, char *content)
+static int	append_node(t_env **head_env, char *content)
 {
 	char	*key;
 	char	*value;

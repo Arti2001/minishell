@@ -14,23 +14,6 @@
 
 extern volatile sig_atomic_t	g_signal;
 
-int	is_herdoc(t_redirect *redirect)
-{
-	int	i;
-
-	i = 0;
-	if (redirect == NULL)
-		return (0);
-	while (redirect[i].filename != NULL)
-	{
-		if (redirect[i].type == HEREDOC_RE)
-			return (1);
-		else
-			i++;
-	}
-	return (0);
-}
-
 void	execute_cmd(t_pars *pars, t_i_env *i_env)
 {
 	char	**env_array;
@@ -64,7 +47,7 @@ int	new_proccess(t_pars *pars, t_i_env *i_env)
 		perror("pid filed");
 		exit(EXIT_FAILURE);
 	}
-	init_siagtion(NON_INTERACTIVE);
+	init_sigaction(NON_INTERACTIVE);
 	if (pid == 0 && (pars->cmd != NULL || pars->redir))
 	{
 		execute_cmd(pars, i_env);
@@ -77,7 +60,7 @@ int	new_proccess(t_pars *pars, t_i_env *i_env)
 			exit(EXIT_FAILURE);
 		}
 	}
-	init_siagtion(INTERACTIVE);
+	init_sigaction(INTERACTIVE);
 	return (status);
 }
 

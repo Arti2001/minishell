@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/03 19:50:14 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/03 20:20:34 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # define INTERACTIVE 1
 # define NON_INTERACTIVE 2
-# define HERDOC_SIG 3
+# define HEREDOC_SIG 3
 
 # include "../libft/libft.h"
 # include <dirent.h>
@@ -122,7 +122,6 @@ t_env				*ll_last(t_env *last);
 int					ft_lst_size(t_env *lst);
 t_env				*ft_env_lstnew(char *key, char *value);
 void				ll_addback(t_env **env_head, t_env *new_node);
-int					append_node(t_env **head_env, char *content);
 
 /*Built_ins*/
 int					ft_pwd(void);
@@ -137,6 +136,7 @@ int					run_built_in(t_i_env *i_env, t_pars *pars);
 int					handle_built_in(t_pars *pars, t_i_env *i_env);
 
 /*ENVIRONMENT*/
+int					ft_env_size(t_env *env);
 t_env				*set_env(char **env);
 void				shell_lvl(t_env *env);
 char				*get_key(char *content);
@@ -179,9 +179,15 @@ int					run_herdoc(t_redirect *redirects, t_i_env *i_env);
 int					is_herdoc(t_redirect *redirect);
 int					go_all_herdoc(t_pars *pars, t_i_env *i_env);
 int					redirect_herdoc(t_redirect *redirect);
+int					is_herdoc(t_redirect *redirect);
+void				expand_or_write(t_redirect *redir, int fd, char *line, t_i_env *i_env);
 
 /*SIGNALS*/
-void				init_siagtion(int param);
+void				init_sigaction(int param);
+void				handler_int(int num);
+void				handler_non_int(int num);
+void				handler_sigq(int num);
+void				handler_heredoc(int num);
 
 /*ERROR*/
 void				*null_exit(void *ptr);
