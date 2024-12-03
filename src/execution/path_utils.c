@@ -6,25 +6,11 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:35:55 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/01 23:18:15 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:03:14 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_path(char *name, t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp != NULL)
-	{
-		if (ft_strncmp(tmp->name, name, ft_strlen(tmp->name)) == 0)
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 static char	**env_split_path(t_env **env)
 {
@@ -40,6 +26,20 @@ static char	**env_split_path(t_env **env)
 	if (splited == NULL)
 		return (NULL);
 	return (splited);
+}
+
+char	*path_checks(char *check_path, t_i_env *i_env)
+{
+	if (access(check_path, X_OK | F_OK) == 0)
+		return (check_path);
+	else if (errno == EACCES)
+	{
+		perror(check_path);
+		i_env->err_code = errno;
+	}
+	else
+		return (check_path);
+	return (NULL);
 }
 
 char	*path_is_set(char **splited_pathes, char *check_path, t_i_env *i_env)
@@ -61,16 +61,7 @@ char	*path_is_set(char **splited_pathes, char *check_path, t_i_env *i_env)
 		free (tmp_path);
 		free(correct_path);
 	}
-	if (access(check_path, X_OK | F_OK) == 0)
-		return (check_path);
-	else if (errno == EACCES)
-	{
-		perror(check_path);
-		i_env->err_code = errno;
-	}
-	else
-		return (check_path);
-	return (NULL);
+	return (path_checks(check_path, i_env));
 }
 
 char	*path_is_unset(char *cmd, t_i_env *i_env)

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 20:57:42 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/28 21:21:35 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 20:32:21 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	redir_last_proc(t_pars	*pars)
 	return (1);
 }
 
-int	check_redirection_type(int	process_num, t_pars *pars, int fd_write_end)
+int	check_redirection_type(int process_num, t_pars *pars, int fd_write_end)
 {
 	if (process_num == 0 && pars->next_process != NULL)
 	{
@@ -83,4 +83,3 @@ int	check_redirection_type(int	process_num, t_pars *pars, int fd_write_end)
 	}
 	return (0);
 }
-

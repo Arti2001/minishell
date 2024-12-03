@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   one_command->c                                      :+:      :+:    :+:   */
+/*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student->42->fr>              +#+  +:+       +#+        */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 10:53:53 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/05 15:37:52 by amysiv           ###   ########->fr       */
+/*   Created: 2024/12/03 21:07:38 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/03 21:09:08 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	execute_cmd(t_pars *pars, t_i_env *i_env)
 		free(pars->path);
 		exit(127);
 	}
+	double_array_free(pars->cmd);
 	exit(i_env->err_code);
-	//double_array_free(pars->cmd);
 }
 
 int	new_proccess(t_pars *pars, t_i_env *i_env)

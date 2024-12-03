@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   setup_exec.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/12/03 19:30:31 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/03 19:53:27 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   setup_exec.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/03 19:30:31 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/12/03 21:07:10 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ static void	one_cmd_setup(t_pars *pars, t_i_env *i_env)
 
 static void	multi_cmd_setup(t_pars *pars, t_i_env *i_env)
 {
+	t_pars	*head;
+
+	head = pars;
 	if (is_herdoc(pars->redir))
 	{
 		if (go_all_herdoc(pars, i_env) == SIGINT)
@@ -49,7 +52,7 @@ static void	multi_cmd_setup(t_pars *pars, t_i_env *i_env)
 	}
 	if (pars->cmd != NULL)
 	{
-		i_env->err_code = run_multi_cmd(pars, i_env);
+		i_env->err_code = run_multi_cmd(pars, i_env, head);
 	}
 }
 

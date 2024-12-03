@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/27 12:37:06 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:11:24 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	ft_lst_size(t_env *lst)
 
 void	ll_addback(t_env **env_head, t_env *new_node)
 {
-	t_env	*last
+	t_env	*last;
 
-;	if (*env_head == NULL)
+	if (*env_head == NULL)
 		return ;
 	last = ll_last(*env_head);
 	last->next = new_node;
@@ -58,10 +58,10 @@ t_env	*ft_env_lstnew(char *key, char *value)
 	if (new_node->name == NULL)
 		return (free_node(new_node), NULL);
 	if (value == NULL)
-		new_node->value= NULL;
+		new_node->value = NULL;
 	else
 	{
-		new_node->value= ft_strdup(value);
+		new_node->value = ft_strdup(value);
 		if (new_node->value == NULL)
 		{
 			return (free_node(new_node), NULL);

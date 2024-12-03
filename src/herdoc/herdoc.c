@@ -6,13 +6,13 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:01:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 19:54:03 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:13:39 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 int	go_all_herdoc(t_pars *pars, t_i_env *i_env)
 {
@@ -50,7 +50,8 @@ int	free_line(char *delim, int orig_stdin, char *line, int file_fd)
 		return (g_signal);
 	}
 	else
-	{	ft_putstr_fd("Warning: Here-document is not properly closed.\
+	{
+		ft_putstr_fd("Warning: Here-document is not properly closed.\
 		Expected delimiter: `", 2);
 		ft_putstr_fd(delim, 2);
 		shell_putendl_fd("'", 2);
@@ -73,10 +74,10 @@ int	write_into_herdoc(int fd, t_redirect *redir, t_i_env *i_env)
 		line = readline(">");
 		if (line == NULL)
 			return (free_line(redir->filename, orig_in, line, fd));
-		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename) + 1) == 0)
+		if (ft_strncmp(line, redir->filename,
+				ft_strlen(redir->filename) + 1) == 0)
 		{
-			free(line);
-			close(fd);
+			(free(line), close(fd));
 			break ;
 		}
 		expand_or_write(redir, fd, line, i_env);

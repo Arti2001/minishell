@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 15:28:43 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:05:12 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	close_fd(int in, int out)
 	}
 }
 
-void	restore_fd(int	orig_in, int orig_out)
+void	restore_fd(int orig_in, int orig_out)
 {
 	if (dup2(orig_in, STDIN_FILENO) == -1)
 	{

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:38:10 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 18:09:59 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:06:47 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ void	free_node(t_env *node)
 		free(node);
 	}
 }
+
 void	free_list(t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
-	while (env != NULL) {
+	while (env != NULL)
+	{
 		tmp = env;
 		env = env->next;
 		free(tmp->name);

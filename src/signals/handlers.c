@@ -6,11 +6,11 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 19:15:25 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 19:53:47 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:13:57 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 extern volatile sig_atomic_t	g_signal;
 

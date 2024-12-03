@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/12/03 19:11:47 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/03 19:16:01 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/03 19:11:47 by ydidenko          #+#    #+#             */
+/*   Updated: 2024/12/03 21:14:49 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,12 @@ void	shell_lvl(t_env *env)
 	value = ft_itoa(shlvl);
 	update_env_value(env, "SHLVL", value);
 	free(value);
+}
+
+void	*null_exit(void	*ptr)
+{
+	if (ptr != NULL)
+		return (ptr);
+	perror("minishell");
+	exit(1);
 }

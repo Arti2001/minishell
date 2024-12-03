@@ -6,11 +6,11 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 19:56:52 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 20:01:46 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:10:11 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	update_env_value(t_env *env, char *var_name, char *new_val)
 {
@@ -34,6 +34,20 @@ int	update_env_value(t_env *env, char *var_name, char *new_val)
 		env = env->next;
 	}
 	return (1);
+}
+
+char	*get_path(char *name, t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp != NULL)
+	{
+		if (ft_strncmp(tmp->name, name, ft_strlen(tmp->name)) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
 char	**back_to_array(t_env *env)
@@ -61,7 +75,7 @@ char	*key_val_join(char *key, char *value)
 	char	*empty_line;
 
 	empty_line = ft_strdup("");
-	tmp= ft_strjoin(key, "=");
+	tmp = ft_strjoin(key, "=");
 	if (tmp == NULL)
 		return (free(empty_line), NULL);
 	if (value == NULL)

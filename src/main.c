@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/03 19:50:25 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/03 20:22:20 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int	main(int argc, char *argv[], char *envp[])
 
 	ret = 0;
 	pars = NULL;
-	if (check_fd())
-		return (1);
+	//if (check_fd())
+	//	return (1);
 	if (argc == 1 && argv[0])
 	{
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
@@ -78,7 +78,7 @@ int	main(int argc, char *argv[], char *envp[])
 			return (free(i_env), 1);
 		shell_lvl(i_env->env);
 		g_signal = 0;
-		init_siagtion(INTERACTIVE);
+		init_sigaction(INTERACTIVE);
 		loop(i_env, pars, &ret);
 		rl_clear_history();
 		free_list(i_env->env);

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 17:09:25 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 19:40:25 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:14:31 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	init_sigaction_interactive(void)
 {
-	struct sigaction sa;
-	
+	struct sigaction	sa;
+
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = &handler_int;
@@ -33,7 +33,7 @@ static void	init_sigaction_interactive(void)
 
 static void	init_sigaction_non_interactive(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
@@ -52,7 +52,7 @@ static void	init_sigaction_non_interactive(void)
 
 static void	init_sigaction_heredoc(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
@@ -69,7 +69,7 @@ static void	init_sigaction_heredoc(void)
 	}
 }
 
-void init_sigaction(int param)
+void	init_sigaction(int param)
 {
 	if (param == INTERACTIVE)
 	{
@@ -89,5 +89,3 @@ void init_sigaction(int param)
 		exit(EXIT_FAILURE);
 	}
 }
-
-

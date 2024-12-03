@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 20:18:48 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 20:33:04 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	wait_for_childs(int num_pid, pid_t *pids, t_pars *pars)
 	int		i;
 	int		ret;
 	int		status;
-	
 
 	i = 0;
 	ret = 0;
@@ -111,10 +110,8 @@ void	my_dear_child(int fd, int process_num, t_pars *pars, t_i_env *i_env)
 	{
 		env_array = back_to_array(i_env->env);
 		if (!env_array)
-		{
-			perror("Environment array creation failed");
-			exit(EXIT_FAILURE);
-		}
+			(perror("Environment array creation failed"),
+				exit(EXIT_FAILURE));
 		if (pars->path)
 		{
 			execve(pars->path, pars->cmd, env_array);
