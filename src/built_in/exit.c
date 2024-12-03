@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:08 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 03:57:40 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 17:55:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,15 @@ static int	check_err(char **arg)
 	if (val > INT_MAX || val < INT_MIN)
 	{
 		shell_putendl_fd("exit", 2);
-		return (1);
+		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd(arg[1], 2);
+		shell_putendl_fd(": numeric argument required", 2);
+		return (2);
 	}
 	return (val % 256);
 }
 
-int	ft_exit(char **arg, t_i_env *i_env)
+int	ft_exit(char **arg, t_i_env *i_env, t_pars *pars)
 {
 	long	ret;
 
@@ -68,5 +71,9 @@ int	ft_exit(char **arg, t_i_env *i_env)
 		ret = check_err(arg);
 	}
 	i_env->err_code = ret;
+	free_pars(pars);
+	rl_clear_history();
+	free_list(i_env->env);
+	free(i_env);
 	exit(ret);
 }

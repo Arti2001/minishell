@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/03 15:57:49 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/03 18:32:42 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,13 +140,13 @@ int					append_node(t_env **head_env, char *content);
 /*Built_ins*/
 int					ft_pwd(void);
 int					ft_env(t_env *env);
-int					ft_exit(char **arg, t_i_env *i_env);
+int					ft_exit(char **arg, t_i_env *i_env, t_pars *pars);
 int					is_builtin(char *arg);
 int					ft_echo(char **commands);
 int					ft_unset(t_env **env, char **arg);
 int					ft_cd(t_env *env, char **commands);
 int					ft_export(t_env *env, char **commands);
-int					run_built_in(t_i_env *i_env, char **arg);
+int					run_built_in(t_i_env *i_env, t_pars *pars);
 
 /*ENVIRONMENT*/
 t_env				*set_env(char **env);

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 04:02:59 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 15:28:43 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	redirect_in(t_redirect redirect)
 		file_fd = open(redirect.filename, O_RDONLY);
 	if (file_fd == -1)
 	{
-		perror("can't open an infile");
+		perror(redirect.filename);
 		exit(EXIT_FAILURE);
 	}
 	if (dup2(file_fd, STDIN_FILENO) == -1)

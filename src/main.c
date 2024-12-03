@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 12:49:23 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 18:15:17 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int	is_builtin(char *arg)
 	return (NO_BUILTIN);
 }
 
-int	run_built_in(t_i_env *i_env, char **arg)
+int	run_built_in(t_i_env *i_env, t_pars *pars)
 {
-	if (arg == NULL)
-		return (NO_BUILTIN);
+	char **arg;
+	
+	arg = pars->cmd;
 	if (!ft_strncmp("cd", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_cd(i_env->env, arg));
 	if (!ft_strncmp("pwd", arg[0], ft_strlen(arg[0]) + 1))
@@ -46,12 +47,12 @@ int	run_built_in(t_i_env *i_env, char **arg)
 	if (!ft_strncmp("echo", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_echo(arg));
 	if (!ft_strncmp("exit", arg[0], ft_strlen(arg[0]) + 1))
-		return (ft_exit(arg, i_env));
+		return (ft_exit(arg, i_env, pars));
 	if (!ft_strncmp("unset", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_unset(&i_env->env, arg));
 	if (!ft_strncmp("export", arg[0], ft_strlen(arg[0]) + 1))
 		return (ft_export(i_env->env, arg));
-	return (NO_BUILTIN);
+	return (1);
 }
 
 int	handle_built_in(t_pars *pars, t_i_env *i_env)
@@ -64,7 +65,7 @@ int	handle_built_in(t_pars *pars, t_i_env *i_env)
 	fd_out = dup(STDOUT_FILENO);
 	if (pars->redir != NULL)
 		redirect_check(pars);
-	ret = run_built_in(i_env, pars->cmd);
+	ret = run_built_in(i_env, pars);
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{
 		perror("Faild to restore stdin");
@@ -102,9 +103,9 @@ int	execution(t_pars *pars, t_i_env *i_env)
 			else
 				i_env->err_code = 0;
 		}
-		if (pars->cmd != NULL)
+		if (pars->cmd != NULL || pars->redir)
 		{
-			if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
+			if (pars->cmd && is_builtin(pars->cmd[0]) != NO_BUILTIN)
 				i_env->err_code = handle_built_in(pars, i_env);
 			else
 				i_env->err_code = run_single_cmd(pars, i_env);
@@ -130,18 +131,6 @@ int	execution(t_pars *pars, t_i_env *i_env)
 	return (i_env->err_code);
 }
 
-char	*path_promt(void)
-{
-	char	*str;
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	str = ft_strjoin(cwd, "$ ");
-	if (str == NULL)
-		return (free(cwd), NULL);
-	return (free(cwd), str);
-}
-
 void	shell_lvl(t_env *env)
 {
 	char	*value;
@@ -155,15 +144,25 @@ void	shell_lvl(t_env *env)
 	free(value);
 }
 
+
+int	use_readline(void)
+{
+	if (!isatty(STDIN_FILENO) || !isatty(STDERR_FILENO) || !isatty(STDOUT_FILENO))
+		return (1);
+	else
+		return (0);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	char	*input;
 	t_pars	*pars;
-	char	*promt;
 	t_i_env	*i_env;
 	int		ret;
 
 	ret = 0;
+	if (use_readline())
+		return (1);
 	if (argc == 1 && argv[0])
 	{
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
@@ -176,11 +175,10 @@ int main(int argc, char *argv[], char *envp[])
 		input = NULL;
 		init_siagtion(INTERACTIVE);
 		//here make function using isatty  and check if STDIN STDOUT & STDERROR are what they suppose to be if (!isatty(STDIN)){printf("Standard input is not a terminal\n"); return (1);}
+	
 		while (1)
 		{
-			promt = path_promt();
-			input = readline(promt);
-			free(promt);
+			input = readline("minishell$ ");
 			if (input == NULL)
 			{
 				printf("exit\n");

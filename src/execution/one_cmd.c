@@ -36,7 +36,8 @@ void	execute_cmd(t_pars *pars, t_i_env *i_env)
 	char	**env_array;
 
 	env_array = back_to_array(i_env->env);
-	path_handler(pars->cmd[0], i_env, &pars);
+	if (pars->cmd)
+		path_handler(pars->cmd[0], i_env, &pars);
 	if (pars->redir)
 		redirect_check(pars);
 	if (pars->path)
@@ -44,9 +45,9 @@ void	execute_cmd(t_pars *pars, t_i_env *i_env)
 		execve(pars->path, pars->cmd, env_array);
 		ft_putstr_fd(pars->cmd[0], 2);
 		shell_putendl_fd(": command not found", 2);
+		free(pars->path);
 		exit(127);
 	}
-	free(pars->path);
 	exit(i_env->err_code);
 	//double_array_free(pars->cmd);
 }
@@ -64,11 +65,11 @@ int	new_proccess(t_pars *pars, t_i_env *i_env)
 		exit(EXIT_FAILURE);
 	}
 	init_siagtion(NON_INTERACTIVE);
-	if (pid == 0 && pars->cmd != NULL)
+	if (pid == 0 && (pars->cmd != NULL || pars->redir))
 	{
 		execute_cmd(pars, i_env);
 	}
-	if (pars->cmd != NULL)
+	if (pars->cmd != NULL || pars->redir)
 	{
 		if (waitpid(pid, &status, 0) == -1)
 		{

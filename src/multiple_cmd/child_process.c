@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:00:02 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/02 17:18:58 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/03 17:54:44 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	my_dear_child(int fd, int process_num, t_pars *pars, t_i_env *i_env)
 	set_child(pars, fd, process_num, i_env);
 	if (is_builtin(pars->cmd[0]) != NO_BUILTIN)
 	{
-		ret = run_built_in(i_env, pars->cmd);
+		ret = run_built_in(i_env, pars);
 		exit(ret);
 	}
 	else
