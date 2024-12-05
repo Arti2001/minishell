@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/11/30 04:29:16 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/12/02 06:18:59 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_var_syntax(char *str)
 	i = 0;
 	if (!ft_isalpha(str[0]) && !(str[0] == '_'))
 	{
-		ft_putstr_fd("bash: export: '", 2);
+		ft_putstr_fd("mshell: export: '", 2);
 		ft_putstr_fd(str, 2);
 		shell_putendl_fd("': not a valid identifier", 2);
 		return (1);
@@ -30,7 +30,7 @@ int	check_var_syntax(char *str)
 			i++;
 		else
 		{
-			ft_putstr_fd("bash: export: '", 2);
+			ft_putstr_fd("mshell: export: '", 2);
 			ft_putstr_fd(str, 2);
 			shell_putendl_fd("': not a valid identifier", 2);
 			return (1);

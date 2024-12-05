@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   exit.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/09/03 13:14:08 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/03 19:14:13 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 13:14:08 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/02 06:18:46 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	check_err(char **arg)
 	if (int_check(arg[1]) == 0)
 	{
 		shell_putendl_fd("exit", 2);
-		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd("mshell: exit: ", 2);
 		ft_putstr_fd(arg[1], 2);
 		shell_putendl_fd(": numeric argument required", 2);
 		return (2);
@@ -50,7 +50,7 @@ static int	check_err(char **arg)
 	if (val > INT_MAX || val < INT_MIN)
 	{
 		shell_putendl_fd("exit", 2);
-		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd("mshell: exit: ", 2);
 		ft_putstr_fd(arg[1], 2);
 		shell_putendl_fd(": numeric argument required", 2);
 		return (2);
