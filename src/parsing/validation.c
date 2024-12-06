@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/02 16:24:22 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/02 17:33:00 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/06 13:23:51 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,21 @@ static int	is_consecutive_valid(t_list *tokens)
 {
 	t_token	*token;
 
-	while (tokens->next)
+	while (tokens)
 	{
 		token = tokens->content;
 		if (is_token_type_redir(*token))
 		{
+			if (tokens->next == NULL)
+				return (1);
 			token = tokens->next->content;
 			if (is_token_type_redir(*token))
 				return (0);
 		}
 		if (token->type == PIPE)
 		{
+			if (tokens->next == NULL)
+				return (0);
 			token = tokens->next->content;
 			if (token->type == PIPE)
 				return (0);

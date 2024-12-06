@@ -43,6 +43,7 @@ SRCS 			= \
 					$(SRC_DIR)/parsing/parser.c \
 					$(SRC_DIR)/parsing/split_tokens.c \
 					$(SRC_DIR)/parsing/token.c \
+					$(SRC_DIR)/parsing/debug_parser.c \
 					$(SRC_DIR)/parsing/tokenize_quotes.c \
 					$(SRC_DIR)/parsing/tokenizer.c \
 					$(SRC_DIR)/parsing/tokenize_sym.c \

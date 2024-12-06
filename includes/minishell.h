@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/12/03 20:37:22 by amysiv           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
+/*   Updated: 2024/12/06 13:28:37 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,6 @@ typedef struct s_token
 	char			*str;
 	t_type			type;
 }					t_token;
-
-// typedef struct s_data
-//{
-//	int	err_code;
-
-//} t_data;
 
 typedef struct s_env
 {
@@ -159,7 +153,8 @@ void				shell_putendl_fd(char *s, int fd);
 
 /*PROCCESSES*/
 int					wait_for_childs(int num_pid, pid_t *pids, t_pars *pars);
-int					run_multi_cmd(t_pars *pars, t_i_env *env, t_pars *pars_head);
+int					run_multi_cmd(t_pars *pars, t_i_env *env,
+						t_pars *pars_head);
 int					run_single_cmd(t_pars *pars, t_i_env *env);
 void				my_dear_child(int fd_write_end, int process_num,
 						t_pars *pars, t_i_env *i_env);
@@ -180,7 +175,8 @@ int					is_herdoc(t_redirect *redirect);
 int					go_all_herdoc(t_pars *pars, t_i_env *i_env);
 int					redirect_herdoc(t_redirect *redirect);
 int					is_herdoc(t_redirect *redirect);
-void				expand_or_write(t_redirect *redir, int fd, char *line, t_i_env *i_env);
+void				expand_or_write(t_redirect *redir, int fd,
+						char *line, t_i_env *i_env);
 
 /*SIGNALS*/
 void				init_sigaction(int param);
@@ -247,5 +243,8 @@ void				shell_lvl(t_env *env);
 /*EXECUTION*/
 int					execution(t_pars *pars, t_i_env *i_env);
 
+/*DEBUG*/
+void				print_tokens(t_list *tokens);
+void				fprint_token(void *data);
 
 #endif
