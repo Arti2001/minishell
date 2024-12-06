@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/08 12:56:16 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/06 13:37:35 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
+/*   Updated: 2024/12/06 14:11:06 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char *argv[], char *envp[])
 	ret = 0;
 	pars = NULL;
 	if (check_fd())
-		return (1);
+		return (shell_putendl_fd("mshell: forbidden", 2), 1);
 	if (argc == 1 && argv[0])
 	{
 		i_env = (t_i_env *)null_exit(malloc(sizeof(t_i_env)));
