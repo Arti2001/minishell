@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/12/06 13:28:37 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/06 13:40:09 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ t_redirect_type		map_token_to_redirect(t_type type);
 void				print_pars(t_pars *pars);
 void				destroy_tokens(t_list *tokens);
 
-
 /*CONVERT TOKENS*/
 int					pars_err(t_pars *pars, t_list *lst, char *err_msg);
 int					process_token(t_pars **head, t_pars **current,
@@ -222,7 +221,6 @@ void				add_redirection(t_pars *pars, t_redirect_type redir_type,
 void				free_pars(t_pars *pars);
 t_pars				*convert_tokens(t_list *lst, t_i_env *i_env);
 int					is_valid_tokens(t_list *tokens);
-
 
 /*TOKEN*/
 t_token				*init_token(void);
