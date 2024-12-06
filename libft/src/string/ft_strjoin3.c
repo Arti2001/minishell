@@ -6,14 +6,15 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/07 09:53:26 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/07 09:53:41 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/06 13:45:31 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * @brief Allocates (with malloc(3)) and returns a new string, which is the result of the concatenation of 's1', 's2' and 's3'.
+ * @brief Allocates (with malloc(3)) and returns a new string,
+ * which is the result of the concatenation of 's1', 's2' and 's3'.
  */
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 {
