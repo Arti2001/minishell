@@ -6,7 +6,7 @@
 /*   By: ydidenko <ydidenko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/07 17:50:11 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/11/28 16:57:53 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/06 14:34:50 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static t_token	*try_combine(t_list **tokens)
  * @param tokens list
  * @return t_list* updated token list
  */
-
 t_list	*combine_tokens_f(t_list *tokens)
 {
 	t_list	*ret;

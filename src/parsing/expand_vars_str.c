@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 17:56:37 by ydidenko      #+#    #+#                 */
-/*   Updated: 2024/12/03 15:53:01 by ydidenko      ########   odam.nl         */
+/*   Updated: 2024/12/06 16:32:06 by ydidenko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static size_t	calc_varlen(char *var)
 {
 	size_t	i;
 
-	if (!var_is_valid_first(var[1]))
-		return (2);
 	if (var[0] == '~')
 		return (1);
+	if (!var_is_valid_first(var[1]))
+		return (2);
 	if (var[1] == '?')
 		return (2);
 	i = 1;
@@ -60,7 +60,10 @@ static void	replace_var(char **str, size_t start, size_t *len, t_i_env *i_env)
 		var = ft_strdup("HOME");
 	else
 		var = null_exit(ft_substr(*str, start + 1, varlen - 1));
-	after = null_exit(ft_strdup(&(*str)[start + varlen]));
+	if ((*str)[start + varlen])
+		after = null_exit(ft_strdup(&(*str)[start + varlen]));
+	else
+		after = ft_strdup("");
 	lookup_var(&var, i_env);
 	free(*str);
 	*str = null_exit(ft_strjoin3(before, var, after));
