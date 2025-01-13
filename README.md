@@ -12,7 +12,8 @@
 * Basic knowledge of Unix commands
 
 ## Instalation
-* git clone https://github.com/your-username/minishell.git
-* Navigate into the project directory: cd minishell
-* Build the project with : make
-* Then run the executable with : ./minishell
+1. To install, run: git clone https://github.com/your-username/minishell.git
+2. Navigate into the project directory: cd minishell
+3. Build the project with: make
+4. Then run the executable with : ./minishell
+5. Enjoy it.
